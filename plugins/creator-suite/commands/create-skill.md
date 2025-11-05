@@ -1,3 +1,8 @@
+---
+name: create-skill
+description: "Interactively creates standardized skill documentation through conversational interaction with the user"
+---
+
 # Create Skill Command
 
 This command interactively creates a new Skill that can be used in Claude Code.

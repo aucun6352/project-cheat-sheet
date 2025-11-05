@@ -1,3 +1,8 @@
+---
+name: create-command
+description: "Interactively creates a slash command file with standardized structure through user interaction"
+---
+
 # Create Command
 
 This command interactively creates a new Slash command that can be used in Claude Code.
