@@ -10,19 +10,10 @@
 },
   "plugins": [
     {
-      "name": "skill-creator",
-      "source": "./plugins/skill-creator",
-      "description": "스킬 생성 도우미 플러그인입니다.",
+      "name": "creator-suite",
+      "source": "./plugins/creator-suite",
+      "description": "Claude가 자동화를 더 잘하도록 도와주는 도구를 자동으로 만듭니다.",
       "version": "0.1.0",
-      "author": {
-        "name": "gglee"
-      }
-    },
-    {
-      "name": "command-creator",
-      "source": "./plugins/command-creator",
-      "description": "slash 커맨드 생성 도우미 플러그인입니다.",
-      "version": "0.2.0",
       "author": {
         "name": "gglee"
       }
