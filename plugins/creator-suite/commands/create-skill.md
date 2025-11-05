@@ -118,15 +118,47 @@ In Phases 1 and 2, also display question progress:
    - Recommendation mode: Present 2-3 names + direct input option
    - Validation: Re-ask on format errors
 
-3. **Skill description**: Within 1024 characters, 1-2 sentences, 3rd person, specify "what+when"
+3. **File location**: Select where to create the skill
+   ```
+   Question: "Where would you like to create this skill?"
+
+   Options:
+     1. **Project** (.claude/skills/) - Recommended
+        - Available only in current project
+        - Project-specific skill
+        - Default choice
+
+     2. **Global** (~/.claude/skills/)
+        - Available in all projects
+        - Reusable across projects
+        - Good for general-purpose skills
+
+     3. **Current Directory** (./{skill-name}/)
+        - Created in current working directory
+        - Useful for plugin development or distribution
+
+   Default: Project (.claude/skills/)
+
+   💡 Location Guide:
+     - Most skills should be project-specific (Option 1)
+     - Create global skills only if they're truly reusable
+     - Use current directory for plugin development
+   ```
+
+   **Store the selected location path**:
+   - Option 1 → `{location_path} = ".claude/skills"`
+   - Option 2 → `{location_path} = "~/.claude/skills"`
+   - Option 3 → `{location_path} = "."`
+
+4. **Skill description**: Within 1024 characters, 1-2 sentences, 3rd person, specify "what+when"
    - Recommendation mode: Present auto-generated description + modification option
    - Validation: Required field
 
-4. **Usage scenarios**: Multi-line list format
+5. **Usage scenarios**: Multi-line list format
    - Recommendation mode: Present extracted scenarios + add/modify options
    - Examples: "When designing a new API", "During code review", etc.
 
-5. **License** (optional): Whether to include license field in Frontmatter
+6. **License** (optional): Whether to include license field in Frontmatter
    - Recommended: "Complete terms in LICENSE.txt" (standard format)
    - Can choose not to include
 
@@ -138,11 +170,11 @@ In Phases 1 and 2, also display question progress:
 
 **Information collected**:
 
-6. **Core concepts**: Free-form text, multiple paragraphs allowed
+7. **Core concepts**: Free-form text, multiple paragraphs allowed
    - Include main concepts, principles, theories, etc.
    - Recommendation mode: Present auto-organized content + edit option
 
-7. **Patterns/Examples** (optional):
+8. **Patterns/Examples** (optional):
    - Code blocks: Pattern name + language + code
    - Recommendation mode: Present discovered examples + select/add/exclude options
    - Manual input mode: Choose whether to include → Enter examples
@@ -151,15 +183,15 @@ In Phases 1 and 2, also display question progress:
      - Standard: Working code with actual values (recommended)
      - Production: Error handling + edge cases (advanced)
 
-8. **Best practices**: List format
+9. **Best practices**: List format
    - Examples: "Use clear naming", "Consistent error handling"
    - Recommendation mode: Present collected practices + add option
 
-9. **Pitfalls**: List format
+10. **Pitfalls**: List format
    - Examples: "Avoid over-abstraction", "Consider performance"
    - Recommendation mode: Present identified pitfalls + add option
 
-10. **Formatting style** (optional):
+11. **Formatting style** (optional):
     - **Emoji markers**: For section separation (🚀, 📋, ⚠️, etc.)
     - **Visual markers**: Best practice indicators (✅/❌)
     - **Table usage**: For quick reference
@@ -167,41 +199,64 @@ In Phases 1 and 2, also display question progress:
 
 ### Phase 3: File Generation
 
-Based on collected information, generate the following file structure in the project root:
+Based on collected information, generate the following file structure at the selected location (`{location_path}`):
 
 **Progressive Disclosure criteria** (based on word count):
 
 **Level 1** (< 400 words):
+```bash
+mkdir -p {location_path}/{skill-name}
+Write {location_path}/{skill-name}/SKILL.md
 ```
-{skill-name}/
+```
+{location_path}/{skill-name}/
 └── SKILL.md          # All content included
 ```
 
 **Level 2** (400-1,500 words):
+```bash
+mkdir -p {location_path}/{skill-name}/examples
+Write {location_path}/{skill-name}/SKILL.md
 ```
-{skill-name}/
+```
+{location_path}/{skill-name}/
 ├── SKILL.md          # Overview + core guide
 └── examples/         # Detailed examples directory
 ```
 
 **Level 3** (1,500-3,500 words):
+```bash
+mkdir -p {location_path}/{skill-name}/examples
+Write {location_path}/{skill-name}/SKILL.md
+Write {location_path}/{skill-name}/REFERENCE.md
 ```
-{skill-name}/
+```
+{location_path}/{skill-name}/
 ├── SKILL.md          # Overview + When to Use + simple examples
 ├── REFERENCE.md      # Detailed API documentation
 └── examples/         # Examples and templates
 ```
 
 **Level 4** (> 3,500 words):
+```bash
+mkdir -p {location_path}/{skill-name}
+Write {location_path}/{skill-name}/SKILL.md
+Write {location_path}/{skill-name}/EXAMPLES.md
+Write {location_path}/{skill-name}/REFERENCE.md
+Write {location_path}/{skill-name}/FORMS.md
 ```
-{skill-name}/
+```
+{location_path}/{skill-name}/
 ├── SKILL.md          # Overview (with reference links)
 ├── EXAMPLES.md       # Detailed examples
 ├── REFERENCE.md      # API/technical documentation
 └── FORMS.md          # Templates/checklists
 ```
 
-**Important**: Skills are created in the root directory of the current project.
+**Location-specific paths**:
+- Project: `.claude/skills/{skill-name}/`
+- Global: `~/.claude/skills/{skill-name}/`
+- Current Directory: `./{skill-name}/`
 
 **Common section components**:
 
@@ -402,21 +457,21 @@ Follow the validation procedures in @shared/skill/validation-criteria.md.
 ```
 
 **User guidance**:
+
    ```
-   ✅ Skill has been successfully created!
+   ✅ Skill created!
 
-   📂 Location: {skill-name}/SKILL.md (project root)
+   📂 {location_path}/{skill-name}/SKILL.md
+   🎯 {scope_description}
 
-   📖 Next steps:
-   1. Reference and use @{skill-name}/SKILL.md in conversations with Claude Code
-   2. Directly edit the SKILL.md file to supplement content if needed
-   3. Add {skill-name}/assets/ or {skill-name}/references/ directory to include additional resources
-
-   💡 Tips:
-   - Skills can be modified at any time
-   - Adding code templates or checklists to assets/ makes it even more useful
-   - Share with others to accumulate team knowledge
+   Usage: @{skill-name}/SKILL.md
+   Evaluate: /evaluate-skill
    ```
+
+   **Location Details**:
+   - **Project** (.claude/skills/): Available in this project only
+   - **Global** (~/.claude/skills/): Available in all projects
+   - **Current** (./{skill-name}/): Move to .claude/skills/ or ~/.claude/skills/ to use
 
 ## Error Handling
 

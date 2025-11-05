@@ -159,7 +159,42 @@ Question: "Please enter the command name to create"
 
 ---
 
-**Question 3 - Command Description**
+**Question 3 - Select File Location**
+
+```
+Question: "Where would you like to create this command?"
+
+Options:
+  1. **Project** (.claude/commands/) - Recommended
+     - Available only in current project
+     - Project-specific command
+     - Default choice
+
+  2. **Global** (~/.claude/commands/)
+     - Available in all projects
+     - Reusable across projects
+     - Good for general-purpose commands
+
+  3. **Current Directory** (./{command-name}/)
+     - Created in current working directory
+     - Useful for plugin development or distribution
+
+Default: Project (.claude/commands/)
+
+💡 Location Guide:
+  - Most commands should be project-specific (Option 1)
+  - Create global commands only if they're truly reusable
+  - Use current directory for plugin development
+```
+
+**Store the selected location path**:
+- Option 1 → `{location_path} = ".claude/commands"`
+- Option 2 → `{location_path} = "~/.claude/commands"`
+- Option 3 → `{location_path} = "./{command-name}"`
+
+---
+
+**Question 4 - Command Description**
 
 **A. If Phase 0 completed (Recommendation mode)**:
 ```
@@ -188,7 +223,7 @@ Question: "Please enter a brief description of the command (1-2 sentences)"
 **In this Phase, collect all of Triggers, Behavioral Flow, Tool Coordination, and Boundaries.**
 **Proceed in recommendation mode or manual input mode depending on Phase 0 completion.**
 
-**Question 4 - Triggers (Trigger Conditions)**
+**Question 5 - Triggers (Trigger Conditions)**
 
 **A. If Phase 0 completed (Recommendation mode)**:
 ```
@@ -217,7 +252,7 @@ Question: "Please enter conditions (triggers) for automatic command execution"
   - When release tag is created
 ```
 
-**Question 5 - Behavioral Flow (Execution Steps)**
+**Question 6 - Behavioral Flow (Execution Steps)**
 
 **A. If Phase 0 completed (Recommendation mode)**:
 ```
@@ -249,7 +284,7 @@ Question: "Please enter the execution steps for the command"
   4. **Deploy**: Deploy to production server
 ```
 
-**Question 6 - Boundaries (Boundary Definition)**
+**Question 7 - Boundaries (Boundary Definition)**
 
 **A. If Phase 0 completed (Recommendation mode)**:
 ```
@@ -288,7 +323,7 @@ Question: "Please enter tasks the command Will Not perform"
   - Will not perform rollback operations
 ```
 
-**Question 7 - Tool Coordination (Tool Usage)**
+**Question 8 - Tool Coordination (Tool Usage)**
 
 **A. If Phase 0 completed (Recommendation mode)**:
 ```
@@ -322,7 +357,7 @@ Question: "Please select tools to use in the command"
 
 **In this Phase, collect Usage and Examples.**
 
-**Question 8 - Usage (How to Use)**
+**Question 9 - Usage (How to Use)**
 
 **A. If Phase 0 completed (Recommendation mode)**:
 ```
@@ -345,7 +380,7 @@ Question: "Please enter usage instructions for the command"
   /deploy-production --env=prod --confirm
 ```
 
-**Question 9 - Examples (Usage Examples)**
+**Question 10 - Examples (Usage Examples)**
 
 **A. If Phase 0 completed (Recommendation mode)**:
 ```
@@ -387,9 +422,20 @@ If "Yes" is selected:
 
 Create the following file structure based on collected information:
 
+```bash
+mkdir -p {location_path}
+Write {location_path}/{command-name}.md
 ```
-plugins/command-creator/commands/{command-name}.md
-```
+
+Where `{location_path}` is the path selected in Question 3:
+- Project: `.claude/commands`
+- Global: `~/.claude/commands` (expand to full path)
+- Current Directory: `./{command-name}`
+
+Final file paths by location:
+- Project: `.claude/commands/{command-name}.md`
+- Global: `~/.claude/commands/{command-name}.md`
+- Current Directory: `./{command-name}/{command-name}.md`
 
 **Template Selection by Type**:
 
@@ -653,27 +699,21 @@ After file creation, perform automatic validation based on @shared/command/valid
 ---
 
 **3. User Guidance**
+
    ```
-   ✅ Command created successfully!
+   ✅ Command created!
 
-   📂 Location: plugins/command-creator/commands/{command-name}.md
+   📂 {location_path}/{command-name}.md
+   🎯 {scope_description}
 
-   📖 Next steps:
-   1. Copy to .claude/commands/ to use
-      cp plugins/command-creator/commands/{command-name}.md .claude/commands/
-
-   2. Or create symbolic link
-      ln -s "$(pwd)/plugins/command-creator/commands/{command-name}.md" .claude/commands/{command-name}.md
-
-   3. Run command
-      /{command-name}
-
-   💡 Tips:
-   - Commands can be modified at any time
-   - To use namespace, change filename to {namespace}/{command-name}.md
-   - Quality evaluation: Check detailed evaluation and improvement suggestions with /evaluate-command
-   - Share with others to standardize team workflows
+   Usage: /{command-name}
+   Evaluate: /evaluate-command
    ```
+
+   **Location Details**:
+   - **Project** (.claude/commands/): Available in this project only
+   - **Global** (~/.claude/commands/): Available in all projects
+   - **Current** (./{command-name}/): Move to .claude/commands/ or ~/.claude/commands/ to use
 
 ---
 

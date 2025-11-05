@@ -333,7 +333,42 @@ Validation:
 
 ---
 
-**Question 3: Role Description (description)**
+**Question 3: Select File Location**
+
+```
+Question: "Where would you like to create this agent?"
+
+Options:
+  1. **Project** (.claude/agents/) - Recommended
+     - Available only in current project
+     - Project-specific customization
+     - Default choice
+
+  2. **Global** (~/.claude/agents/)
+     - Available in all projects
+     - Reusable across projects
+     - Good for general-purpose agents
+
+  3. **Current Directory** (./{agent-name}/)
+     - Created in current working directory
+     - Useful for standalone or plugin development
+
+Default: Project (.claude/agents/)
+
+💡 Location Guide:
+  - Most agents should be project-specific (Option 1)
+  - Only create global agents if they're truly reusable
+  - Use current directory for plugin development or distribution
+```
+
+**Store the selected location path**:
+- Option 1 → `{location_path} = ".claude/agents"`
+- Option 2 → `{location_path} = "~/.claude/agents"`
+- Option 3 → `{location_path} = "./{agent-name}"`
+
+---
+
+**Question 4: Role Description (description)**
 
 **A. Recommendation Mode (When Option 1 or 2 Selected)**:
 ```
@@ -368,7 +403,7 @@ Validation:
 
 ---
 
-**Question 4: Define Expertise Areas (Optional, Analyst/Orchestrator only)**
+**Question 5: Define Expertise Areas (Optional, Analyst/Orchestrator only)**
 
 **Skip this question for Specialist type**
 
@@ -394,7 +429,7 @@ Example (Orchestrator - Release Manager):
 
 ### Phase 2: Tool and Permission Configuration
 
-**Question 5: Select Allowed Tools**
+**Question 6: Select Allowed Tools**
 
 **A. Recommendation Mode (When Option 1 or 2 Selected)**:
 ```
@@ -444,7 +479,7 @@ Options (Multiple selection):
 
 ---
 
-**Question 6: Select Model**
+**Question 7: Select Model**
 
 ```
 Question: "Please select the model for the agent to use"
@@ -466,7 +501,7 @@ Options:
 
 #### Common Questions
 
-**Question 7: Trigger Conditions**
+**Question 8: Trigger Conditions**
 
 **A. Recommendation Mode (When Option 1 or 2 Selected)**:
 ```
@@ -502,7 +537,7 @@ Example (ESLint Enforcer):
 
 ---
 
-**Question 8: Boundary Conditions (Will / Will Not)**
+**Question 9: Boundary Conditions (Will / Will Not)**
 
 ```
 Question: "Please enter tasks the agent WILL perform (3-5 items)"
@@ -526,7 +561,7 @@ Examples:
 
 #### Specialist-only Questions
 
-**Question 9-S: Behavioral Guidelines**
+**Question 10-S: Behavioral Guidelines**
 
 ```
 Question: "Please briefly define the agent's execution steps (3-4 steps)"
@@ -542,7 +577,7 @@ Example (ESLint Enforcer):
   4. **Never**: Do not modify files without user understanding
 ```
 
-**Question 10-S: Output Format**
+**Question 11-S: Output Format**
 
 ```
 Question: "Please define the agent's output format"
@@ -560,7 +595,7 @@ When "Custom Format" selected:
 
 #### Analyst-only Questions
 
-**Question 9-A: Analysis Process**
+**Question 10-A: Analysis Process**
 
 ```
 Question: "Please define the analysis process step-by-step (4-5 Phases)"
@@ -588,7 +623,7 @@ Example (Code Reviewer):
   3. **Quality**: Review code structure and naming
 ```
 
-**Question 10-A: Analysis Standards**
+**Question 11-A: Analysis Standards**
 
 ```
 Question: "Please define severity criteria for analysis results"
@@ -603,7 +638,7 @@ Example:
   - **Low**: Style inconsistencies, minor improvements
 ```
 
-**Question 11-A: Output Format**
+**Question 12-A: Output Format**
 
 ```
 Question: "Please select analysis result report format"
@@ -618,7 +653,7 @@ Options:
 
 #### Orchestrator-only Questions
 
-**Question 9-O: Define Workflow Phases**
+**Question 10-O: Define Workflow Phases**
 
 ```
 Question: "Please define the workflow divided into Phases (4-6 Phases)"
@@ -663,7 +698,7 @@ Example (Release Manager):
   - If security issues: PAUSE for review
 ```
 
-**Question 10-O: Tool Coordination**
+**Question 11-O: Tool Coordination**
 
 ```
 Question: "Please define how each tool will be used"
@@ -684,7 +719,7 @@ Example:
   - Grep: Search for TODOs, validate commits
 ```
 
-**Question 11-O: Error Handling Strategy**
+**Question 12-O: Error Handling Strategy**
 
 ```
 Question: "Please define major error scenarios and handling methods (3-5 items)"
@@ -715,8 +750,13 @@ Generate the following file based on collected information:
 
 1. **Check/Create Directory**
    ```bash
-   mkdir -p .claude/agents
+   mkdir -p {location_path}
    ```
+
+   Where `{location_path}` is the path selected in Question 3:
+   - Project: `.claude/agents`
+   - Global: `~/.claude/agents` (expand to full path)
+   - Current Directory: `./{agent-name}`
 
 2. **Write Frontmatter**
    ```yaml
@@ -741,8 +781,13 @@ Generate the following file based on collected information:
 
 4. **Save File**
    ```bash
-   Write .claude/agents/{agent-name}.md
+   Write {location_path}/{agent-name}.md
    ```
+
+   Final file paths by location:
+   - Project: `.claude/agents/{agent-name}.md`
+   - Global: `~/.claude/agents/{agent-name}.md`
+   - Current Directory: `./{agent-name}/{agent-name}.md`
 
 ---
 
@@ -779,43 +824,19 @@ Perform automatic validation after file generation.
 **3. User Guidance**
 
 ```
-✅ Sub-agent successfully created!
+✅ Agent created! Quality: {score}/100 ({grade})
 
-📂 Location: .claude/agents/{agent-name}.md
-📊 Quality Score: {score}/100 ({grade})
+📂 {location_path}/{agent-name}.md
+🎯 {scope_description}
 
-📖 Next Steps:
-
-1. Ready to Use Immediately
-   - Claude will automatically detect and execute at appropriate times
-   - Activated when specific trigger conditions are met
-
-2. Explicit Invocation
-   "Use the {agent-name} subagent to {task}"
-
-   Example:
-   "Use the code-reviewer subagent to analyze this TypeScript file"
-
-3. Modify Agent
-   You can improve by directly editing .claude/agents/{agent-name}.md file
-
-4. How to Test
-   - Make a request that satisfies trigger conditions
-   - Example: "{trigger_example}"
-
-💡 Tips:
-- Agents have independent contexts, so you can use multiple agents simultaneously
-- To share with team, commit .claude/agents/ directory to Git
-- User-level agents stored in ~/.claude/agents/ are available across all projects
-
-🧪 Test Examples:
-{type_specific_test_examples}
-
-📚 Reference Documentation:
-- Sub-agent official documentation: https://docs.claude.com/en/docs/claude-code/sub-agents
-- Template guide: plugins/agent-creator/shared/templates/
-- Validation criteria: plugins/agent-creator/shared/validation-criteria.md
+Usage: Auto-activated by triggers or "Use {agent-name} subagent to {task}"
+Test: "{trigger_example}"
 ```
+
+**Location Details**:
+- **Project** (.claude/agents/): Available in this project only
+- **Global** (~/.claude/agents/): Available in all projects
+- **Current** (./{agent-name}/): Move to .claude/agents/ or ~/.claude/agents/ to use
 
 **Test Examples Per Type**:
 
