@@ -1,0 +1,40 @@
+{
+  "name": "project-cheat-sheet",
+  "owner": {
+    "name": "gglee",
+    "email": "aucun6352@gmail.com"
+  },
+  "metadata": {
+    "description": "프로젝트 치트 시트 저장소입니다.",
+    "version": "0.1.0"  
+},
+  "plugins": [
+    {
+      "name": "skill-creator",
+      "source": "./plugins/skill-creator",
+      "description": "스킬 생성 도우미 플러그인입니다.",
+      "version": "0.1.0",
+      "author": {
+        "name": "gglee"
+      }
+    },
+    {
+      "name": "command-creator",
+      "source": "./plugins/command-creator",
+      "description": "slash 커맨드 생성 도우미 플러그인입니다.",
+      "version": "0.1.0",
+      "author": {
+        "name": "gglee"
+      }
+    },
+    {
+      "name": "java-design-patterns",
+      "source": "./plugins/java-design-patterns",
+      "description": "Java 디자인 패턴 치트 시트 플러그인입니다.",
+      "version": "0.1.0",
+      "author": {
+        "name": "gglee"
+      }
+    }
+  ]
+}
