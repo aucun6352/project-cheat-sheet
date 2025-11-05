@@ -1,452 +1,452 @@
-# Frontmatter 예시 모음
+# Frontmatter Examples Collection
 
-서브 에이전트의 Frontmatter 작성 예시를 타입별로 정리한 문서입니다.
+A document organizing sub-agent Frontmatter writing examples by type.
 
 ---
 
-## 📝 Frontmatter 구조
+## 📝 Frontmatter Structure
 
 ```yaml
 ---
-name: agent-name              # 필수: kebab-case 형식
-description: "간단한 설명"    # 필수: 10-500자
-tools: Read,Grep,Bash         # 선택: 쉼표로 구분 또는 생략 (모든 도구 허용)
-model: inherit                # 선택: inherit/sonnet/opus/haiku (기본값: inherit)
+name: agent-name              # Required: kebab-case format
+description: "Brief description"    # Required: 10-500 characters
+tools: Read,Grep,Bash         # Optional: comma-separated or omit (all tools allowed)
+model: inherit                # Optional: inherit/sonnet/opus/haiku (default: inherit)
 ---
 ```
 
 ---
 
-## 🔧 Specialist 타입 예시
+## 🔧 Specialist Type Examples
 
-### 예시 1: ESLint Enforcer (포맷터)
+### Example 1: ESLint Enforcer (formatter)
 
 ```yaml
 ---
 name: eslint-enforcer
-description: "JavaScript/TypeScript 파일에 ESLint 규칙을 자동으로 적용하고 코드 스타일을 일관성있게 유지하는 전문 포맷터"
+description: "A professional formatter that automatically applies ESLint rules to JavaScript/TypeScript files and maintains consistent code style"
 tools: Read,Write,Bash
 model: haiku
 ---
 ```
 
-**설명**:
-- `name`: 명확하고 설명적인 이름
-- `description`: 역할과 목적을 명확히 표현
-- `tools`: 파일 읽기 + 쓰기 + 도구 실행 (ESLint)
-- `model`: 단순한 작업이므로 haiku
+**Explanation**:
+- `name`: Clear and descriptive name
+- `description`: Clearly expresses role and purpose
+- `tools`: File read + write + tool execution (ESLint)
+- `model`: haiku for simple tasks
 
 ---
 
-### 예시 2: Prettier Formatter
+### Example 2: Prettier Formatter
 
 ```yaml
 ---
 name: prettier-formatter
-description: "Prettier를 사용하여 코드 형식을 자동으로 정리하는 포맷터"
+description: "A formatter that automatically organizes code format using Prettier"
 tools: Read,Write,Bash
 model: haiku
 ---
 ```
 
-**설명**:
-- 간단하고 반복적인 작업
-- 빠른 실행을 위해 haiku 모델
+**Explanation**:
+- Simple and repetitive task
+- haiku model for fast execution
 
 ---
 
-### 예시 3: Link Checker
+### Example 3: Link Checker
 
 ```yaml
 ---
 name: link-checker
-description: "Markdown 파일의 모든 링크를 검증하고 깨진 링크를 보고하는 도구"
+description: "A tool that validates all links in Markdown files and reports broken links"
 tools: Read,Bash,Grep
 model: inherit
 ---
 ```
 
-**설명**:
-- `tools`: 파일 읽기 + 검색 + 외부 도구 실행
-- `model`: inherit (기본 모델 사용)
+**Explanation**:
+- `tools`: File read + search + external tool execution
+- `model`: inherit (use default model)
 
 ---
 
-### 예시 4: Test Runner
+### Example 4: Test Runner
 
 ```yaml
 ---
 name: test-runner
-description: "프로젝트 테스트를 실행하고 결과를 간결하게 보고하는 테스트 실행기"
+description: "A test runner that executes project tests and reports results concisely"
 tools: Read,Bash
 model: haiku
 ---
 ```
 
-**설명**:
-- 간단한 테스트 실행 및 보고
-- Read는 설정 파일 확인용
+**Explanation**:
+- Simple test execution and reporting
+- Read for checking configuration files
 
 ---
 
-## 📊 Analyst 타입 예시
+## 📊 Analyst Type Examples
 
-### 예시 1: Code Reviewer (종합 리뷰)
+### Example 1: Code Reviewer (comprehensive review)
 
 ```yaml
 ---
 name: code-reviewer
-description: "TypeScript와 Python 코드의 품질, 보안, 성능, 유지보수성을 종합적으로 검증하는 전문 코드 리뷰어"
+description: "A professional code reviewer that comprehensively validates TypeScript and Python code quality, security, performance, and maintainability"
 tools: Read,Grep,Bash
 model: sonnet
 ---
 ```
 
-**설명**:
-- `description`: 분석 범위를 명확히 (품질, 보안, 성능, 유지보수성)
-- `tools`: 읽기 + 검색 + 도구 실행 (분석 전용, Write 없음!)
-- `model`: 복잡한 분석이므로 sonnet
+**Explanation**:
+- `description`: Clearly specifies analysis scope (quality, security, performance, maintainability)
+- `tools`: Read + search + tool execution (analysis only, no Write!)
+- `model`: sonnet for complex analysis
 
 ---
 
-### 예시 2: Security Auditor (보안 감사)
+### Example 2: Security Auditor (security audit)
 
 ```yaml
 ---
 name: security-auditor
-description: "애플리케이션의 보안 취약점을 식별하고 OWASP 기준으로 평가하는 전문 보안 분석가"
+description: "A professional security analyst that identifies application security vulnerabilities and evaluates them based on OWASP standards"
 tools: Read,Grep,Bash
 model: sonnet
 ---
 ```
 
-**설명**:
-- 보안에 특화된 분석
-- OWASP 기준 명시
-- sonnet 모델로 정밀한 분석
+**Explanation**:
+- Security-focused analysis
+- OWASP standards specified
+- Precise analysis with sonnet model
 
 ---
 
-### 예시 3: Performance Analyzer
+### Example 3: Performance Analyzer
 
 ```yaml
 ---
 name: performance-analyzer
-description: "코드의 성능 병목을 식별하고 최적화 방안을 제시하는 성능 분석 전문가"
+description: "A performance analysis specialist that identifies code performance bottlenecks and suggests optimization approaches"
 tools: Read,Grep,Bash
 model: sonnet
 ---
 ```
 
-**설명**:
-- 성능 분석에 특화
-- 최적화 방안 제시까지 포함
+**Explanation**:
+- Performance analysis specialized
+- Includes optimization suggestions
 
 ---
 
-### 예시 4: TypeScript Reviewer (언어 특화)
+### Example 4: TypeScript Reviewer (language-specific)
 
 ```yaml
 ---
 name: typescript-reviewer
-description: "TypeScript 코드의 타입 안정성, 패턴 사용, 베스트 프랙티스를 검증하는 TypeScript 전문 리뷰어"
+description: "A TypeScript specialist reviewer that validates TypeScript code type safety, pattern usage, and best practices"
 tools: Read,Grep,Bash
 model: inherit
 ---
 ```
 
-**설명**:
-- 특정 언어에 특화된 리뷰어
-- inherit 모델 사용 (일반적인 경우)
+**Explanation**:
+- Language-specific reviewer
+- inherit model (general case)
 
 ---
 
-## 🎯 Orchestrator 타입 예시
+## 🎯 Orchestrator Type Examples
 
-### 예시 1: Release Manager (릴리스 관리)
+### Example 1: Release Manager (release management)
 
 ```yaml
 ---
 name: release-manager
-description: "npm 패키지의 전체 릴리스 프로세스를 관리하고 버전 업데이트부터 배포까지 자동화하는 릴리스 매니저"
+description: "A release manager that manages the entire npm package release process and automates from version updates to deployment"
 tools: Read,Write,Bash
 model: sonnet
 ---
 ```
 
-**설명**:
-- `description`: 관리 범위를 명확히 (버전 업데이트 → 배포)
-- `tools`: 파일 읽기/쓰기 + 명령 실행
-- `model`: 복잡한 워크플로우이므로 sonnet
+**Explanation**:
+- `description`: Clearly specifies management scope (version update → deployment)
+- `tools`: File read/write + command execution
+- `model`: sonnet for complex workflow
 
 ---
 
-### 예시 2: CI/CD Manager
+### Example 2: CI/CD Manager
 
 ```yaml
 ---
 name: ci-cd-manager
-description: "CI/CD 파이프라인을 조율하고 빌드, 테스트, 배포 전 과정을 관리하는 자동화 매니저"
+description: "An automation manager that orchestrates CI/CD pipeline and manages the entire build, test, and deployment process"
 tools: Read,Write,Bash,Grep
 model: sonnet
 ---
 ```
 
-**설명**:
-- 전체 파이프라인 관리
-- Grep 추가 (로그 검색 등)
+**Explanation**:
+- Entire pipeline management
+- Grep added (for log search, etc.)
 
 ---
 
-### 예시 3: Production Deployment Manager (프로덕션 배포)
+### Example 3: Production Deployment Manager (production deployment)
 
 ```yaml
 ---
 name: production-deployment-manager
-description: "프로덕션 환경 배포 전체 프로세스를 관리하고 안전 검사, 롤백 전략을 수행하는 배포 매니저"
+description: "A deployment manager that manages the entire production environment deployment process and performs safety checks and rollback strategies"
 tools: Read,Write,Bash
 model: opus
 ---
 ```
 
-**설명**:
-- 프로덕션 배포의 중요성
-- opus 모델 사용 (최고 품질)
-- 안전 검사와 롤백 언급
+**Explanation**:
+- Importance of production deployment
+- opus model (highest quality)
+- Mention of safety checks and rollback
 
 ---
 
-### 예시 4: Database Migration Coordinator
+### Example 4: Database Migration Coordinator
 
 ```yaml
 ---
 name: db-migration-coordinator
-description: "데이터베이스 마이그레이션을 조율하고 스키마 변경, 데이터 이전, 롤백을 관리하는 마이그레이션 코디네이터"
+description: "A migration coordinator that orchestrates database migrations and manages schema changes, data migration, and rollback"
 tools: Read,Write,Bash
 model: sonnet
 ---
 ```
 
-**설명**:
-- 데이터베이스 특화 워크플로우
-- 스키마 변경 + 데이터 이전 + 롤백
+**Explanation**:
+- Database-specific workflow
+- Schema changes + data migration + rollback
 
 ---
 
-## 🔍 Model 선택 패턴
+## 🔍 Model Selection Patterns
 
-### haiku 사용 예시
+### haiku usage examples
 
 ```yaml
-# 단순한 작업
+# Simple tasks
 model: haiku
 
-# 적합한 경우:
-# - 포맷팅 (prettier, eslint)
-# - 링크 검증
-# - 간단한 테스트 실행
-# - 빠른 피드백이 중요한 경우
+# Suitable for:
+# - Formatting (prettier, eslint)
+# - Link validation
+# - Simple test execution
+# - When quick feedback is important
 ```
 
 ---
 
-### inherit 사용 예시 (기본값)
+### inherit usage examples (default)
 
 ```yaml
-# 일반적인 작업
+# General tasks
 model: inherit
 
-# 적합한 경우:
-# - 대부분의 에이전트
-# - 특별한 요구사항 없는 경우
-# - 메인 대화와 일관성 유지
+# Suitable for:
+# - Most agents
+# - No special requirements
+# - Maintain consistency with main conversation
 ```
 
 ---
 
-### sonnet 사용 예시
+### sonnet usage examples
 
 ```yaml
-# 복잡한 분석/워크플로우
+# Complex analysis/workflow
 model: sonnet
 
-# 적합한 경우:
-# - 코드 리뷰
-# - 보안 감사
-# - 복잡한 워크플로우
-# - 높은 품질이 필요한 경우
+# Suitable for:
+# - Code review
+# - Security audit
+# - Complex workflow
+# - When high quality is needed
 ```
 
 ---
 
-### opus 사용 예시
+### opus usage examples
 
 ```yaml
-# 매우 중요한 작업
+# Very important tasks
 model: opus
 
-# 적합한 경우:
-# - 프로덕션 배포
-# - 중요 시스템 감사
-# - 실패 시 큰 영향
-# - 최고 품질 필수
+# Suitable for:
+# - Production deployment
+# - Critical system audit
+# - Big impact on failure
+# - Highest quality essential
 ```
 
 ---
 
-## 🔒 Tools 선택 패턴
+## 🔒 Tools Selection Patterns
 
-### 읽기 전용 (분석 작업)
+### Read-only (analysis tasks)
 
 ```yaml
 tools: Read,Grep
 
-# 적합한 경우:
-# - 순수 분석 작업
-# - 코드 리뷰
-# - 보안 감사 (읽기만)
+# Suitable for:
+# - Pure analysis tasks
+# - Code review
+# - Security audit (read-only)
 ```
 
 ---
 
-### 읽기 + 도구 실행
+### Read + tool execution
 
 ```yaml
 tools: Read,Grep,Bash
 
-# 적합한 경우:
-# - 분석 + 검증 도구 실행
-# - 코드 리뷰 + 테스트 실행
-# - 보안 감사 + 취약점 스캔
+# Suitable for:
+# - Analysis + validation tool execution
+# - Code review + test execution
+# - Security audit + vulnerability scanning
 ```
 
 ---
 
-### 파일 수정 포함
+### File modification included
 
 ```yaml
 tools: Read,Write,Bash
 
-# 적합한 경우:
-# - 포맷팅
-# - 코드 자동 수정
-# - 파일 생성/업데이트
+# Suitable for:
+# - Formatting
+# - Automatic code fixing
+# - File creation/update
 ```
 
 ---
 
-### 종합 도구 (워크플로우)
+### Comprehensive tools (workflow)
 
 ```yaml
 tools: Read,Write,Bash,Grep
 
-# 적합한 경우:
-# - 복잡한 워크플로우
-# - 릴리스 관리
-# - CI/CD 파이프라인
+# Suitable for:
+# - Complex workflow
+# - Release management
+# - CI/CD pipeline
 ```
 
 ---
 
-### 모든 도구 허용 (권장하지 않음)
+### All tools allowed (not recommended)
 
 ```yaml
-# tools 필드 생략 시 모든 도구 허용
+# All tools allowed when tools field omitted
 ---
 name: example
-description: "설명"
-# tools 필드 없음 = 모든 도구 허용
+description: "Description"
+# No tools field = all tools allowed
 ---
 
-# 이유:
-# - 보안 위험
-# - 과도한 권한
-# - 최소 권한 원칙 위배
+# Reasons:
+# - Security risk
+# - Excessive permissions
+# - Violates principle of least privilege
 ```
 
 ---
 
-## ✅ Frontmatter 작성 체크리스트
+## ✅ Frontmatter Writing Checklist
 
-생성 전 확인 사항:
+Pre-creation checklist:
 
-- [ ] `name`: kebab-case 형식인가? (예: `code-reviewer`)
-- [ ] `name`: 3-50자 범위인가?
-- [ ] `description`: 10-500자 범위인가?
-- [ ] `description`: 역할과 목적이 명확한가?
-- [ ] `tools`: 역할에 필요한 최소한의 도구만 포함했는가?
-- [ ] `tools`: 분석 작업에 Write/Edit 포함하지 않았는가?
-- [ ] `model`: 타입과 복잡도에 적합한 모델인가?
-- [ ] `model`: 비용 대비 효과를 고려했는가?
+- [ ] `name`: Is it in kebab-case format? (e.g., `code-reviewer`)
+- [ ] `name`: Is it in the 3-50 character range?
+- [ ] `description`: Is it in the 10-500 character range?
+- [ ] `description`: Are role and purpose clear?
+- [ ] `tools`: Includes only minimum tools necessary for role?
+- [ ] `tools`: Doesn't include Write/Edit for analysis tasks?
+- [ ] `model`: Is it an appropriate model for type and complexity?
+- [ ] `model`: Considered cost-effectiveness?
 
 ---
 
-## ❌ 흔한 실수
+## ❌ Common Mistakes
 
-### 실수 1: 모호한 description
+### Mistake 1: Vague description
 
 ```yaml
-# ❌ 나쁜 예
-description: "코드를 개선합니다"
+# ❌ Bad Example
+description: "Improves code"
 
-# ✅ 좋은 예
-description: "TypeScript 코드의 성능과 보안을 분석하고 구체적인 개선 방안을 제시하는 분석가"
+# ✅ Good Example
+description: "An analyst that analyzes TypeScript code performance and security and suggests specific improvements"
 ```
 
 ---
 
-### 실수 2: 과도한 도구 권한
+### Mistake 2: Excessive tool permissions
 
 ```yaml
-# ❌ 나쁜 예 (분석 작업에 Write 권한)
+# ❌ Bad Example (Write permission for analysis task)
 name: code-reviewer
 tools: Read,Write,Bash
 
-# ✅ 좋은 예 (읽기 전용)
+# ✅ Good Example (read-only)
 name: code-reviewer
 tools: Read,Grep,Bash
 ```
 
 ---
 
-### 실수 3: 부적절한 모델 선택
+### Mistake 3: Inappropriate model selection
 
 ```yaml
-# ❌ 나쁜 예 (단순 작업에 opus)
+# ❌ Bad Example (opus for simple task)
 name: prettier-formatter
 model: opus
 
-# ✅ 좋은 예 (단순 작업에 haiku)
+# ✅ Good Example (haiku for simple task)
 name: prettier-formatter
 model: haiku
 ```
 
 ---
 
-### 실수 4: 모든 도구 허용
+### Mistake 4: Allowing all tools
 
 ```yaml
-# ❌ 나쁜 예 (tools 필드 생략)
+# ❌ Bad Example (tools field omitted)
 ---
 name: code-reviewer
-description: "코드 리뷰어"
-# tools 필드 없음 = 모든 도구 허용
+description: "Code reviewer"
+# No tools field = all tools allowed
 ---
 
-# ✅ 좋은 예 (필요한 도구만 명시)
+# ✅ Good Example (specify only necessary tools)
 ---
 name: code-reviewer
-description: "코드 리뷰어"
+description: "Code reviewer"
 tools: Read,Grep,Bash
 ---
 ```
 
 ---
 
-## 📖 참고 자료
+## 📖 References
 
-- **타입 시스템**: `../type-system.md`
-- **모델 선택 가이드**: `../model-selection-guide.md`
-- **도구 가이드**: `../available-tools.md`
-- **검증 기준**: `../validation-criteria.md`
-- **템플릿**: `../templates/` 디렉토리
+- **Type System**: `../type-system.md`
+- **Model Selection Guide**: `../model-selection-guide.md`
+- **Tool Guide**: `../available-tools.md`
+- **Validation Criteria**: `../validation-criteria.md`
+- **Templates**: `../templates/` directory

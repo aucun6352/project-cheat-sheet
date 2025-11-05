@@ -1,51 +1,51 @@
-# 커맨드 검증 기준 (Validation Criteria)
+# Command Validation Criteria
 
-이 문서는 Claude Code 커맨드 파일의 품질을 평가하기 위한 공통 검증 기준을 정의합니다.
-`/create-command`와 `/evaluate-command` 커맨드에서 공통으로 사용됩니다.
-
----
-
-## 📊 점수 체계
-
-**총점: 100점**
-
-| 검증 항목 | 배점 | 설명 |
-|-----------|------|------|
-| 1. 구조 검증 | 20점 | 파일 존재, 위치, 명명 규칙 |
-| 2. Frontmatter 검증 | 15점 | name, description 형식 |
-| 3. 필수 섹션 검증 | 25점 | Triggers, Usage/Flow, Boundaries |
-| 4. 콘텐츠 품질 검증 | 25점 | 코드 블록, 섹션 계층, 예제 품질 |
-| 5. 커맨드 타입 적합성 | 10점 | 단어 수와 타입 매칭, 워크플로우 복잡도 |
-| 6. 일관성 및 완성도 | 5점 | 전체적인 품질, 오타, 완성도 |
+This document defines the common validation criteria for evaluating the quality of Claude Code command files.
+Used by both `/create-command` and `/evaluate-command` commands.
 
 ---
 
-## 📈 등급 기준
+## 📊 Scoring System
 
-| 등급 | 점수 | 평가 | 조치 |
-|------|------|------|------|
-| **A** | 90-100 | 우수 | 유지 또는 미세 조정 |
-| **B** | 80-89 | 양호 | 소폭 개선 권장 |
-| **C** | 70-79 | 보통 | 개선 필요 |
-| **D** | 60-69 | 부족 | 주요 개선 필수 |
-| **F** | < 60 | 불합격 | 재작성 권장 |
+**Total Score: 100 points**
+
+| Validation Item | Points | Description |
+|-----------------|--------|-------------|
+| 1. Structure Validation | 20 points | File existence, location, naming convention |
+| 2. Frontmatter Validation | 15 points | name, description format |
+| 3. Required Section Validation | 25 points | Triggers, Usage/Flow, Boundaries |
+| 4. Content Quality Validation | 25 points | Code blocks, section hierarchy, example quality |
+| 5. Command Type Appropriateness | 10 points | Word count and type matching, workflow complexity |
+| 6. Consistency and Completeness | 5 points | Overall quality, typos, completeness |
 
 ---
 
-## 📏 단어 수 계산 방법
+## 📈 Grade Standards
 
-**계산 대상:**
-- Frontmatter 제외 (---로 감싸진 부분)
-- 마크다운 본문 텍스트만 포함
-- 코드 블록 내용 **포함**
-- 주석 및 예제 포함
+| Grade | Score | Assessment | Action |
+|-------|-------|------------|--------|
+| **A** | 90-100 | Excellent | Maintain or fine-tune |
+| **B** | 80-89 | Good | Minor improvements recommended |
+| **C** | 70-79 | Fair | Improvements needed |
+| **D** | 60-69 | Poor | Major improvements required |
+| **F** | < 60 | Fail | Rewrite recommended |
 
-**계산 방법:**
+---
+
+## 📏 Word Count Calculation Method
+
+**Calculation Target:**
+- Excluding Frontmatter (section wrapped in ---)
+- Including markdown body text only
+- Including code block content
+- Including comments and examples
+
+**Calculation Method:**
 ```
-총 단어 수 = (공백으로 분리된 모든 단어 수)
+Total word count = (all words separated by spaces)
 ```
 
-**예시:**
+**Example:**
 ```markdown
 ---
 name: example-command
@@ -53,376 +53,376 @@ name: example-command
 
 # Command Title
 
-This is a command. (4 단어)
+This is a command. (4 words)
 
 ```bash
-echo "hello"  (2 단어)
+echo "hello"  (2 words)
 ```
 
-총 단어 수 = 6
+Total word count = 6
 ```
 
 ---
 
-## ✅ 검증 1: 구조 검증 (20점)
+## ✅ Validation 1: Structure Validation (20 points)
 
-### 항목
+### Items
 
-**1.1 파일 존재 및 위치 (10점)**
-- ✅ `.claude/commands/` 또는 `plugins/*/commands/` 내에 존재: 10점
-- ⚠️ 다른 위치에 존재: 5점
-- ❌ 파일이 없음: 0점
+**1.1 File Existence and Location (10 points)**
+- ✅ Exists in `.claude/commands/` or `plugins/*/commands/`: 10 points
+- ⚠️ Exists in other location: 5 points
+- ❌ File does not exist: 0 points
 
-**1.2 파일명 규칙 (10점)**
+**1.2 Filename Convention (10 points)**
 
-**필수 조건:**
-- kebab-case 형식 (소문자 + 하이픈)
-- `.md` 확장자
-- 정규표현식: `^[a-z0-9]+(-[a-z0-9]+)*\.md$`
-- 3-64자 이내
+**Required Conditions:**
+- kebab-case format (lowercase + hyphens)
+- `.md` extension
+- Regex: `^[a-z0-9]+(-[a-z0-9]+)*\.md$`
+- 3-64 characters
 
-**점수 계산:**
-- 모든 조건 만족: 10점
-- 형식 오류 있음: 5점
-- 심각한 형식 오류: 0점
+**Score Calculation:**
+- All conditions met: 10 points
+- Format errors present: 5 points
+- Severe format errors: 0 points
 
-**예시:**
+**Examples:**
 ```bash
-# ✅ 올바른 예
+# ✅ Correct examples
 deploy-production.md
 run-tests.md
 create-feature-branch.md
 
-# ❌ 잘못된 예
-Deploy-Production.md  # 대문자
-run_tests.md          # 언더스코어
-cmd.md                # 너무 짧음
+# ❌ Incorrect examples
+Deploy-Production.md  # Uppercase
+run_tests.md          # Underscore
+cmd.md                # Too short
 ```
 
 ---
 
-## ✅ 검증 2: Frontmatter 검증 (15점)
+## ✅ Validation 2: Frontmatter Validation (15 points)
 
-### 항목
+### Items
 
-**2.1 name 필드 (10점)**
+**2.1 name Field (10 points)**
 
-**필수 조건:**
-- 존재 여부
-- kebab-case 형식 (소문자 + 하이픈)
-- 3-64자 이내
-- 정규표현식: `^[a-z0-9]+(-[a-z0-9]+)*$`
-- 파일명과 일치 권장 (확장자 제외)
+**Required Conditions:**
+- Existence
+- kebab-case format (lowercase + hyphens)
+- 3-64 characters
+- Regex: `^[a-z0-9]+(-[a-z0-9]+)*$`
+- Should match filename (excluding extension)
 
-**점수 계산:**
-- 모든 조건 만족: 10점
-- 존재하지만 형식 오류: 5점
-- 존재하지 않음: 0점
+**Score Calculation:**
+- All conditions met: 10 points
+- Exists but format error: 5 points
+- Does not exist: 0 points
 
-**예시:**
+**Examples:**
 ```yaml
-# ✅ 올바른 예
+# ✅ Correct examples
 name: deploy-production
 name: run-integration-tests
 name: analyze-code-quality
 
-# ❌ 잘못된 예
-name: Deploy Production  # 공백, 대문자
-name: run_tests          # 언더스코어
-name: cmd                # 너무 짧음
+# ❌ Incorrect examples
+name: Deploy Production  # Spaces, uppercase
+name: run_tests          # Underscore
+name: cmd                # Too short
 ```
 
-**2.2 description 필드 (5점)**
+**2.2 description Field (5 points)**
 
-**필수 조건:**
-- 존재 여부
-- 10-500자 이내
-- 명령의 목적과 주요 작업 명시
-- 간결하고 명확한 표현
+**Required Conditions:**
+- Existence
+- 10-500 characters
+- Specify command purpose and main tasks
+- Concise and clear expression
 
-**점수 계산:**
-- 모든 조건 만족: 5점
-- 존재하지만 너무 짧거나 길음: 3점
-- 존재하지 않음: 0점
+**Score Calculation:**
+- All conditions met: 5 points
+- Exists but too short or too long: 3 points
+- Does not exist: 0 points
 
-**예시:**
+**Examples:**
 ```yaml
-# ✅ 올바른 예
-description: "프로덕션 환경에 애플리케이션을 빌드하고 배포하는 완전한 워크플로우"
+# ✅ Correct example
+description: "Complete workflow to build and deploy application to production environment"
 
-# ✅ 허용되는 예
-description: "통합 테스트를 실행하고 결과를 리포트로 생성"
+# ✅ Acceptable example
+description: "Run integration tests and generate report"
 
-# ⚠️ 개선 필요
-description: "배포"  # 너무 짧음
+# ⚠️ Needs improvement
+description: "Deploy"  # Too short
 ```
 
 ---
 
-## ✅ 검증 3: 필수 섹션 검증 (25점)
+## ✅ Validation 3: Required Section Validation (25 points)
 
-### 항목
+### Items
 
-**3.1 H1 제목 (5점)**
-- ✅ 정확히 1개 존재: 5점
-- ⚠️ 0개 또는 2개 이상: 0점
+**3.1 H1 Heading (5 points)**
+- ✅ Exactly 1 exists: 5 points
+- ⚠️ 0 or 2 or more: 0 points
 
-**3.2 Triggers 섹션 (7점)**
+**3.2 Triggers Section (7 points)**
 
-**요구사항:**
-- 섹션 존재
-- 명령이 실행되어야 하는 상황/조건 명시
-- 최소 1개 이상의 트리거 예시
+**Requirements:**
+- Section exists
+- Specify situations/conditions when command should execute
+- Minimum 1 trigger example
 
-**점수 계산:**
-- 섹션 존재 + 구체적인 트리거 설명: 7점
-- 섹션만 있고 내용 부실: 3점
-- 섹션 없음: 0점
+**Score Calculation:**
+- Section exists + specific trigger description: 7 points
+- Section only with insufficient content: 3 points
+- Section missing: 0 points
 
-**3.3 Usage 또는 Behavioral Flow 섹션 (8점)**
+**3.3 Usage or Behavioral Flow Section (8 points)**
 
-**요구사항:**
-- Usage 또는 Behavioral Flow 섹션 중 하나 이상 존재
-- 명령 실행 방법 또는 단계별 동작 설명
-- 실행 흐름이 명확함
+**Requirements:**
+- At least one of Usage or Behavioral Flow section exists
+- Explain how to execute command or step-by-step behavior
+- Execution flow is clear
 
-**점수 계산:**
-- 섹션 존재 + 명확한 흐름 설명: 8점
-- 섹션만 있고 내용 불충분: 4점
-- 섹션 없음: 0점
+**Score Calculation:**
+- Section exists + clear flow explanation: 8 points
+- Section only with insufficient content: 4 points
+- Section missing: 0 points
 
-**3.4 Boundaries 섹션 (5점)**
+**3.4 Boundaries Section (5 points)**
 
-**요구사항:**
-- 섹션 존재
-- 명령이 하지 말아야 할 것 명시
-- 제약사항 또는 주의사항 포함
+**Requirements:**
+- Section exists
+- Specify what command should not do
+- Include constraints or precautions
 
-**점수 계산:**
-- 섹션 존재 + 구체적인 경계 설명: 5점
-- 섹션만 있고 내용 부실: 2점
-- 섹션 없음: 0점
-
----
-
-## ✅ 검증 4: 콘텐츠 품질 검증 (25점)
-
-### 항목
-
-**4.1 코드 블록 언어 명시 (10점)**
-
-**검사 방법:**
-- 모든 ` ``` ` 코드 블록을 찾음
-- 언어 태그 유무 확인 (예: ` ```bash `, ` ```python `)
-
-**점수 계산:**
-```
-명시율 = (언어가 명시된 코드 블록 수) / (전체 코드 블록 수) × 100%
-
-점수 = 명시율 / 10
-```
-
-**예시:**
-- 10개 중 10개 명시: 100% → 10점
-- 10개 중 8개 명시: 80% → 8점
-- 10개 중 5개 명시: 50% → 5점
-
-**4.2 섹션 계층 구조 (5점)**
-
-**규칙:**
-- H1 (# ) : 1개만
-- H2 (## ) : H1 다음
-- H3 (### ) : H2 다음 (H1 바로 다음에 오면 안 됨)
-
-**점수 계산:**
-- 완벽한 계층: 5점
-- 1-2개 위반: 3점
-- 3개 이상 위반: 0점
-
-**4.3 예제 품질 (10점)**
-
-**검사 항목:**
-- 실행 가능한 예제 포함
-- 다양한 사용 시나리오 커버
-- 예제에 충분한 설명
-
-**점수 계산:**
-- 구체적이고 실용적인 예제 3개 이상: 10점
-- 예제 1-2개 또는 추상적: 5점
-- 예제 없음: 0점
+**Score Calculation:**
+- Section exists + specific boundary description: 5 points
+- Section only with insufficient content: 2 points
+- Section missing: 0 points
 
 ---
 
-## ✅ 검증 5: 커맨드 타입 적합성 (10점)
+## ✅ Validation 4: Content Quality Validation (25 points)
 
-### 커맨드 타입별 기준
+### Items
 
-| 타입 | 단어 수 범위 | 복잡도 | 주요 특징 |
-|------|--------------|--------|-----------|
-| **Simple Task** | 50-150 | 낮음 | 단일 작업, 간단한 자동화 |
-| **Workflow Pipeline** | 150-400 | 중간 | 다단계 워크플로우, 순차 실행 |
-| **Complex Orchestration** | 400-800 | 높음 | 복잡한 조건 분기, 여러 도구 조율 |
+**4.1 Code Block Language Specification (10 points)**
 
-### 점수 계산
+**Inspection Method:**
+- Find all ` ``` ` code blocks
+- Check for language tag presence (e.g., ` ```bash `, ` ```python `)
 
-**5.1 단어 수 적합성 (5점)**
-- 커맨드 타입에 맞는 단어 수 범위 내: 5점
-- 20% 이내 벗어남: 3점
-- 20% 이상 벗어남: 0점
+**Score Calculation:**
+```
+Specification rate = (code blocks with language specified) / (total code blocks) × 100%
 
-**5.2 워크플로우 복잡도 일치 (5점)**
-- 타입과 실제 복잡도 일치: 5점
-- 약간의 불일치: 3점
-- 심각한 불일치 (예: Simple인데 매우 복잡): 0점
+Score = specification rate / 10
+```
 
-**예시:**
+**Examples:**
+- 10 out of 10 specified: 100% → 10 points
+- 8 out of 10 specified: 80% → 8 points
+- 5 out of 10 specified: 50% → 5 points
+
+**4.2 Section Hierarchy Structure (5 points)**
+
+**Rules:**
+- H1 (# ) : Only 1
+- H2 (## ) : After H1
+- H3 (### ) : After H2 (should not come directly after H1)
+
+**Score Calculation:**
+- Perfect hierarchy: 5 points
+- 1-2 violations: 3 points
+- 3 or more violations: 0 points
+
+**4.3 Example Quality (10 points)**
+
+**Inspection Items:**
+- Include executable examples
+- Cover various usage scenarios
+- Sufficient explanation in examples
+
+**Score Calculation:**
+- 3 or more specific and practical examples: 10 points
+- 1-2 examples or abstract: 5 points
+- No examples: 0 points
+
+---
+
+## ✅ Validation 5: Command Type Appropriateness (10 points)
+
+### Command Type Standards
+
+| Type | Word Count Range | Complexity | Main Features |
+|------|------------------|------------|---------------|
+| **Simple Task** | 50-150 | Low | Single task, simple automation |
+| **Workflow Pipeline** | 150-400 | Medium | Multi-step workflow, sequential execution |
+| **Complex Orchestration** | 400-800 | High | Complex conditional branching, multiple tool coordination |
+
+### Score Calculation
+
+**5.1 Word Count Appropriateness (5 points)**
+- Within recommended range for command type: 5 points
+- Deviates within 20%: 3 points
+- Deviates more than 20%: 0 points
+
+**5.2 Workflow Complexity Match (5 points)**
+- Type matches actual complexity: 5 points
+- Slight mismatch: 3 points
+- Severe mismatch (e.g., Simple but very complex): 0 points
+
+**Examples:**
 ```markdown
-# Simple Task (50-150 단어)
-- 파일 포맷팅
-- 코드 정리
-- 단일 테스트 실행
+# Simple Task (50-150 words)
+- File formatting
+- Code cleanup
+- Single test execution
 
-# Workflow Pipeline (150-400 단어)
-- 빌드 → 테스트 → 배포
-- 코드 리뷰 자동화
-- CI/CD 파이프라인
+# Workflow Pipeline (150-400 words)
+- Build → Test → Deploy
+- Code review automation
+- CI/CD pipeline
 
-# Complex Orchestration (400-800 단어)
-- 다중 환경 배포
-- 복잡한 롤백 전략
-- 여러 서비스 조율
+# Complex Orchestration (400-800 words)
+- Multi-environment deployment
+- Complex rollback strategy
+- Multiple service coordination
 ```
 
 ---
 
-## ✅ 검증 6: 일관성 및 완성도 (5점)
+## ✅ Validation 6: Consistency and Completeness (5 points)
 
-### 항목
+### Items
 
-**6.1 오타 및 문법 (3점)**
-- 심각한 오타 0개: 3점
-- 1-2개: 2점
-- 3개 이상: 0점
+**6.1 Typos and Grammar (3 points)**
+- 0 severe typos: 3 points
+- 1-2 typos: 2 points
+- 3 or more: 0 points
 
-**6.2 완성도 (2점)**
-- 모든 섹션 완성: 2점
-- "TODO", "WIP" 등 미완성 표시 있음: 1점
-- 빈 섹션 다수: 0점
-
----
-
-## 🔄 검증 절차
-
-### 1단계: 파일 읽기
-```
-Read 도구로 커맨드 파일 읽기
-→ 파일이 없으면 즉시 실패
-```
-
-### 2단계: 기본 정보 추출
-```
-- Frontmatter 파싱 (YAML)
-- 단어 수 계산
-- H1/H2/H3 개수 세기
-- 코드 블록 개수 세기
-- 예제 개수 세기
-```
-
-### 3단계: 6가지 검증 실행
-```
-각 검증 항목별로:
-1. 조건 확인
-2. 점수 계산
-3. 개선 제안 생성
-```
-
-### 4단계: 총점 계산 및 등급 부여
-```
-총점 = 검증1 + 검증2 + ... + 검증6
-등급 = 총점에 따른 A/B/C/D/F
-```
-
-### 5단계: 리포트 생성
-```
-- Executive Summary (3줄 요약)
-- 점수 및 등급
-- 잘된 점
-- 개선 필요 사항
-- 상세 검증 결과
-- 구체적인 개선 제안
-```
+**6.2 Completeness (2 points)**
+- All sections complete: 2 points
+- "TODO", "WIP" or other incomplete markers present: 1 point
+- Multiple empty sections: 0 points
 
 ---
 
-## 📝 검증 결과 예시
+## 🔄 Validation Procedure
+
+### Step 1: Read File
+```
+Read command file with Read tool
+→ Fail immediately if file does not exist
+```
+
+### Step 2: Extract Basic Information
+```
+- Parse Frontmatter (YAML)
+- Calculate word count
+- Count H1/H2/H3
+- Count code blocks
+- Count examples
+```
+
+### Step 3: Execute 6 Validations
+```
+For each validation item:
+1. Check conditions
+2. Calculate score
+3. Generate improvement suggestions
+```
+
+### Step 4: Calculate Total Score and Assign Grade
+```
+Total score = validation1 + validation2 + ... + validation6
+Grade = A/B/C/D/F based on total score
+```
+
+### Step 5: Generate Report
+```
+- Executive Summary (3-line summary)
+- Score and grade
+- Strengths
+- Areas needing improvement
+- Detailed validation results
+- Specific improvement suggestions
+```
+
+---
+
+## 📝 Validation Result Example
 
 ```markdown
-📊 커맨드 검증 결과
+📊 Command Validation Result
 
 ## 📌 Executive Summary
-**등급: B (83/100)**
-**핵심 문제: 코드 블록 언어 미지정 3개, Boundaries 섹션 부실**
-**추천 조치: 자동 수정 적용으로 90점 이상 달성 가능**
+**Grade: B (83/100)**
+**Key Issue: 3 code blocks without language specification, insufficient Boundaries section**
+**Recommended Action: Can achieve 90+ points with auto-correction**
 
 ---
 
-## 점수 상세
+## Score Details
 
-| 검증 항목 | 점수 | 만점 | 비고 |
-|-----------|------|------|------|
-| 1. 구조 검증 | 20 | 20 | ✅ |
-| 2. Frontmatter 검증 | 15 | 15 | ✅ |
-| 3. 필수 섹션 검증 | 20 | 25 | ⚠️ Boundaries 섹션 부실 |
-| 4. 콘텐츠 품질 검증 | 18 | 25 | ⚠️ 코드 블록 언어 30% 미지정 |
-| 5. 커맨드 타입 적합성 | 10 | 10 | ✅ |
-| 6. 일관성 및 완성도 | 0 | 5 | ❌ 오타 5개 발견 |
-| **총점** | **83** | **100** | **B (양호)** |
+| Validation Item | Score | Max | Notes |
+|-----------------|-------|-----|-------|
+| 1. Structure Validation | 20 | 20 | ✅ |
+| 2. Frontmatter Validation | 15 | 15 | ✅ |
+| 3. Required Section Validation | 20 | 25 | ⚠️ Insufficient Boundaries section |
+| 4. Content Quality Validation | 18 | 25 | ⚠️ 30% code blocks without language |
+| 5. Command Type Appropriateness | 10 | 10 | ✅ |
+| 6. Consistency and Completeness | 0 | 5 | ❌ 5 typos found |
+| **Total** | **83** | **100** | **B (Good)** |
 
 ---
 
-## ✅ 잘된 점
-- 파일 구조 및 명명 규칙 완벽
-- Frontmatter 형식 정확
-- 커맨드 타입에 적합한 복잡도
+## ✅ Strengths
+- Perfect file structure and naming convention
+- Accurate Frontmatter format
+- Complexity appropriate for command type
 
-## ⚠️ 개선 필요
-1. **코드 블록 언어 미지정** (Line 45, 89, 123)
-2. **Boundaries 섹션 내용 부족** (Line 156)
-3. **오타 5개** (Line 23, 67, 102, 134, 178)
+## ⚠️ Needs Improvement
+1. **Code blocks without language specification** (Line 45, 89, 123)
+2. **Insufficient Boundaries section content** (Line 156)
+3. **5 typos** (Line 23, 67, 102, 134, 178)
 
-## 💡 개선 제안
-- 자동 수정으로 코드 블록 언어 추가 → +7점
-- Boundaries 섹션 구체화 → +5점
-- 오타 수정 → +5점
-- 예상 개선 후 점수: **100점 (A)**
+## 💡 Improvement Suggestions
+- Add language to code blocks with auto-correction → +7 points
+- Specify Boundaries section → +5 points
+- Fix typos → +5 points
+- Expected score after improvements: **100 points (A)**
 ```
 
 ---
 
-## 🛠️ 이 문서 사용 방법
+## 🛠️ How to Use This Document
 
-### /create-command 커맨드에서
+### In /create-command Command
 ```markdown
-Phase 4: 파일 생성 및 검증
+Phase 4: File Creation and Validation
 
-**검증 실행:**
-@shared/command/validation-criteria.md 의 검증 절차를 따라 실행합니다.
+**Execute Validation:**
+Follow validation procedure from @shared/command/validation-criteria.md.
 
-**리포트 생성:**
-검증 결과를 바탕으로 간단한 요약 리포트를 생성합니다.
+**Generate Report:**
+Generate simple summary report based on validation results.
 ```
 
-### /evaluate-command 커맨드에서
+### In /evaluate-command Command
 ```markdown
-Phase 1: 커맨드 평가
+Phase 1: Command Evaluation
 
-**검증 실행:**
-@shared/command/validation-criteria.md 의 검증 절차를 따라 실행합니다.
+**Execute Validation:**
+Follow validation procedure from @shared/command/validation-criteria.md.
 
-**상세 리포트 생성:**
-Executive Summary + 상세 검증 결과 + 개선 제안을 포함한 완전한 리포트를 생성합니다.
+**Generate Detailed Report:**
+Generate complete report including Executive Summary + detailed validation results + improvement suggestions.
 ```
 
 ---
 
-이 검증 기준은 Claude Code 커맨드 파일의 품질 일관성을 보장하고, 객관적인 평가를 가능하게 합니다.
+This validation criteria ensures quality consistency of Claude Code command files and enables objective evaluation.

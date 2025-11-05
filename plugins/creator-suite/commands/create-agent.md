@@ -1,388 +1,388 @@
 ---
 name: create-agent
-description: "프로젝트를 분석하여 맞춤형 서브 에이전트를 대화형으로 생성하는 커맨드"
+description: "A command that analyzes the project and interactively generates customized sub-agents"
 ---
 
 # /create-agent
 
-현재 프로젝트를 분석하고 대화형으로 정보를 수집하여 표준화된 구조의 서브 에이전트 파일을 자동으로 생성합니다.
+Analyzes the current project and automatically generates sub-agent files with standardized structure through interactive information gathering.
 
-## 목적
+## Purpose
 
-사용자와 대화하며 프로젝트 컨텍스트에 맞는 서브 에이전트를 생성합니다. 복잡한 파일 구조와 시스템 프롬프트를 수동으로 작성하지 않고도 일관된 품질의 에이전트를 빠르게 만들 수 있습니다.
+Creates sub-agents tailored to the project context through dialogue with the user. Enables quick creation of consistent quality agents without manually writing complex file structures and system prompts.
 
 ## Extended Thinking
 
-당신은 서브 에이전트 생성 전문가로서 다음과 같이 동작합니다:
+You operate as a sub-agent creation specialist with the following behaviors:
 
-**📋 진행 상황 체크리스트**:
-- [ ] Phase 0: 프로젝트 분석 및 에이전트 추천 (조건부)
-- [ ] Phase 1: 타입 및 기본 정보 수집
-- [ ] Phase 2: 도구 및 권한 설정
-- [ ] Phase 3: 시스템 프롬프트 작성
-- [ ] Phase 4: 파일 생성 및 검증
+**📋 Progress Checklist**:
+- [ ] Phase 0: Project Analysis and Agent Recommendation (Conditional)
+- [ ] Phase 1: Type and Basic Information Collection
+- [ ] Phase 2: Tool and Permission Configuration
+- [ ] Phase 3: System Prompt Writing
+- [ ] Phase 4: File Generation and Validation
 
-**🔄 진행 방식**:
-각 Phase를 시작할 때마다 다음과 같이 진행 상황을 안내합니다:
+**🔄 Progress Flow**:
+At the start of each Phase, provide progress updates in the following format:
 ```
-✅ Phase X 완료 → 🔄 Phase Y 시작: [Phase 설명]
+✅ Phase X Complete → 🔄 Phase Y Starting: [Phase Description]
 
-📊 진행 상황: X/5 Phase 완료
-```
-
-**핵심 동작**:
-1. **프로젝트 컨텍스트 분석**: 언어, 프레임워크, 도구를 자동 감지하여 적합한 에이전트 추천
-2. **대화 패턴 식별**: 현재 세션에서 반복 작업 패턴을 찾아 에이전트 역할 제안
-3. **대화형 정보 수집**: AskUserQuestion 도구를 활용하여 추천 내용을 제시하고 사용자가 선택/수정하도록 함
-4. **입력 검증**: 사용자 입력이 유효한지 확인하고, 필요시 재질문
-5. **타입별 템플릿 사용**: Specialist/Analyst/Orchestrator 타입에 맞는 템플릿 적용
-6. **품질 보증**: 생성된 파일이 올바른 형식과 필수 섹션을 포함하는지 검증
-7. **친절한 안내**: 생성 완료 후 사용 방법과 테스트 방법 명확히 안내
-
-## 실행 단계
-
-### 시작: 에이전트 생성 방식 선택
-
-**질문 0: 어떤 방식으로 에이전트를 생성하시겠습니까?**
-
-커맨드 시작 시 가장 먼저 사용자에게 에이전트 생성 방식을 선택하도록 합니다.
-
-```
-질문: "에이전트 생성을 어떻게 시작하시겠습니까?"
-
-선택지:
-  1. 대화 내용 분석 (추천: 대화가 충분한 경우)
-     • 현재 세션의 대화에서 워크플로우 추출
-     • 반복 작업 패턴 자동 식별
-     • 에이전트 이름, 트리거, 역할 자동 추천
-     • 적합한 경우: 대화가 5개 메시지 이상이고 기술적 내용 포함 시
-
-  2. 프로젝트 분석 (추천: 명확한 프로젝트 구조)
-     • 프로젝트 메타 파일 분석 (package.json, requirements.txt 등)
-     • 언어/프레임워크 자동 감지
-     • 프로젝트에 적합한 에이전트 추천
-     • 적합한 경우: 프로젝트 구조가 명확하고 표준적인 경우
-
-  3. 직접 입력 (추천: 명확한 아이디어가 있는 경우)
-     • 모든 정보를 수동으로 입력
-     • 추천 없이 처음부터 작성
-     • 적합한 경우: 특수한 워크플로우나 커스텀 에이전트
+📊 Progress Status: X/5 Phases Complete
 ```
 
-**선택에 따른 분기**:
-- **옵션 1 선택** → Phase 0-A: 대화 내용 분석 실행
-- **옵션 2 선택** → Phase 0-B: 프로젝트 분석 실행
-- **옵션 3 선택** → Phase 0 건너뛰고 Phase 1로 직접 이동
+**Core Operations**:
+1. **Project Context Analysis**: Automatically detect languages, frameworks, and tools to recommend suitable agents
+2. **Conversation Pattern Identification**: Find repetitive task patterns in the current session to suggest agent roles
+3. **Interactive Information Gathering**: Use AskUserQuestion tool to present recommendations and allow users to select/modify
+4. **Input Validation**: Verify user input is valid and re-prompt if necessary
+5. **Type-specific Templates**: Apply templates appropriate for Specialist/Analyst/Orchestrator types
+6. **Quality Assurance**: Verify generated files contain correct format and required sections
+7. **Helpful Guidance**: Clearly explain usage methods and testing procedures after generation
+
+## Execution Steps
+
+### Start: Selecting Agent Creation Method
+
+**Question 0: How would you like to create the agent?**
+
+At the start of the command, first ask the user to choose the agent creation method.
+
+```
+Question: "How would you like to start creating the agent?"
+
+Options:
+  1. Analyze Conversation Content (Recommended: When sufficient conversation exists)
+     • Extract workflow from current session conversation
+     • Automatically identify repetitive task patterns
+     • Auto-recommend agent name, triggers, and role
+     • Suitable when: 5+ messages with technical content
+
+  2. Analyze Project (Recommended: When project structure is clear)
+     • Analyze project meta files (package.json, requirements.txt, etc.)
+     • Auto-detect language/framework
+     • Recommend agents suitable for the project
+     • Suitable when: Clear and standard project structure
+
+  3. Manual Input (Recommended: When you have a clear idea)
+     • Manually input all information
+     • Start from scratch without recommendations
+     • Suitable when: Special workflows or custom agents
+```
+
+**Branching Based on Selection**:
+- **Option 1 Selected** → Execute Phase 0-A: Conversation Content Analysis
+- **Option 2 Selected** → Execute Phase 0-B: Project Analysis
+- **Option 3 Selected** → Skip Phase 0 and proceed directly to Phase 1
 
 ---
 
-### Phase 0-A: 대화 내용 분석 (옵션 1 선택 시)
+### Phase 0-A: Conversation Content Analysis (When Option 1 Selected)
 
-**⚠️ 중요**: 사용자가 "대화 내용 분석"을 선택한 경우에만 실행됩니다.
+**⚠️ Important**: Execute only when user selects "Analyze Conversation Content".
 
-**수행 작업**:
+**Tasks to Perform**:
 
-1. **대화 히스토리 분석**
-   - 현재 세션에서 논의된 워크플로우와 자동화 프로세스 식별
-   - 실행 단계와 절차 추출
-   - 대화에서 언급된 도구와 명령어 수집
-   - 자동화가 필요한 작업과 조건 파악
+1. **Analyze Conversation History**
+   - Identify workflows and automation processes discussed in current session
+   - Extract execution steps and procedures
+   - Collect tools and commands mentioned in conversation
+   - Identify tasks and conditions requiring automation
 
-2. **반복 작업 패턴 수집**
-   - 키워드 분석: "리뷰", "검증", "배포", "테스트", "포맷팅", "분석", "빌드"
-   - 도구 언급: "eslint", "pytest", "docker", "jest", "prettier", "black"
-   - 워크플로우 단계 식별
-   - 빈도 분석: 반복되는 작업 찾기
+2. **Collect Repetitive Task Patterns**
+   - Keyword analysis: "review", "validation", "deployment", "test", "formatting", "analysis", "build"
+   - Tool mentions: "eslint", "pytest", "docker", "jest", "prettier", "black"
+   - Identify workflow steps
+   - Frequency analysis: Find repetitive tasks
 
-3. **에이전트 메타데이터 자동 생성**
+3. **Auto-Generate Agent Metadata**
 
-   **추천 커맨드 이름 (2-3개)**:
-   - 워크플로우 기반으로 kebab-case 형식의 이름 제안
-   - 예: "code-reviewer", "test-runner", "deployment-coordinator"
+   **Recommended Command Names (2-3)**:
+   - Suggest names in kebab-case format based on workflow
+   - Example: "code-reviewer", "test-runner", "deployment-coordinator"
 
-   **자동 생성 설명**:
-   - 워크플로우 내용을 1-2문장으로 요약
-   - 커맨드의 목적과 실행 결과를 명확히 표현
+   **Auto-Generated Description**:
+   - Summarize workflow content in 1-2 sentences
+   - Clearly express command purpose and execution results
 
-   **트리거 조건 추출**:
-   - 대화에서 "~할 때", "~하면" 등의 조건 수집
-   - 자동 실행 시나리오 파악
+   **Extract Trigger Conditions**:
+   - Collect conditions like "when ~", "if ~" from conversation
+   - Identify auto-execution scenarios
 
-   **실행 단계 정리**:
-   - 대화에서 논의된 단계별 작업 순서 구조화
-   - 각 단계의 목적과 동작 명확화
+   **Organize Execution Steps**:
+   - Structure step-by-step task order discussed in conversation
+   - Clarify purpose and actions for each step
 
-   **도구 사용 식별**:
-   - 대화에서 언급된 Bash 명령, 파일 작업 등 수집
-   - 필요한 도구 파악
+   **Identify Tool Usage**:
+   - Collect Bash commands, file operations, etc. mentioned in conversation
+   - Identify required tools
 
-   **경계 조건 파악**:
-   - 대화에서 "~해야 한다", "~하면 안 된다" 수집
-   - Will/Will Not 조건 명확화
+   **Identify Boundary Conditions**:
+   - Collect "must do", "must not do" from conversation
+   - Clarify Will/Will Not conditions
 
-4. **분석 결과 요약**
+4. **Summarize Analysis Results**
    ```
-   📊 대화 분석 완료!
+   📊 Conversation Analysis Complete!
 
-   🔍 발견된 워크플로우:
-   - 주요 작업: {식별된_워크플로우}
-   - 실행 단계: {단계_수}단계
-   - 사용 도구: {도구_목록}
-   - 트리거 조건: {조건_수}개
+   🔍 Discovered Workflow:
+   - Main Task: {identified_workflow}
+   - Execution Steps: {number_of_steps} steps
+   - Tools Used: {tool_list}
+   - Trigger Conditions: {number_of_conditions} conditions
 
-   💡 추천 에이전트:
-   - 이름: {추천_이름}
-   - 타입: {추천_타입}
-   - 역할: {추천_역할}
+   💡 Recommended Agent:
+   - Name: {recommended_name}
+   - Type: {recommended_type}
+   - Role: {recommended_role}
 
-   이제 추천 내용을 바탕으로 커맨드를 생성합니다.
+   Now creating command based on recommendations.
    ```
 
-**대화 내용이 불충분한 경우**:
+**When Conversation Content is Insufficient**:
    ```
-   ⚠️ 대화 분석 결과
+   ⚠️ Conversation Analysis Result
 
-   현재 세션의 대화 내용이 부족하여 워크플로우를 추출하기 어렵습니다.
-   (메시지: {메시지_수}개, 기술적 내용: {충분/불충분})
+   Current session conversation is insufficient to extract workflow.
+   (Messages: {message_count}, Technical content: {sufficient/insufficient})
 
-   다음 중 선택해주세요:
-   1. 프로젝트 분석으로 전환 (Phase 0-B)
-   2. 직접 입력 모드로 전환 (Phase 1)
-   3. 에이전트에 대해 더 이야기 나눈 후 다시 시도
+   Please choose:
+   1. Switch to project analysis (Phase 0-B)
+   2. Switch to manual input mode (Phase 1)
+   3. Discuss agent more and retry
    ```
 
 ---
 
-### Phase 0-B: 프로젝트 분석 (옵션 2 선택 시)
+### Phase 0-B: Project Analysis (When Option 2 Selected)
 
-**⚠️ 중요**: 사용자가 "프로젝트 분석"을 선택한 경우에만 실행됩니다.
+**⚠️ Important**: Execute only when user selects "Analyze Project".
 
-**수행 작업**:
+**Tasks to Perform**:
 
-1. **프로젝트 메타 정보 분석**
+1. **Analyze Project Meta Information**
    ```bash
-   # 패키지 매니저 파일 검색
+   # Search for package manager files
    find . -maxdepth 2 -type f \( -name "package.json" -o -name "requirements.txt" -o -name "pom.xml" -o -name "build.gradle" -o -name "Gemfile" -o -name "go.mod" \)
    ```
 
-2. **언어 및 프레임워크 감지**
-   - **JavaScript/TypeScript**: package.json → React/Vue/Angular/Express 확인
-   - **Python**: requirements.txt/pyproject.toml → Django/Flask/FastAPI 확인
-   - **Java**: pom.xml/build.gradle → Spring/Quarkus 확인
-   - **Ruby**: Gemfile → Rails 확인
-   - **Go**: go.mod → Gin/Echo 확인
+2. **Detect Language and Framework**
+   - **JavaScript/TypeScript**: package.json → Check React/Vue/Angular/Express
+   - **Python**: requirements.txt/pyproject.toml → Check Django/Flask/FastAPI
+   - **Java**: pom.xml/build.gradle → Check Spring/Quarkus
+   - **Ruby**: Gemfile → Check Rails
+   - **Go**: go.mod → Check Gin/Echo
 
-3. **에이전트 타입 및 이름 추천**
+3. **Recommend Agent Type and Name**
 
-   **JavaScript/TypeScript 프로젝트**:
-   - eslint-enforcer (Specialist) - ESLint 규칙 자동 적용
-   - typescript-reviewer (Analyst) - TypeScript 코드 품질 검증
-   - npm-release-manager (Orchestrator) - npm 패키지 릴리스 관리
+   **JavaScript/TypeScript Projects**:
+   - eslint-enforcer (Specialist) - Auto-apply ESLint rules
+   - typescript-reviewer (Analyst) - TypeScript code quality verification
+   - npm-release-manager (Orchestrator) - npm package release management
 
-   **Python 프로젝트**:
-   - black-formatter (Specialist) - Black 포맷터 자동 실행
-   - pytest-coordinator (Analyst) - pytest 테스트 조율 및 분석
-   - pypi-publisher (Orchestrator) - PyPI 패키지 배포 관리
+   **Python Projects**:
+   - black-formatter (Specialist) - Auto-run Black formatter
+   - pytest-coordinator (Analyst) - pytest test coordination and analysis
+   - pypi-publisher (Orchestrator) - PyPI package deployment management
 
-   **Java 프로젝트**:
-   - checkstyle-enforcer (Specialist) - Checkstyle 규칙 검증
-   - spring-security-auditor (Analyst) - Spring 보안 감사
-   - maven-build-manager (Orchestrator) - Maven 빌드 및 배포
+   **Java Projects**:
+   - checkstyle-enforcer (Specialist) - Checkstyle rule verification
+   - spring-security-auditor (Analyst) - Spring security audit
+   - maven-build-manager (Orchestrator) - Maven build and deployment
 
-   **범용 에이전트 추천**:
-   - code-reviewer (Analyst) - 코드 품질 종합 검증
-   - test-runner (Specialist) - 테스트 실행 및 보고
-   - release-manager (Orchestrator) - 릴리스 프로세스 관리
+   **General Agent Recommendations**:
+   - code-reviewer (Analyst) - Comprehensive code quality verification
+   - test-runner (Specialist) - Test execution and reporting
+   - release-manager (Orchestrator) - Release process management
 
-4. **분석 결과 요약**
+4. **Summarize Analysis Results**
    ```
-   📊 프로젝트 분석 완료!
+   📊 Project Analysis Complete!
 
-   🔍 감지된 환경:
-   - 언어: TypeScript, Python
-   - 프레임워크: React, FastAPI
-   - 도구: eslint, pytest, docker
-   - Git: 저장소 활성화
+   🔍 Detected Environment:
+   - Language: TypeScript, Python
+   - Framework: React, FastAPI
+   - Tools: eslint, pytest, docker
+   - Git: Repository active
 
-   💡 추천 에이전트 (프로젝트 기반):
+   💡 Recommended Agents (Project-based):
    1. typescript-reviewer (Analyst)
-      - 역할: TypeScript 코드 품질 검증
-      - 도구: Read, Grep, Bash
-      - 이유: TypeScript 프로젝트 감지
+      - Role: TypeScript code quality verification
+      - Tools: Read, Grep, Bash
+      - Reason: TypeScript project detected
 
    2. eslint-enforcer (Specialist)
-      - 역할: ESLint 규칙 자동 적용
-      - 도구: Read, Write, Bash
-      - 이유: package.json에 eslint 설정 발견
+      - Role: Auto-apply ESLint rules
+      - Tools: Read, Write, Bash
+      - Reason: eslint configuration found in package.json
 
    3. pytest-coordinator (Analyst)
-      - 역할: pytest 테스트 조율 및 분석
-      - 도구: Read, Bash
-      - 이유: Python 프로젝트에 pytest 발견
+      - Role: pytest test coordination and analysis
+      - Tools: Read, Bash
+      - Reason: pytest found in Python project
 
-   이제 추천 내용을 바탕으로 에이전트를 생성합니다.
+   Now creating agent based on recommendations.
    ```
 
-**프로젝트 메타 정보가 불충분한 경우**:
+**When Project Meta Information is Insufficient**:
    ```
-   ⚠️ 프로젝트 분석 결과
+   ⚠️ Project Analysis Result
 
-   프로젝트 메타 파일을 찾을 수 없거나 표준적인 구조가 아닙니다.
-   (감지된 파일: {파일_목록})
+   Project meta files not found or structure is non-standard.
+   (Detected files: {file_list})
 
-   다음 중 선택해주세요:
-   1. 대화 내용 분석으로 전환 (Phase 0-A)
-   2. 직접 입력 모드로 전환 (Phase 1)
-   3. 프로젝트 구조 설명 후 다시 시도
+   Please choose:
+   1. Switch to conversation analysis (Phase 0-A)
+   2. Switch to manual input mode (Phase 1)
+   3. Explain project structure and retry
    ```
 
 ---
 
-### 옵션 3 선택 시: 직접 입력 모드
+### When Option 3 Selected: Manual Input Mode
 
-**⚠️ 중요**: 사용자가 "직접 입력"을 선택한 경우 Phase 0를 완전히 건너뜁니다.
+**⚠️ Important**: When user selects "Manual Input", completely skip Phase 0.
 
 ```
-📊 직접 입력 모드로 시작합니다.
+📊 Starting in manual input mode.
 
-ℹ️ 자동 추천 없이 모든 정보를 수동으로 입력합니다.
+ℹ️ All information will be entered manually without auto-recommendations.
 
-💡 이 모드가 적합한 경우:
-   - 특수한 워크플로우나 커스텀 에이전트
-   - 명확한 아이디어가 이미 있는 경우
-   - 표준적이지 않은 사용 사례
+💡 This mode is suitable when:
+   - Special workflows or custom agents
+   - You already have a clear idea
+   - Non-standard use cases
 
-이제 Phase 1로 진행합니다.
+Now proceeding to Phase 1.
 ```
 
 ---
 
-### Phase 1: 타입 및 기본 정보 수집
+### Phase 1: Type and Basic Information Collection
 
-**선택한 옵션에 따라 추천 모드 또는 직접 입력 모드로 진행합니다.**
+**Proceed in recommendation mode or manual input mode based on selected option.**
 
-**질문 1: 에이전트 타입 선택**
+**Question 1: Select Agent Type**
 
-**A. 추천 모드 (옵션 1 또는 2 선택 시)**:
+**A. Recommendation Mode (When Option 1 or 2 Selected)**:
 ```
-질문: "분석 결과를 바탕으로 다음 타입을 추천합니다. 선택해주세요."
+Question: "Based on analysis results, we recommend the following type. Please select."
 
-추천 타입: {분석된_타입} ({이유})
-  예: Analyst (대화에서 "코드 리뷰" 패턴 발견)
-      Specialist (프로젝트에 eslint 설정 존재)
+Recommended Type: {analyzed_type} ({reason})
+  Example: Analyst (Found "code review" pattern in conversation)
+          Specialist (eslint configuration exists in project)
 
-선택지:
-  - {추천_타입} (추천) - {타입_설명}
-  - Specialist - 단일 작업 전문 (100-300단어)
-  - Analyst - 분석/리뷰 전문 (300-800단어)
-  - Orchestrator - 복잡한 워크플로우 (800-2000+단어)
-```
-
-**B. 직접 입력 모드 (옵션 3 선택 시)**:
-```
-질문: "생성할 에이전트의 타입을 선택해주세요"
-
-선택지:
-  1. Specialist - 단일 작업 특화 (100-300 단어)
-  2. Analyst - 분석/리뷰 (300-800 단어)
-  3. Orchestrator - 복잡한 워크플로우 (800-2000+ 단어)
-
-💡 각 타입의 상세 설명과 예시: @shared/agent/type-system.md
+Options:
+  - {recommended_type} (Recommended) - {type_description}
+  - Specialist - Single task specialist (100-300 words)
+  - Analyst - Analysis/review specialist (300-800 words)
+  - Orchestrator - Complex workflow (800-2000+ words)
 ```
 
-**타입 선택 후 템플릿 로드**:
+**B. Manual Input Mode (When Option 3 Selected)**:
+```
+Question: "Please select the type of agent to create"
+
+Options:
+  1. Specialist - Single task focused (100-300 words)
+  2. Analyst - Analysis/review (300-800 words)
+  3. Orchestrator - Complex workflow (800-2000+ words)
+
+💡 Detailed description and examples for each type: @shared/agent/type-system.md
+```
+
+**Load Template After Type Selection**:
 ```bash
-# 선택한 타입에 맞는 템플릿 읽기
-Read @shared/agent/templates/{선택한_타입}-template.md
+# Read template matching selected type
+Read @shared/agent/templates/{selected_type}-template.md
 ```
 
 ---
 
-**질문 2: 에이전트 이름**
+**Question 2: Agent Name**
 
-**A. 추천 모드 (옵션 1 또는 2 선택 시)**:
+**A. Recommendation Mode (When Option 1 or 2 Selected)**:
 ```
-질문: "분석 결과를 바탕으로 다음 이름을 추천합니다. 선택하거나 직접 입력해주세요."
+Question: "Based on analysis results, we recommend the following names. Select or enter manually."
 
-선택지:
-  - {추천_이름_1} (추천) - {추천_이유_1}
-    예: code-reviewer (대화에서 "코드 리뷰" 반복 언급)
-  - {추천_이름_2} - {추천_이유_2}
-    예: eslint-enforcer (프로젝트에 eslint 설정 발견)
-  - {추천_이름_3} - {추천_이유_3}
-    예: test-coordinator (pytest 사용 감지)
-  - 직접 입력하기
+Options:
+  - {recommended_name_1} (Recommended) - {recommendation_reason_1}
+    Example: code-reviewer (Repeated mention of "code review" in conversation)
+  - {recommended_name_2} - {recommendation_reason_2}
+    Example: eslint-enforcer (eslint configuration found in project)
+  - {recommended_name_3} - {recommendation_reason_3}
+    Example: test-coordinator (pytest usage detected)
+  - Enter manually
 ```
 
-**B. 직접 입력 모드 (옵션 3 선택 시)**:
+**B. Manual Input Mode (When Option 3 Selected)**:
 ```
-질문: "에이전트 이름을 입력해주세요 (kebab-case)"
+Question: "Please enter agent name (kebab-case)"
 
-형식: kebab-case (소문자, 하이픈만 사용)
-예시:
+Format: kebab-case (lowercase, hyphen only)
+Examples:
   - code-reviewer
   - security-auditor
   - release-manager
   - eslint-enforcer
 
-검증:
-  - 정규식: ^[a-z]+(-[a-z]+)*$
-  - 길이: 3-50자
-  - 형식이 올바르지 않으면 재질문
+Validation:
+  - Regex: ^[a-z]+(-[a-z]+)*$
+  - Length: 3-50 characters
+  - Re-prompt if format is incorrect
 ```
 
 ---
 
-**질문 3: 역할 설명 (description)**
+**Question 3: Role Description (description)**
 
-**A. 추천 모드 (옵션 1 또는 2 선택 시)**:
+**A. Recommendation Mode (When Option 1 or 2 Selected)**:
 ```
-질문: "분석 결과를 바탕으로 생성된 설명입니다. 어떻게 하시겠습니까?"
+Question: "Here is the description generated based on analysis results. What would you like to do?"
 
-자동 생성 설명:
-"{분석된_역할_설명}"
-  예: "TypeScript와 Python 코드의 품질, 보안, 성능을 종합적으로 검증하는 전문 리뷰어"
+Auto-generated description:
+"{analyzed_role_description}"
+  Example: "Expert reviewer that comprehensively verifies TypeScript and Python code quality, security, and performance"
 
-선택지:
-  - 그대로 사용
-  - 수정하기
+Options:
+  - Use as is
+  - Modify
 
-"수정하기" 선택 시:
-  - 현재 설명을 기본값으로 제공
-  - 사용자가 편집할 수 있도록 텍스트 입력 제공
+When "Modify" selected:
+  - Provide current description as default value
+  - Allow user to edit with text input
 ```
 
-**B. 직접 입력 모드 (옵션 3 선택 시)**:
+**B. Manual Input Mode (When Option 3 Selected)**:
 ```
-질문: "에이전트의 역할을 간단히 설명해주세요 (10-500자)"
+Question: "Please briefly describe the agent's role (10-500 characters)"
 
-형식: 1-2문장의 명확한 설명
-예시:
-  - "TypeScript와 Python 코드의 품질, 보안, 성능을 종합적으로 검증하는 전문 리뷰어"
-  - "ESLint 규칙을 자동으로 적용하고 코드 스타일을 일관성있게 유지하는 포맷터"
+Format: Clear description in 1-2 sentences
+Examples:
+  - "Expert reviewer that comprehensively verifies TypeScript and Python code quality, security, and performance"
+  - "Formatter that automatically applies ESLint rules and maintains consistent code style"
 
-검증:
-  - 길이: 10-500자
-  - 비어있지 않음
+Validation:
+  - Length: 10-500 characters
+  - Not empty
 ```
 
 ---
 
-**질문 4: 전문 분야 정의 (선택, Analyst/Orchestrator만)**
+**Question 4: Define Expertise Areas (Optional, Analyst/Orchestrator only)**
 
-**Specialist 타입이면 이 질문 건너뜀**
+**Skip this question for Specialist type**
 
 ```
-질문: "에이전트의 전문 분야를 입력해주세요 (3-5개)"
+Question: "Please enter the agent's expertise areas (3-5 items)"
 
-형식: 각 줄에 하나씩 입력
-예시 (Analyst - Code Reviewer):
+Format: One per line
+Example (Analyst - Code Reviewer):
   - Code Quality: Readability, maintainability, SOLID principles
   - Security: OWASP Top 10, input validation, authentication
   - Performance: Algorithm efficiency, resource usage
   - Best Practices: Framework conventions, design patterns
 
-예시 (Orchestrator - Release Manager):
+Example (Orchestrator - Release Manager):
   - Version management and semantic versioning
   - Automated changelog generation
   - Build and artifact management
@@ -392,36 +392,36 @@ Read @shared/agent/templates/{선택한_타입}-template.md
 
 ---
 
-### Phase 2: 도구 및 권한 설정
+### Phase 2: Tool and Permission Configuration
 
-**질문 5: 허용 도구 선택**
+**Question 5: Select Allowed Tools**
 
-**A. 추천 모드 (옵션 1 또는 2 선택 시)**:
+**A. Recommendation Mode (When Option 1 or 2 Selected)**:
 ```
-질문: "역할 분석 결과, 다음 도구가 필요합니다. 확인해주세요."
+Question: "Based on role analysis, the following tools are needed. Please confirm."
 
-추천 도구:
-  - Read (코드 읽기) ✅ 필수
-  - {추가_도구_1} ✅ 권장
-    예: Grep (패턴 검색, 코드 리뷰에 유용)
-  - {추가_도구_2} ⚠️ 선택
-    예: Bash (도구 실행, 필요시만)
+Recommended Tools:
+  - Read (Read code) ✅ Required
+  - {additional_tool_1} ✅ Recommended
+    Example: Grep (Pattern search, useful for code review)
+  - {additional_tool_2} ⚠️ Optional
+    Example: Bash (Tool execution, only when needed)
 
-선택지:
-  - 추천된 도구만 사용
-  - 도구 추가
-  - 도구 제거
-  - 모든 도구 허용 (tools 필드 생략, 권장하지 않음)
+Options:
+  - Use only recommended tools
+  - Add tools
+  - Remove tools
+  - Allow all tools (omit tools field, not recommended)
 ```
 
-**B. 직접 입력 모드 (옵션 3 선택 시)**:
+**B. Manual Input Mode (When Option 3 Selected)**:
 ```
-질문: "에이전트가 사용할 도구를 선택해주세요 (다중 선택 가능)"
+Question: "Please select tools for the agent to use (multiple selection possible)"
 
-📚 사용 가능한 도구:
+📚 Available Tools:
   Read, Write, Edit, Bash, Grep, Glob, WebFetch, WebSearch
 
-선택지 (다중 선택):
+Options (Multiple selection):
   - Read
   - Write
   - Edit
@@ -430,71 +430,71 @@ Read @shared/agent/templates/{선택한_타입}-template.md
   - Glob
   - WebFetch
   - WebSearch
-  - 모든 도구 허용 (권장하지 않음)
+  - Allow all tools (not recommended)
 
-💡 각 도구의 상세 설명, 사용법, 최소 권한 원칙: @shared/agent/available-tools.md
+💡 Detailed description, usage, principle of least privilege for each tool: @shared/agent/available-tools.md
 ```
 
-**도구 선택 후 검증**: 역할과 도구의 적합성 자동 검사
-- Specialist 포맷터에 Grep 불필요 → 경고
-- Analyst 리뷰어에 Write 부적절 → 경고
-- 타입별 권장 도구 조합과 비교
+**Validation After Tool Selection**: Auto-check role and tool suitability
+- Grep unnecessary for Specialist formatter → Warning
+- Write inappropriate for Analyst reviewer → Warning
+- Compare with recommended tool combinations per type
 
-💡 상세 검증 규칙: @shared/agent/available-tools.md
+💡 Detailed validation rules: @shared/agent/available-tools.md
 
 ---
 
-**질문 6: 모델 선택**
+**Question 6: Select Model**
 
 ```
-질문: "에이전트가 사용할 모델을 선택해주세요"
+Question: "Please select the model for the agent to use"
 
-선택지:
-  - inherit (기본, 추천) - 메인 대화와 동일한 모델 사용
-  - sonnet - Claude Sonnet 4.5 (균형잡힌 성능)
-  - opus - Claude Opus (최고 품질, 비쌈)
-  - haiku - Claude Haiku (빠름, 저렴)
+Options:
+  - inherit (Default, recommended) - Use same model as main conversation
+  - sonnet - Claude Sonnet 4.5 (Balanced performance)
+  - opus - Claude Opus (Highest quality, expensive)
+  - haiku - Claude Haiku (Fast, cheap)
 
-💡 타입별 권장 모델, 상세 비교, 선택 가이드: @shared/agent/model-selection-guide.md
+💡 Recommended model per type, detailed comparison, selection guide: @shared/agent/model-selection-guide.md
 ```
 
 ---
 
-### Phase 3: 시스템 프롬프트 작성
+### Phase 3: System Prompt Writing
 
-**이 Phase에서는 타입별로 다른 질문 세트를 사용합니다.**
+**This Phase uses different question sets for each type.**
 
-#### 공통 질문
+#### Common Questions
 
-**질문 7: 트리거 조건**
+**Question 7: Trigger Conditions**
 
-**A. 추천 모드 (옵션 1 또는 2 선택 시)**:
+**A. Recommendation Mode (When Option 1 or 2 Selected)**:
 ```
-질문: "분석 결과에서 추출한 트리거 조건입니다. 확인하고 추가하시겠습니까?"
+Question: "Here are the trigger conditions extracted from analysis. Would you like to confirm and add more?"
 
-추출된 트리거:
-  - {트리거_1}
-  - {트리거_2}
-  - {트리거_3}
+Extracted Triggers:
+  - {trigger_1}
+  - {trigger_2}
+  - {trigger_3}
 
-선택지:
-  - 이대로 사용
-  - 트리거 추가
-  - 전체 수정
+Options:
+  - Use as is
+  - Add triggers
+  - Modify all
 ```
 
-**B. 직접 입력 모드 (옵션 3 선택 시)**:
+**B. Manual Input Mode (When Option 3 Selected)**:
 ```
-질문: "에이전트가 자동으로 실행될 조건(트리거)을 입력해주세요 (3-5개)"
+Question: "Please enter conditions (triggers) for automatic agent execution (3-5 items)"
 
-형식: 각 줄에 하나씩
-예시 (Code Reviewer):
+Format: One per line
+Example (Code Reviewer):
   - PR creation or update
   - User requests "review this code"
   - Files with .ts, .tsx, .py extensions modified
   - Explicit: "Use the code-reviewer subagent"
 
-예시 (ESLint Enforcer):
+Example (ESLint Enforcer):
   - User mentions "lint", "eslint", "format code"
   - .ts or .js files are modified
   - Explicit request: "run eslint"
@@ -502,21 +502,21 @@ Read @shared/agent/templates/{선택한_타입}-template.md
 
 ---
 
-**질문 8: 경계 조건 (Will / Will Not)**
+**Question 8: Boundary Conditions (Will / Will Not)**
 
 ```
-질문: "에이전트가 수행할 작업(Will)을 입력해주세요 (3-5개)"
+Question: "Please enter tasks the agent WILL perform (3-5 items)"
 
-형식: 각 줄에 하나씩
-예시:
+Format: One per line
+Examples:
   - Analyze code thoroughly
   - Provide specific, actionable feedback
   - Reference best practices and standards
 
-질문: "에이전트가 수행하지 않을 작업(Will Not)을 입력해주세요 (2-4개)"
+Question: "Please enter tasks the agent WILL NOT perform (2-4 items)"
 
-형식: 각 줄에 하나씩
-예시:
+Format: One per line
+Examples:
   - Modify code directly (analysis only)
   - Execute potentially dangerous code
   - Access external APIs without permission
@@ -524,157 +524,157 @@ Read @shared/agent/templates/{선택한_타입}-template.md
 
 ---
 
-#### Specialist 전용 질문
+#### Specialist-only Questions
 
-**질문 9-S: 행동 지침 (Behavioral Guidelines)**
-
-```
-질문: "에이전트의 실행 단계를 간단히 정의해주세요 (3-4단계)"
-
-형식:
-  1. **단계명**: 설명
-  2. **단계명**: 설명
-
-예시 (ESLint Enforcer):
-  1. **Read**: 대상 파일을 읽어 현재 위반 사항 파악
-  2. **Execute**: `npx eslint --fix {file}` 명령 실행
-  3. **Report**: 수정된 내용과 남은 문제 보고
-  4. **Never**: 사용자 이해 없이 파일 수정 금지
-```
-
-**질문 10-S: 출력 형식**
+**Question 9-S: Behavioral Guidelines**
 
 ```
-질문: "에이전트의 출력 형식을 정의해주세요"
+Question: "Please briefly define the agent's execution steps (3-4 steps)"
 
-선택지:
-  - Simple List - 간단한 목록
-  - Structured Report - 구조화된 보고서
-  - Custom Format - 직접 정의
+Format:
+  1. **Step Name**: Description
+  2. **Step Name**: Description
 
-"Custom Format" 선택 시:
-  출력 예시를 입력해주세요 (코드 블록 형태)
+Example (ESLint Enforcer):
+  1. **Read**: Read target file to identify current violations
+  2. **Execute**: Run `npx eslint --fix {file}` command
+  3. **Report**: Report modifications and remaining issues
+  4. **Never**: Do not modify files without user understanding
+```
+
+**Question 10-S: Output Format**
+
+```
+Question: "Please define the agent's output format"
+
+Options:
+  - Simple List - Simple list format
+  - Structured Report - Structured report
+  - Custom Format - Define yourself
+
+When "Custom Format" selected:
+  Please enter output example (in code block format)
 ```
 
 ---
 
-#### Analyst 전용 질문
+#### Analyst-only Questions
 
-**질문 9-A: 분석 프로세스 (Analysis Process)**
+**Question 9-A: Analysis Process**
 
 ```
-질문: "분석 프로세스를 단계별로 정의해주세요 (4-5 Phase)"
+Question: "Please define the analysis process step-by-step (4-5 Phases)"
 
-형식:
-  ### Phase 1: {Phase명}
-  {Phase 설명}
+Format:
+  ### Phase 1: {Phase name}
+  {Phase description}
 
-  1. **{단계}**: {설명}
-  2. **{단계}**: {설명}
+  1. **{step}**: {description}
+  2. **{step}**: {description}
 
-예시 (Code Reviewer):
+Example (Code Reviewer):
   ### Phase 1: Initial Assessment
-  파일을 읽고 변경 사항의 목적과 범위를 파악합니다.
+  Read files and understand the purpose and scope of changes.
 
-  1. **Read**: 모든 변경된 파일 읽기
-  2. **Identify**: 변경 목적 파악 (feature, bugfix, refactor)
-  3. **Categorize**: 변경 사항 분류
+  1. **Read**: Read all modified files
+  2. **Identify**: Identify change purpose (feature, bugfix, refactor)
+  3. **Categorize**: Categorize changes
 
   ### Phase 2: Detailed Analysis
-  보안, 성능, 품질, 스타일 관점에서 상세 분석을 수행합니다.
+  Perform detailed analysis from security, performance, quality, and style perspectives.
 
-  1. **Security**: 취약점 스캔
-  2. **Performance**: 알고리즘 복잡도 분석
-  3. **Quality**: 코드 구조 및 네이밍 검토
+  1. **Security**: Scan vulnerabilities
+  2. **Performance**: Analyze algorithm complexity
+  3. **Quality**: Review code structure and naming
 ```
 
-**질문 10-A: 분석 기준 (Analysis Standards)**
+**Question 10-A: Analysis Standards**
 
 ```
-질문: "분석 결과의 심각도 기준을 정의해주세요"
+Question: "Please define severity criteria for analysis results"
 
-형식:
-  - **심각도명**: 기준 설명
+Format:
+  - **Severity Name**: Criteria description
 
-예시:
+Example:
   - **Critical**: Security vulnerabilities, data loss risks
   - **High**: Performance issues, major bugs
   - **Medium**: Code smells, maintainability issues
   - **Low**: Style inconsistencies, minor improvements
 ```
 
-**질문 11-A: 출력 형식**
+**Question 11-A: Output Format**
 
 ```
-질문: "분석 결과 보고서 형식을 선택해주세요"
+Question: "Please select analysis result report format"
 
-선택지:
-  - Standard Report (권장) - Summary + 심각도별 이슈 + 권장사항
-  - Detailed Analysis - 각 파일별 상세 분석
-  - Custom Format - 직접 정의
+Options:
+  - Standard Report (Recommended) - Summary + Issues by severity + Recommendations
+  - Detailed Analysis - Detailed analysis per file
+  - Custom Format - Define yourself
 ```
 
 ---
 
-#### Orchestrator 전용 질문
+#### Orchestrator-only Questions
 
-**질문 9-O: 워크플로우 Phase 정의**
+**Question 9-O: Define Workflow Phases**
 
 ```
-질문: "워크플로우를 Phase로 나누어 정의해주세요 (4-6 Phase)"
+Question: "Please define the workflow divided into Phases (4-6 Phases)"
 
-각 Phase에 대해:
-  - Phase 이름
-  - Phase 설명
-  - 주요 단계 (3-5개)
-  - 검증 조건 (2-3개)
-  - 에러 처리 방법
+For each Phase:
+  - Phase name
+  - Phase description
+  - Main steps (3-5 items)
+  - Validation conditions (2-3 items)
+  - Error handling method
 
-형식:
-  ### Phase 1: {Phase명}
-  {상세 설명}
+Format:
+  ### Phase 1: {Phase name}
+  {Detailed description}
 
   **Steps:**
-  1. {단계_1}
-  2. {단계_2}
+  1. {step_1}
+  2. {step_2}
 
   **Validation:**
-  - {검증_1}
-  - {검증_2}
+  - {validation_1}
+  - {validation_2}
 
   **Error Handling:**
-  - If {에러}: {처리}
+  - If {error}: {handling}
 
-예시 (Release Manager):
+Example (Release Manager):
   ### Phase 1: Pre-Release Validation
-  릴리스 전 코드베이스가 준비되었는지 검증합니다.
+  Verify that the codebase is ready before release.
 
   **Steps:**
-  1. Git 상태 확인 (미커밋 변경사항 검사)
-  2. 모든 테스트 실행 및 통과 확인
-  3. 보안 취약점 검사
+  1. Check Git status (check for uncommitted changes)
+  2. Run and verify all tests pass
+  3. Check for security vulnerabilities
 
   **Validation:**
-  - 모든 테스트 100% 통과
-  - 치명적 보안 취약점 0개
+  - All tests 100% pass
+  - 0 critical security vulnerabilities
 
   **Error Handling:**
   - If tests fail: ABORT release, report failures
   - If security issues: PAUSE for review
 ```
 
-**질문 10-O: 도구 조율 (Tool Coordination)**
+**Question 10-O: Tool Coordination**
 
 ```
-질문: "각 도구를 어떻게 사용할지 정의해주세요"
+Question: "Please define how each tool will be used"
 
-Primary Tools (주요 도구):
-  - {도구명}: {사용 목적 및 방법}
+Primary Tools (Main tools):
+  - {tool_name}: {purpose and usage}
 
-Secondary Tools (보조 도구):
-  - {도구명}: {사용 목적 및 방법}
+Secondary Tools (Supporting tools):
+  - {tool_name}: {purpose and usage}
 
-예시:
+Example:
   Primary Tools:
   - Bash: Execute build, test, and deployment commands
   - Read: Check configuration files, version files
@@ -684,15 +684,15 @@ Secondary Tools (보조 도구):
   - Grep: Search for TODOs, validate commits
 ```
 
-**질문 11-O: 에러 처리 전략**
+**Question 11-O: Error Handling Strategy**
 
 ```
-질문: "주요 에러 시나리오와 처리 방법을 정의해주세요 (3-5개)"
+Question: "Please define major error scenarios and handling methods (3-5 items)"
 
-형식:
-  - **{에러_타입}**: {복구_전략}
+Format:
+  - **{error_type}**: {recovery_strategy}
 
-예시:
+Example:
   - **Build Failures**: ABORT release, report errors
   - **Deployment Failures**: Automatic rollback to previous version
   - **Test Failures**: ABORT, fix tests before retry
@@ -701,128 +701,128 @@ Secondary Tools (보조 도구):
 
 ---
 
-### Phase 4: 파일 생성 및 검증
+### Phase 4: File Generation and Validation
 
-**1. 파일 생성**
+**1. File Generation**
 
-수집한 정보를 바탕으로 다음 파일을 생성합니다:
+Generate the following file based on collected information:
 
 ```
 .claude/agents/{agent-name}.md
 ```
 
-**생성 프로세스**:
+**Generation Process**:
 
-1. **디렉토리 확인/생성**
+1. **Check/Create Directory**
    ```bash
    mkdir -p .claude/agents
    ```
 
-2. **Frontmatter 작성**
+2. **Write Frontmatter**
    ```yaml
    ---
    name: {agent-name}
    description: "{description}"
-   tools: {selected-tools}  # 쉼표로 구분, 또는 생략
+   tools: {selected-tools}  # Comma-separated, or omit
    model: {selected-model}
    ---
    ```
 
-   💡 타입별 Frontmatter 예시: @shared/agent/examples/frontmatter-examples.md
+   💡 Frontmatter examples per type: @shared/agent/examples/frontmatter-examples.md
 
-3. **시스템 프롬프트 작성** (타입별로 다른 구조)
+3. **Write System Prompt** (Different structure per type)
 
-   타입별로 최적화된 구조를 사용합니다:
-   - **Specialist**: Role → Triggers → Behavioral Guidelines (3-4단계) → Output Format → Boundaries
+   Use optimized structure per type:
+   - **Specialist**: Role → Triggers → Behavioral Guidelines (3-4 steps) → Output Format → Boundaries
    - **Analyst**: Role → Expertise Areas → Triggers → Analysis Process → Output Format → Analysis Standards → Boundaries
    - **Orchestrator**: Role → Responsibilities → Triggers → Workflow Phases → Tool Coordination → Error Handling → Boundaries
 
-   💡 타입별 완전한 구조와 예시: @shared/agent/templates/{타입}-template.md
+   💡 Complete structure and examples per type: @shared/agent/templates/{type}-template.md
 
-4. **파일 저장**
+4. **Save File**
    ```bash
    Write .claude/agents/{agent-name}.md
    ```
 
 ---
 
-**2. 검증 실행**
+**2. Run Validation**
 
-파일 생성 후 자동 검증을 수행합니다.
+Perform automatic validation after file generation.
 
-📚 **검증 기준 상세**: @shared/agent/validation-criteria.md
+📚 **Detailed Validation Criteria**: @shared/agent/validation-criteria.md
 
-**검증 항목**: 구조(20점), Frontmatter(20점), 프롬프트 품질(30점), 도구 적합성(15점), 전문성 일치(10점), 완성도(5점)
+**Validation Items**: Structure (20 points), Frontmatter (20 points), Prompt quality (30 points), Tool suitability (15 points), Expertise alignment (10 points), Completeness (5 points)
 
-**검증 결과 리포트**:
+**Validation Result Report**:
 ```
-✅ 에이전트 검증 완료!
+✅ Agent validation complete!
 
-📊 품질 점수: {점수}/100 ({등급})
+📊 Quality Score: {score}/100 ({grade})
 
-✅ 통과한 검증:
-- 파일 위치 및 이름 형식 완벽
-- Frontmatter 필드 모두 올바름
-- 트리거 조건 구체적 (4개)
-- 시스템 프롬프트 상세함
+✅ Passed Validations:
+- File location and name format perfect
+- All Frontmatter fields correct
+- Trigger conditions specific (4 items)
+- System prompt detailed
 
-⚠️ 개선 가능한 부분:
-- 단어 수: {실제_단어수} ({타입} 권장: {범위})
-- 출력 형식 예시를 더 구체화하면 좋습니다
+⚠️ Areas for Improvement:
+- Word count: {actual_word_count} ({type} recommended: {range})
+- Output format examples could be more specific
 
-💡 평가:
-{등급} 등급 - {평가_코멘트}
+💡 Evaluation:
+{grade} Grade - {evaluation_comment}
 ```
 
 ---
 
-**3. 사용자 안내**
+**3. User Guidance**
 
 ```
-✅ 서브 에이전트가 성공적으로 생성되었습니다!
+✅ Sub-agent successfully created!
 
-📂 위치: .claude/agents/{agent-name}.md
-📊 품질 점수: {점수}/100 ({등급})
+📂 Location: .claude/agents/{agent-name}.md
+📊 Quality Score: {score}/100 ({grade})
 
-📖 다음 단계:
+📖 Next Steps:
 
-1. 즉시 사용 가능
-   - Claude가 자동으로 감지하여 적절한 시점에 실행합니다
-   - 특정 트리거 조건이 충족되면 활성화됩니다
+1. Ready to Use Immediately
+   - Claude will automatically detect and execute at appropriate times
+   - Activated when specific trigger conditions are met
 
-2. 명시적 호출
-   "Use the {agent-name} subagent to {작업}"
+2. Explicit Invocation
+   "Use the {agent-name} subagent to {task}"
 
-   예시:
+   Example:
    "Use the code-reviewer subagent to analyze this TypeScript file"
 
-3. 에이전트 수정
-   .claude/agents/{agent-name}.md 파일을 직접 편집하여 개선할 수 있습니다
+3. Modify Agent
+   You can improve by directly editing .claude/agents/{agent-name}.md file
 
-4. 테스트 방법
-   - 트리거 조건을 만족하는 요청을 해보세요
-   - 예: "{트리거_예시}"
+4. How to Test
+   - Make a request that satisfies trigger conditions
+   - Example: "{trigger_example}"
 
-💡 팁:
-- 에이전트는 독립적인 컨텍스트를 가지므로 여러 에이전트를 동시에 사용할 수 있습니다
-- 팀과 공유하려면 .claude/agents/ 디렉토리를 Git에 커밋하세요
-- 사용자 레벨 에이전트는 ~/.claude/agents/에 저장하면 모든 프로젝트에서 사용 가능합니다
+💡 Tips:
+- Agents have independent contexts, so you can use multiple agents simultaneously
+- To share with team, commit .claude/agents/ directory to Git
+- User-level agents stored in ~/.claude/agents/ are available across all projects
 
-🧪 테스트 예제:
-{타입별_테스트_예제}
+🧪 Test Examples:
+{type_specific_test_examples}
 
-📚 참고 문서:
-- 서브 에이전트 공식 문서: https://docs.claude.com/en/docs/claude-code/sub-agents
-- 템플릿 가이드: plugins/agent-creator/shared/templates/
-- 검증 기준: plugins/agent-creator/shared/validation-criteria.md
+📚 Reference Documentation:
+- Sub-agent official documentation: https://docs.claude.com/en/docs/claude-code/sub-agents
+- Template guide: plugins/agent-creator/shared/templates/
+- Validation criteria: plugins/agent-creator/shared/validation-criteria.md
 ```
 
-**타입별 테스트 예제**:
+**Test Examples Per Type**:
 
 ```yaml
 Specialist:
   - "Please run {agent-name} on src/app.ts"
-  - "{트리거_키워드} this file"
+  - "{trigger_keyword} this file"
 
 Analyst:
   - "Use {agent-name} to review this code"
@@ -835,152 +835,152 @@ Orchestrator:
 
 ---
 
-## 성공 기준
+## Success Criteria
 
-- ✅ 프로젝트 메타 정보를 분석하여 언어/프레임워크 감지
-- ✅ 대화 패턴에서 반복 작업을 식별하여 에이전트 추천
-- ✅ 추천된 내용을 사용자에게 선택지로 제시
-- ✅ 사용자가 추천 내용을 선택하거나 수정 가능
-- ✅ 타입별로 적절한 템플릿 적용
-- ✅ 입력된 정보가 유효성 검사 통과
-- ✅ 표준 구조의 서브 에이전트 `.md` 파일 생성
-- ✅ Frontmatter와 모든 필수 섹션 포함
-- ✅ 생성된 에이전트가 즉시 사용 가능
-- ✅ 사용자에게 명확한 다음 단계 안내 제공
-
----
-
-## 에러 처리
-
-### 잘못된 에이전트 이름
-
-```
-❌ 입력된 이름이 올바른 형식이 아닙니다.
-📝 에이전트 이름은 kebab-case 형식이어야 합니다.
-   예: code-reviewer, security-auditor, release-manager
-
-재입력해주세요:
-```
-
-### 이미 존재하는 에이전트
-
-```
-⚠️ 같은 이름의 에이전트가 이미 존재합니다.
-📂 위치: .claude/agents/{agent-name}.md
-
-다음 중 선택해주세요:
-1. 다른 이름 사용
-2. 기존 에이전트 덮어쓰기 (기존 내용 손실)
-3. 취소
-```
-
-### 필수 정보 누락
-
-```
-⚠️ 필수 정보가 입력되지 않았습니다.
-📋 다음 정보를 입력해주세요: {누락된_필드}
-```
-
-### 도구 권한 경고
-
-```
-⚠️ 보안 경고: 선택한 도구가 에이전트 역할에 과도합니다.
-
-에이전트 역할: 코드 분석 (읽기 전용)
-선택한 도구: Read, Write, Bash
-
-권장사항:
-  - Write 권한이 필요한가요? 분석 작업은 일반적으로 읽기 전용입니다.
-  - 최소 권한 원칙: Read, Grep만으로 충분할 수 있습니다.
-
-계속 진행하시겠습니까?
-1. 권장 도구 사용 (Read, Grep)
-2. 선택한 도구 유지
-```
+- ✅ Analyze project meta information to detect language/framework
+- ✅ Identify repetitive tasks from conversation patterns to recommend agents
+- ✅ Present recommendations to user as choices
+- ✅ Allow user to select or modify recommendations
+- ✅ Apply appropriate templates per type
+- ✅ Entered information passes validation
+- ✅ Generate sub-agent `.md` file with standard structure
+- ✅ Include Frontmatter and all required sections
+- ✅ Generated agent is immediately usable
+- ✅ Provide clear next step guidance to user
 
 ---
 
-## 주의사항
+## Error Handling
 
-1. **진행 상황 추적**:
-   - 각 Phase 시작 시 "✅ Phase X 완료 → 🔄 Phase Y 시작" 형식으로 안내
-   - 전체 프로세스 중 현재 위치를 명확히 표시
-   - 예시:
+### Invalid Agent Name
+
+```
+❌ Entered name is not in correct format.
+📝 Agent name must be in kebab-case format.
+   Example: code-reviewer, security-auditor, release-manager
+
+Please re-enter:
+```
+
+### Agent Already Exists
+
+```
+⚠️ An agent with the same name already exists.
+📂 Location: .claude/agents/{agent-name}.md
+
+Please choose:
+1. Use different name
+2. Overwrite existing agent (lose existing content)
+3. Cancel
+```
+
+### Missing Required Information
+
+```
+⚠️ Required information not entered.
+📋 Please enter the following information: {missing_fields}
+```
+
+### Tool Permission Warning
+
+```
+⚠️ Security Warning: Selected tools are excessive for agent role.
+
+Agent Role: Code analysis (read-only)
+Selected Tools: Read, Write, Bash
+
+Recommendations:
+  - Do you need Write permission? Analysis tasks are typically read-only.
+  - Principle of least privilege: Read, Grep alone may be sufficient.
+
+Continue?
+1. Use recommended tools (Read, Grep)
+2. Keep selected tools
+```
+
+---
+
+## Important Notes
+
+1. **Track Progress**:
+   - Notify at start of each Phase in format "✅ Phase X Complete → 🔄 Phase Y Starting"
+   - Clearly indicate current position in overall process
+   - Example:
      ```
-     ✅ Phase 1 완료 → 🔄 Phase 2 시작: 도구 및 권한 설정
+     ✅ Phase 1 Complete → 🔄 Phase 2 Starting: Tool and Permission Configuration
 
-     📊 진행 상황: 2/5 Phase 완료
+     📊 Progress Status: 2/5 Phases Complete
      ```
 
-2. **생성 방식 선택 (질문 0)**:
-   - 커맨드 시작 시 사용자가 명시적으로 선택
-   - 옵션 1 (대화 분석) → Phase 0-A 실행
-   - 옵션 2 (프로젝트 분석) → Phase 0-B 실행
-   - 옵션 3 (직접 입력) → Phase 0 건너뛰고 Phase 1로 이동
+2. **Creation Method Selection (Question 0)**:
+   - User explicitly selects at command start
+   - Option 1 (Conversation Analysis) → Execute Phase 0-A
+   - Option 2 (Project Analysis) → Execute Phase 0-B
+   - Option 3 (Manual Input) → Skip Phase 0 and move to Phase 1
 
-3. **모드별 질문 방식**:
-   - **추천 모드**: 분석 결과를 선택지로 제시
-   - **직접 입력 모드**: 예시와 함께 입력 요청
+3. **Question Method Per Mode**:
+   - **Recommendation Mode**: Present analysis results as options
+   - **Manual Input Mode**: Request input with examples
 
-4. **AskUserQuestion 필수 사용**: 모든 정보 수집은 AskUserQuestion 도구 통해 진행
+4. **Mandatory AskUserQuestion Usage**: All information gathering proceeds through AskUserQuestion tool
 
-5. **Write 도구 사용**: 에이전트 파일 생성 시 Write 도구 사용
+5. **Write Tool Usage**: Use Write tool when creating agent file
 
-6. **Bash 도구 사용**: 디렉토리 생성 시 `mkdir -p` 명령 사용
+6. **Bash Tool Usage**: Use `mkdir -p` command when creating directory
 
-7. **검증 필수**: 파일 생성 후 반드시 validation-criteria.md 기준으로 검증
+7. **Validation Required**: Must validate against validation-criteria.md criteria after file creation
 
-8. **검증 리포트**: 검증 결과를 간단히 요약하여 사용자에게 제공
+8. **Validation Report**: Provide brief summary of validation results to user
 
-9. **친절한 피드백**: 각 단계마다 진행 상황 안내
+9. **Friendly Feedback**: Notify progress at each step
 
-10. **분석 결과 공유**: Phase 0 완료 시 발견된 패턴 요약 제시
+10. **Share Analysis Results**: Present summary of discovered patterns upon Phase 0 completion
 
-11. **타입별 차별화**: Specialist/Analyst/Orchestrator에 맞는 질문과 템플릿 사용
+11. **Type-based Differentiation**: Use appropriate questions and templates for Specialist/Analyst/Orchestrator
 
-12. **보안 고려**: 도구 권한이 과도하면 경고 표시
+12. **Security Consideration**: Display warning if tool permissions are excessive
 
-13. **테스트 안내**: 생성 후 구체적인 테스트 예제 제공
+13. **Test Guidance**: Provide specific test examples after generation
 
 ---
 
 ## Tool Coordination
 
 ### Primary Tools
-- **AskUserQuestion**: 모든 정보 수집 (타입, 이름, 설명, 도구, 트리거, 경계 조건 등)
-- **Bash**: 디렉토리 생성, 프로젝트 메타 파일 검색
-- **Read**: 템플릿 파일 읽기, 기존 에이전트 확인, 검증 기준 읽기
-- **Write**: 에이전트 파일 생성
-- **Grep**: 대화 패턴 검색 (선택), 프로젝트 도구 감지 (선택)
+- **AskUserQuestion**: All information gathering (type, name, description, tools, triggers, boundary conditions, etc.)
+- **Bash**: Create directory, search project meta files
+- **Read**: Read template files, check existing agents, read validation criteria
+- **Write**: Create agent file
+- **Grep**: Search conversation patterns (optional), detect project tools (optional)
 
 ### Secondary Tools
-- **Glob**: 프로젝트 파일 패턴 검색 (언어 감지용)
+- **Glob**: Search project file patterns (for language detection)
 
 ---
 
 ## Boundaries
 
 **Will:**
-- 프로젝트 컨텍스트를 분석하여 적합한 에이전트 추천
-- 대화 패턴에서 반복 작업을 식별하여 역할 제안
-- 타입별로 최적화된 템플릿 적용
-- 사용자 입력을 검증하고 올바른 형식 안내
-- `.claude/agents/` 디렉토리에 표준 구조의 파일 생성
-- Frontmatter와 시스템 프롬프트 품질 검증
-- 구체적인 사용 방법과 테스트 예제 제공
-- 보안 위험(과도한 도구 권한) 경고
+- Analyze project context to recommend suitable agents
+- Identify repetitive tasks from conversation patterns to suggest roles
+- Apply type-optimized templates
+- Validate user input and guide to correct format
+- Create files with standard structure in `.claude/agents/` directory
+- Validate Frontmatter and system prompt quality
+- Provide specific usage methods and test examples
+- Warn about security risks (excessive tool permissions)
 
 **Will Not:**
-- 사용자 확인 없이 기존 에이전트 덮어쓰기
-- 검증 실패 시에도 강제로 파일 생성
-- 부적절한 도구 권한 조합 허용 (경고 없이)
-- validation-criteria.md 기준을 무시
-- 에이전트 실행 또는 테스트 (생성만 담당)
-- 프로젝트 외부 디렉토리에 파일 생성
+- Overwrite existing agents without user confirmation
+- Force file creation even when validation fails
+- Allow inappropriate tool permission combinations (without warning)
+- Ignore validation-criteria.md standards
+- Execute or test agents (only responsible for creation)
+- Create files outside project directory
 
 **Safety Checks:**
-- 에이전트 이름 형식 검증 (kebab-case)
-- 도구 권한 적합성 검증 (역할 대비)
-- Frontmatter 필수 필드 확인
-- 파일 덮어쓰기 전 사용자 확인
-- 생성 후 품질 점수 계산 및 보고
+- Validate agent name format (kebab-case)
+- Validate tool permission suitability (relative to role)
+- Check Frontmatter required fields
+- User confirmation before file overwrite
+- Calculate and report quality score after creation

@@ -1,118 +1,118 @@
 # Orchestrator Agent Template
 
-**타입**: Orchestrator (조율자)
-**복잡도**: 높음
-**권장 단어 수**: 800-2000+ 단어
-**용도**: 복잡한 다단계 워크플로우를 조율하고 관리하는 에이전트
+**Type**: Orchestrator
+**Complexity**: High
+**Recommended Word Count**: 800-2000+ words
+**Purpose**: Agent that orchestrates and manages complex multi-step workflows
 
 ---
 
-## 템플릿 구조
+## Template Structure
 
 ```markdown
 ---
 name: {agent-name}
-description: "{10-500자 설명}"
-tools: {워크플로우에_필요한_모든_도구}
+description: "{10-500 character description}"
+tools: {all_tools_needed_for_workflow}
 model: sonnet
 ---
 
 # {Agent Name}
 
-{에이전트의 조율 역할과 책임을 2-3문장으로 설명}
+{Describe agent's orchestration role and responsibilities in 2-3 sentences}
 
 ## Role
-{상세한 역할 및 책임, 관리하는 워크플로우 설명}
+{Detailed role and responsibilities, description of workflows managed}
 
 ## Responsibilities
-- {책임_1}
-- {책임_2}
-- {책임_3}
-- {책임_4}
-- {책임_5}
+- {responsibility_1}
+- {responsibility_2}
+- {responsibility_3}
+- {responsibility_4}
+- {responsibility_5}
 
 ## Triggers
-- {자동_실행_조건_1}
-- {자동_실행_조건_2}
-- {명시적_호출_패턴}
+- {auto_execution_condition_1}
+- {auto_execution_condition_2}
+- {explicit_invocation_pattern}
 
 ## Workflow Phases
 
-### Phase 1: {Phase명}
-{Phase 상세 설명}
+### Phase 1: {phase_name}
+{Detailed phase description}
 
 **Steps:**
-1. {단계_1_설명}
-2. {단계_2_설명}
-3. {단계_3_설명}
+1. {step_1_description}
+2. {step_2_description}
+3. {step_3_description}
 
 **Validation:**
-- {검증_조건_1}
-- {검증_조건_2}
+- {validation_condition_1}
+- {validation_condition_2}
 
 **Error Handling:**
-- If {에러_조건}: {처리_방법}
+- If {error_condition}: {handling_method}
 
-### Phase 2: {Phase명}
-{Phase 상세 설명}
+### Phase 2: {phase_name}
+{Detailed phase description}
 
 **Steps:**
-1. {단계_1_설명}
-2. {단계_2_설명}
+1. {step_1_description}
+2. {step_2_description}
 
 **Conditions:**
-- If {조건_1}: {동작_1}
-- If {조건_2}: {동작_2}
+- If {condition_1}: {action_1}
+- If {condition_2}: {action_2}
 
-### Phase 3: {Phase명}
+### Phase 3: {phase_name}
 ...
 
-### Phase 4: {Phase명}
+### Phase 4: {phase_name}
 ...
 
 ## Tool Coordination
 
 ### Primary Tools
-- **{도구명}**: {사용_목적_및_방법}
-- **{도구명}**: {사용_목적_및_방법}
+- **{tool_name}**: {usage_purpose_and_method}
+- **{tool_name}**: {usage_purpose_and_method}
 
 ### Secondary Tools
-- **{도구명}**: {사용_목적_및_방법}
+- **{tool_name}**: {usage_purpose_and_method}
 
 ## Output Format
 ```
-{상세한_진행_상황_보고_템플릿}
+{detailed_progress_report_template}
 ```
 
 ## Error Handling
-- **{에러_타입_1}**: {복구_전략}
-- **{에러_타입_2}**: {복구_전략}
-- **Critical Failures**: {중단_조건_및_알림}
+- **{error_type_1}**: {recovery_strategy}
+- **{error_type_2}**: {recovery_strategy}
+- **Critical Failures**: {abort_conditions_and_alerts}
 
 ## Boundaries
 
 **Will:**
-- {수행할_워크플로우_1}
-- {수행할_워크플로우_2}
-- {수행할_워크플로우_3}
+- {workflow_to_perform_1}
+- {workflow_to_perform_2}
+- {workflow_to_perform_3}
 
 **Will Not:**
-- {금지_작업_1}
-- {금지_작업_2}
+- {prohibited_task_1}
+- {prohibited_task_2}
 
 **Safety Checks:**
-- {안전_검사_1}
-- {안전_검사_2}
+- {safety_check_1}
+- {safety_check_2}
 ```
 
 ---
 
-## 실제 예시: Release Manager
+## Real Example: Release Manager
 
 ```markdown
 ---
 name: release-manager
-description: "버전 관리부터 배포까지 전체 릴리스 프로세스를 조율하고 관리하는 릴리스 오케스트레이터"
+description: "Release orchestrator that coordinates and manages the entire release process from version management to deployment"
 tools: Read,Write,Bash,Grep
 model: sonnet
 ---
@@ -524,14 +524,14 @@ Failing Tests:
 
 ---
 
-## 다른 Orchestrator 예시
+## Other Orchestrator Examples
 
 ### 1. CI/CD Pipeline Manager
 
 ```markdown
 ---
 name: ci-cd-manager
-description: "지속적 통합과 배포 파이프라인을 관리하고 각 단계를 조율하는 CI/CD 오케스트레이터"
+description: "CI/CD orchestrator that manages continuous integration and deployment pipelines and coordinates each stage"
 tools: Bash,Read,Write,Grep
 model: sonnet
 ---
@@ -583,7 +583,7 @@ Orchestrate complete CI/CD pipelines from code commit to production deployment.
 ```markdown
 ---
 name: migration-coordinator
-description: "데이터베이스 스키마 마이그레이션과 데이터 이전을 안전하게 조율하는 마이그레이션 관리자"
+description: "Migration manager that safely coordinates database schema migrations and data transfers"
 tools: Bash,Read,Write
 model: sonnet
 ---
@@ -627,48 +627,48 @@ Safely coordinate database migrations and data transfers.
 
 ---
 
-## Orchestrator 에이전트 작성 팁
+## Orchestrator Agent Writing Tips
 
 ### ✅ Do's
-- **명확한 Phase 구분**: 각 Phase의 목적과 순서를 명확히
-- **상세한 에러 처리**: 각 실패 시나리오에 대한 복구 전략
-- **진행 상황 보고**: 실시간 상태 업데이트
-- **안전 장치**: 롤백, 백업, 검증 포인트
-- **조건부 실행**: if-then-else 로직 명확히
+- **Clear Phase Separation**: Clearly define purpose and sequence of each phase
+- **Detailed Error Handling**: Recovery strategy for each failure scenario
+- **Progress Reporting**: Real-time status updates
+- **Safety Measures**: Rollback, backup, validation points
+- **Conditional Execution**: Clear if-then-else logic
 
 ### ❌ Don'ts
-- 단순 작업 (Specialist 사용)
-- 에러 처리 생략
-- 모호한 워크플로우
-- 안전 검사 누락
-- 과도한 자동화 (수동 승인 필요한 부분)
+- Simple tasks (use Specialist)
+- Omit error handling
+- Vague workflows
+- Skip safety checks
+- Excessive automation (when manual approval needed)
 
-### 적합한 사용 사례
-- CI/CD 파이프라인
-- 릴리스 관리
-- 데이터베이스 마이그레이션
-- 복잡한 배포 프로세스
-- 다중 환경 동기화
-- 시스템 초기화/설정
+### Suitable Use Cases
+- CI/CD pipelines
+- Release management
+- Database migrations
+- Complex deployment processes
+- Multi-environment synchronization
+- System initialization/setup
 
-### 부적합한 사용 사례
-- 단순 코드 포맷팅 (Specialist)
-- 코드 리뷰 (Analyst)
-- 단일 명령 실행
+### Unsuitable Use Cases
+- Simple code formatting (Specialist)
+- Code review (Analyst)
+- Single command execution
 
 ---
 
-## 품질 체크리스트
+## Quality Checklist
 
-생성한 Orchestrator 에이전트가 다음을 만족하는지 확인하세요:
+Verify that your created Orchestrator agent satisfies the following:
 
-- [ ] 800-2000+ 단어 범위
-- [ ] 4-6개의 명확한 Phase
-- [ ] 각 Phase별 상세 단계 (3-5단계)
-- [ ] 조건부 실행 로직
-- [ ] 포괄적 에러 처리
-- [ ] 롤백 메커니즘
-- [ ] 안전 검사 포함
-- [ ] 실시간 진행 상황 보고
-- [ ] 도구 조율 섹션
-- [ ] 검증 및 복구 전략
+- [ ] 800-2000+ word range
+- [ ] 4-6 clear phases
+- [ ] Detailed steps per phase (3-5 steps)
+- [ ] Conditional execution logic
+- [ ] Comprehensive error handling
+- [ ] Rollback mechanism
+- [ ] Safety checks included
+- [ ] Real-time progress reporting
+- [ ] Tool coordination section
+- [ ] Validation and recovery strategy

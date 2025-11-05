@@ -1,75 +1,75 @@
-### 6. 유지보수 원칙
+### 6. Maintenance Principles
 
-#### Code For The Maintainer (유지보수자를 위한 코딩)
+#### Code For The Maintainer
 
-**정의**: 6개월 후의 자신이나 다른 개발자가 코드를 이해할 수 있도록 작성하세요.
+**Definition**: Write code so that yourself in 6 months or another developer can understand it.
 
-**실천 방법**:
-1. **명확한 네이밍**: 변수, 메서드, 클래스 이름을 의미있게
-2. **주석의 적절한 사용**: "왜"를 설명하는 주석
-3. **일관성 유지**: 코딩 스타일과 패턴을 일관되게
-4. **복잡도 관리**: 복잡한 로직은 여러 메서드로 분리
+**Best Practices**:
+1. **Clear Naming**: Meaningful variable, method, and class names
+2. **Appropriate Comments**: Comments that explain "why"
+3. **Maintain Consistency**: Consistent coding style and patterns
+4. **Manage Complexity**: Split complex logic into multiple methods
 
-**Principle of Least Astonishment (최소 놀람의 원칙)**:
-코드가 예상한 대로 동작해야 하며, 놀라운 동작을 해서는 안 됩니다.
+**Principle of Least Astonishment**:
+Code should behave as expected, not surprisingly.
 
-#### Boy-Scout Rule (보이스카우트 규칙)
+#### Boy-Scout Rule
 
-**정의**: "캠핑장을 발견했을 때보다 더 깨끗하게 남겨두세요"
+**Definition**: "Leave the campground cleaner than you found it"
 
-**적용 방법**:
-- 코드를 수정할 때마다 주변 코드도 약간 개선
-- 변수명 개선, 작은 리팩토링, 주석 추가 등
-- 큰 리팩토링이 아닌 작은 개선을 지속적으로
+**How to Apply**:
+- Slightly improve surrounding code whenever modifying code
+- Improve variable names, small refactoring, add comments, etc.
+- Continuous small improvements rather than large refactoring
 
-#### Avoid Premature Optimization (조기 최적화 피하기)
+#### Avoid Premature Optimization
 
-**정의**: "조기 최적화는 만악의 근원이다" - Donald Knuth
+**Definition**: "Premature optimization is the root of all evil" - Donald Knuth
 
-**적용 방법**:
-1. **먼저 동작하게 만들기**: 올바른 코드를 먼저 작성
-2. **프로파일링**: 실제 병목 지점을 측정
-3. **필요한 곳만 최적화**: 측정 결과를 바탕으로
-4. **가독성 우선**: 명확한 코드가 빠른 코드보다 중요
+**How to Apply**:
+1. **Make it work first**: Write correct code first
+2. **Profiling**: Measure actual bottlenecks
+3. **Optimize only where needed**: Based on measurement results
+4. **Readability first**: Clear code is more important than fast code
 
 ---
 
-### 7. 고급 원칙
+### 7. Advanced Principles
 
-#### Inversion of Control (제어의 역전)
+#### Inversion of Control
 
-**정의**: 프레임워크가 애플리케이션의 흐름을 제어하는 설계 원칙입니다.
+**Definition**: A design principle where the framework controls the application flow.
 
-**종류**:
-1. **의존성 주입(DI)**: 의존성을 외부에서 주입
-2. **이벤트/콜백**: 프레임워크가 코드를 호출
-3. **템플릿 메서드**: 프레임워크가 알고리즘 구조를 제어
+**Types**:
+1. **Dependency Injection (DI)**: Inject dependencies from outside
+2. **Events/Callbacks**: Framework calls your code
+3. **Template Method**: Framework controls algorithm structure
 
-#### Command Query Separation (명령-쿼리 분리)
+#### Command Query Separation
 
-**정의**:
-- **Command (명령)**: 상태를 변경하지만 값을 반환하지 않음
-- **Query (쿼리)**: 값을 반환하지만 상태를 변경하지 않음
+**Definition**:
+- **Command**: Changes state but doesn't return a value
+- **Query**: Returns a value but doesn't change state
 
-**적용 예**:
+**Application Example**:
 ```java
-// ✅ CQS 준수
+// ✅ CQS Compliant
 public class Stack<T> {
     private List<T> items = new ArrayList<>();
 
-    // Command - 상태 변경, 반환 없음
+    // Command - Changes state, no return
     public void push(T item) {
         items.add(item);
     }
 
-    // Command - 상태 변경, 반환 없음
+    // Command - Changes state, no return
     public void pop() {
         if (!items.isEmpty()) {
             items.remove(items.size() - 1);
         }
     }
 
-    // Query - 상태 변경 없음, 값 반환
+    // Query - No state change, returns value
     public T peek() {
         if (items.isEmpty()) {
             return null;
@@ -77,46 +77,46 @@ public class Stack<T> {
         return items.get(items.size() - 1);
     }
 
-    // Query - 상태 변경 없음, 값 반환
+    // Query - No state change, returns value
     public boolean isEmpty() {
         return items.isEmpty();
     }
 }
 ```
 
-#### Robustness Principle (견고성 원칙) - Postel's Law
+#### Robustness Principle - Postel's Law
 
-**정의**: "보내는 것에는 보수적으로, 받는 것에는 자유롭게"
+**Definition**: "Be conservative in what you send, be liberal in what you accept"
 
-**의미**:
-- **출력**: 표준을 엄격히 준수하여 출력
-- **입력**: 다양한 형식의 입력을 관대하게 수용
+**Meaning**:
+- **Output**: Strictly adhere to standards for output
+- **Input**: Liberally accept various formats for input
 
-**적용 예**:
+**Application Example**:
 ```java
 public class DateParser {
-    // 다양한 날짜 형식을 받아들임 (자유롭게)
+    // Accept various date formats (liberally)
     public LocalDate parse(String dateString) {
-        // "2024-01-15", "01/15/2024", "15-Jan-2024" 등 다양한 형식 허용
+        // Allow various formats like "2024-01-15", "01/15/2024", "15-Jan-2024"
         try {
             return LocalDate.parse(dateString, DateTimeFormatter.ISO_DATE);
         } catch (DateTimeParseException e) {
             try {
                 return LocalDate.parse(dateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
             } catch (DateTimeParseException ex) {
-                // 다른 형식 시도...
+                // Try other formats...
             }
         }
         throw new IllegalArgumentException("Invalid date format");
     }
 
-    // 출력은 표준 형식으로 (보수적으로)
+    // Output in standard format (conservatively)
     public String format(LocalDate date) {
-        return date.format(DateTimeFormatter.ISO_DATE);  // 항상 "2024-01-15" 형식
+        return date.format(DateTimeFormatter.ISO_DATE);  // Always "2024-01-15" format
     }
 }
 ```
 
 ---
 
-[← 메인으로 돌아가기](../SKILL.md)
+[← Back to Main](../SKILL.md)

@@ -1,808 +1,808 @@
-# 커맨드 생성 커맨드 (Create Command)
+# Create Command
 
-이 커맨드는 Claude Code에서 사용할 수 있는 새로운 Slash 커맨드를 대화형으로 생성합니다.
+This command interactively creates a new Slash command that can be used in Claude Code.
 
-## 목적
+## Purpose
 
-사용자와 대화형으로 상호작용하며 표준화된 구조의 Slash 커맨드 파일을 자동으로 생성합니다. 복잡한 파일 구조를 수동으로 만들지 않고도 일관된 품질의 커맨드를 빠르게 작성할 수 있습니다.
+Creates a slash command file with a standardized structure through interactive user interaction. Enables rapid creation of consistent, high-quality commands without manually building complex file structures.
 
 ## Extended Thinking
 
-당신은 Slash 커맨드 생성 전문가로서 다음과 같이 동작합니다:
+You act as a Slash command creation expert with the following behavior:
 
-**📋 진행 상황 체크리스트**:
-- [ ] Phase 0: 대화 분석 및 워크플로우 추출 (조건부)
-- [ ] Phase 1: 기본 정보 수집 (이름, 설명)
-- [ ] Phase 2: 워크플로우 및 도구 정의 (Triggers, Flow, Tools, Boundaries)
-- [ ] Phase 3: 예제 문서화 (Usage, Examples)
-- [ ] Phase 4: 파일 생성 및 검증 (생성, 검증, 안내)
+**📋 Progress Checklist**:
+- [ ] Phase 0: Conversation analysis and workflow extraction (conditional)
+- [ ] Phase 1: Collect basic information (name, description)
+- [ ] Phase 2: Define workflow and tools (Triggers, Flow, Tools, Boundaries)
+- [ ] Phase 3: Document examples (Usage, Examples)
+- [ ] Phase 4: Create and validate file (generate, validate, guide)
 
-**🔄 진행 방식**:
-각 Phase를 시작할 때마다 다음과 같이 진행 상황을 안내합니다:
+**🔄 Progress Reporting**:
+At the start of each Phase, report progress as follows:
 ```
-✅ Phase X 완료 → 🔄 Phase Y 시작: [Phase 설명]
+✅ Phase X complete → 🔄 Phase Y starting: [Phase description]
 
-📊 진행 상황: X/5 Phase 완료
+📊 Progress: X/5 Phases complete
 ```
 
-**핵심 동작**:
-1. **대화 내용 분석**: 현재 세션의 대화 히스토리를 분석하여 워크플로우, 자동화 프로세스, 실행 단계를 추출합니다
-2. **지능형 추천**: 분석 결과를 바탕으로 커맨드 이름, 트리거, 실행 단계, 도구를 자동으로 제안합니다
-3. **대화형 정보 수집**: AskUserQuestion 도구를 활용하여 추천된 내용을 제시하고 사용자가 선택/수정하도록 합니다
-4. **입력 검증**: 사용자 입력이 유효한지 확인하고, 필요시 재질문합니다
-5. **구조화된 생성**: 표준 Slash 커맨드 템플릿을 사용하여 일관된 구조를 유지합니다
-6. **품질 보증**: 생성된 파일이 올바른 형식과 필수 섹션을 포함하는지 검증합니다
-7. **친절한 안내**: 생성 완료 후 사용 방법을 명확히 안내합니다
+**Core Actions**:
+1. **Conversation Analysis**: Analyze conversation history in the current session to extract workflows, automation processes, and execution steps
+2. **Intelligent Recommendations**: Automatically suggest command names, triggers, execution steps, and tools based on analysis results
+3. **Interactive Information Gathering**: Use AskUserQuestion tool to present recommendations and allow users to select/modify them
+4. **Input Validation**: Verify user input is valid and re-ask if necessary
+5. **Structured Generation**: Maintain consistent structure using standard Slash command templates
+6. **Quality Assurance**: Validate generated files contain correct format and required sections
+7. **Friendly Guidance**: Clearly guide usage after creation is complete
 
-## 실행 단계
+## Execution Steps
 
-### Phase 0: 대화 분석 및 워크플로우 추출 (조건부)
+### Phase 0: Conversation Analysis and Workflow Extraction (Conditional)
 
-**⚠️ 중요**: 현재 세션의 대화 내용이 충분하지 않은 경우 이 단계를 건너뛰고 **Phase 1**로 직접 이동합니다.
+**⚠️ Important**: If there is insufficient conversation content in the current session, skip this step and proceed directly to **Phase 1**.
 
-**대화 내용 충분성 판단 기준**:
-- 대화 메시지 수가 5개 미만인 경우 → Phase 0 건너뛰기
-- 기술적 내용이나 워크플로우가 전혀 없는 경우 → Phase 0 건너뛰기
-- 단순 인사나 질문만 있는 경우 → Phase 0 건너뛰기
+**Criteria for Sufficient Conversation Content**:
+- Fewer than 5 conversation messages → Skip Phase 0
+- No technical content or workflow → Skip Phase 0
+- Only greetings or simple questions → Skip Phase 0
 
-**대화 내용이 충분한 경우에만 다음을 수행합니다:**
+**Only perform the following if conversation content is sufficient:**
 
-1. **대화 히스토리 분석**
-   - 현재 세션에서 논의된 워크플로우와 자동화 프로세스 식별
-   - 실행 단계와 절차 추출
-   - 대화에서 언급된 도구와 명령어 수집
-   - 자동화가 필요한 작업과 조건 파악
+1. **Conversation History Analysis**
+   - Identify workflows and automation processes discussed in the current session
+   - Extract execution steps and procedures
+   - Collect tools and commands mentioned in conversation
+   - Identify tasks and conditions requiring automation
 
-2. **커맨드 메타데이터 자동 생성**
-   - **추천 커맨드 이름 (2-3개)**:
-     - 워크플로우 기반으로 kebab-case 형식의 이름 제안
-     - 예: "deploy-production", "run-tests", "code-review"
+2. **Automatic Command Metadata Generation**
+   - **Recommended Command Names (2-3)**:
+     - Suggest kebab-case format names based on workflow
+     - Examples: "deploy-production", "run-tests", "code-review"
 
-   - **자동 생성 설명**:
-     - 워크플로우 내용을 1-2문장으로 요약
-     - 커맨드의 목적과 실행 결과를 명확히 표현
+   - **Auto-Generated Description**:
+     - Summarize workflow content in 1-2 sentences
+     - Clearly express command purpose and execution results
 
-   - **트리거 조건 추출**:
-     - 대화에서 "~할 때", "~하면" 등의 조건 수집
-     - 자동 실행 시나리오 파악
+   - **Extracted Trigger Conditions**:
+     - Collect conditions like "when ~", "if ~" from conversation
+     - Identify automatic execution scenarios
 
-   - **실행 단계 정리** (Behavioral Flow):
-     - 대화에서 논의된 단계별 작업 순서 구조화
-     - 각 단계의 목적과 동작 명확화
+   - **Organized Execution Steps** (Behavioral Flow):
+     - Structure step-by-step work sequence discussed in conversation
+     - Clarify purpose and actions of each step
 
-   - **도구 사용 식별** (Tool Coordination):
-     - 대화에서 언급된 Bash 명령, 파일 작업 등 수집
-     - 필요한 도구 파악
+   - **Tool Usage Identification** (Tool Coordination):
+     - Collect Bash commands, file operations, etc. mentioned in conversation
+     - Identify required tools
 
-   - **경계 조건 파악** (Boundaries):
-     - 대화에서 "~해야 한다", "~하면 안 된다" 수집
-     - Will/Will Not 조건 명확화
+   - **Boundary Condition Identification** (Boundaries):
+     - Collect "must ~", "must not ~" from conversation
+     - Clarify Will/Will Not conditions
 
-3. **분석 결과 요약**
+3. **Analysis Results Summary**
    ```
-   📊 대화 분석 완료!
+   📊 Conversation analysis complete!
 
-   🔍 발견된 워크플로우:
-   - 주요 작업: {식별된_워크플로우}
-   - 실행 단계: {단계_수}단계
-   - 사용 도구: {도구_목록}
-   - 트리거 조건: {조건_수}개
+   🔍 Discovered workflows:
+   - Main tasks: {identified_workflow}
+   - Execution steps: {number_of_steps} steps
+   - Tools used: {tool_list}
+   - Trigger conditions: {number_of_conditions} conditions
 
-   💡 이제 추천 내용을 바탕으로 커맨드를 생성합니다.
-   ```
-
-**대화 내용이 불충분한 경우 안내**:
-   ```
-   📊 대화 내용 분석 결과
-
-   ℹ️ 현재 세션의 대화 내용이 부족하여 자동 추천이 어렵습니다.
-
-   💡 직접 입력 모드로 진행합니다.
-      - 모든 정보를 수동으로 입력해주세요
-      - 또는 커맨드 주제에 대해 먼저 대화를 나눈 후 다시 시도해보세요
+   💡 Now creating command based on recommendations.
    ```
 
-### Phase 1: 기본 정보 수집
+**Guidance for Insufficient Conversation Content**:
+   ```
+   📊 Conversation Content Analysis Results
 
-**Phase 0을 건너뛴 경우**: 추천 없이 직접 입력 받습니다.
-**Phase 0을 완료한 경우**: 추천된 내용을 제시하고 사용자가 선택/수정하도록 합니다.
+   ℹ️ Current session has insufficient conversation content for automatic recommendations.
 
-**질문 1 - 커맨드 타입 선택**
+   💡 Proceeding in manual input mode.
+      - Please enter all information manually
+      - Or discuss the command topic first and try again
+   ```
 
-커맨드의 복잡도에 맞는 타입을 선택합니다:
+### Phase 1: Collect Basic Information
+
+**If Phase 0 was skipped**: Collect direct input without recommendations.
+**If Phase 0 was completed**: Present recommended content and allow user to select/modify.
+
+**Question 1 - Select Command Type**
+
+Choose type matching command complexity:
 
 ```
-질문: "생성할 커맨드의 타입을 선택해주세요"
+Question: "Please select the type of command to create"
 
-선택지:
-  1. Simple Task (50-150 단어)
-     - 단일 작업, 간단한 자동화
-     - 예: 파일 포맷팅, 코드 정리, 단일 명령 실행
+Options:
+  1. Simple Task (50-150 words)
+     - Single task, simple automation
+     - Examples: file formatting, code cleanup, single command execution
 
-  2. Workflow Pipeline (150-400 단어)
-     - 다단계 워크플로우, 순차 실행
-     - 예: 빌드 → 테스트 → 배포, CI/CD 파이프라인
+  2. Workflow Pipeline (150-400 words)
+     - Multi-step workflow, sequential execution
+     - Examples: build → test → deploy, CI/CD pipeline
 
-  3. Complex Orchestration (400-800 단어)
-     - 복잡한 조건 분기, 여러 도구 조율
-     - 예: 다중 환경 배포, 복잡한 릴리스 프로세스
+  3. Complex Orchestration (400-800 words)
+     - Complex conditional branching, multiple tool coordination
+     - Examples: multi-environment deployment, complex release process
 ```
 
-**타입 선택 후 안내**:
+**Guidance After Type Selection**:
 ```
-✅ {선택한_타입} 타입으로 생성합니다.
-권장 단어 수: {범위}
-복잡도: {낮음/중간/높음}
+✅ Creating with {selected_type} type.
+Recommended word count: {range}
+Complexity: {low/medium/high}
 ```
 
 ---
 
-**질문 2 - 커맨드 이름 선택**
+**Question 2 - Select Command Name**
 
-**A. Phase 0을 완료한 경우 (추천 모드)**:
+**A. If Phase 0 completed (Recommendation mode)**:
 ```
-질문: "대화 분석을 바탕으로 다음 커맨드 이름을 추천합니다. 선택하거나 직접 입력해주세요."
-선택지:
-  - 옵션 1: {추천_이름_1} (워크플로우: {관련_작업_1})
-  - 옵션 2: {추천_이름_2} (워크플로우: {관련_작업_2})
-  - 옵션 3: {추천_이름_3} (워크플로우: {관련_작업_3})
-  - 옵션 4: 직접 입력하기
-```
-
-**B. Phase 0을 건너뛴 경우 (직접 입력 모드)**:
-```
-질문: "생성할 커맨드의 이름을 입력해주세요"
-- 형식: kebab-case (소문자, 하이픈만 사용)
-- 예: deploy-production, run-tests, code-review
-- 검증: 형식이 올바르지 않으면 재질문
+Question: "Based on conversation analysis, we recommend the following command names. Please select or enter your own."
+Options:
+  - Option 1: {recommended_name_1} (Workflow: {related_task_1})
+  - Option 2: {recommended_name_2} (Workflow: {related_task_2})
+  - Option 3: {recommended_name_3} (Workflow: {related_task_3})
+  - Option 4: Enter manually
 ```
 
----
-
-**질문 3 - 커맨드 설명**
-
-**A. Phase 0을 완료한 경우 (추천 모드)**:
+**B. If Phase 0 skipped (Manual input mode)**:
 ```
-질문: "다음은 대화 내용을 바탕으로 생성된 커맨드 설명입니다. 어떻게 하시겠습니까?"
-
-자동 생성된 설명 제시: "{분석된_설명}"
-
-선택지:
-  - 그대로 사용
-  - 수정하기
-
-만약 "수정하기"를 선택하면:
-  - 현재 설명을 기본값으로 제공
-  - 사용자가 편집할 수 있도록 텍스트 입력 제공
-```
-
-**B. Phase 0을 건너뛴 경우 (직접 입력 모드)**:
-```
-질문: "커맨드에 대한 간단한 설명을 입력해주세요 (1-2문장)"
-- 형식: 간결하고 명확한 설명
-- 예: "프로젝트를 빌드하고 production 환경에 배포하는 워크플로우"
-```
-
-### Phase 2: 워크플로우 및 도구 정의
-
-**이 Phase에서는 Triggers, Behavioral Flow, Tool Coordination, Boundaries를 모두 수집합니다.**
-**Phase 0 완료 여부에 따라 추천 모드 또는 직접 입력 모드로 진행합니다.**
-
-**질문 4 - Triggers (트리거 조건)**
-
-**A. Phase 0을 완료한 경우 (추천 모드)**:
-```
-질문: "대화에서 추출한 트리거 조건입니다. 확인하고 추가하시겠습니까?"
-
-추출된 트리거 목록:
-{자동_추출된_트리거_목록}
-
-선택지:
-  - 이대로 사용
-  - 트리거 추가
-  - 전체 수정
-
-추가 입력이 필요한 경우:
-  - 기존 트리거 유지하며 새 항목 추가
-  - 여러 줄 입력 가능
-```
-
-**B. Phase 0을 건너뛴 경우 (직접 입력 모드)**:
-```
-질문: "커맨드가 자동으로 실행될 조건(트리거)을 입력해주세요"
-- 형식: 목록 형태
-- 예:
-  - 배포 준비가 완료되었을 때
-  - production 브랜치에 머지되었을 때
-  - 릴리스 태그가 생성되었을 때
-```
-
-**질문 5 - Behavioral Flow (실행 단계)**
-
-**A. Phase 0을 완료한 경우 (추천 모드)**:
-```
-질문: "대화에서 파악한 실행 단계입니다. 확인하고 수정하시겠습니까?"
-
-추출된 실행 단계:
-{자동_정리된_실행_단계}
-
-선택지:
-  - 그대로 사용
-  - 단계 추가
-  - 전체 수정
-
-추가/수정 시:
-  - 기존 단계를 편집 가능한 형태로 제공
-  - 단계 번호와 설명 형식 안내
-```
-
-**B. Phase 0을 건너뛴 경우 (직접 입력 모드)**:
-```
-질문: "커맨드의 실행 단계를 입력해주세요"
-- 형식:
-  1. **단계명**: 단계 설명
-  2. **단계명**: 단계 설명
-- 예:
-  1. **검증**: 배포 전 조건 확인 (테스트 통과, 브랜치 확인)
-  2. **빌드**: 프로젝트 빌드 및 최적화
-  3. **테스트**: 빌드된 결과물 검증
-  4. **배포**: production 서버에 배포
-```
-
-**질문 6 - Boundaries (경계 정의)**
-
-**A. Phase 0을 완료한 경우 (추천 모드)**:
-```
-질문: "대화에서 식별한 경계 조건입니다. 확인하고 추가하시겠습니까?"
-
-Will (수행할 작업):
-{자동_수집된_Will_목록}
-
-Will Not (수행하지 않을 작업):
-{자동_수집된_WillNot_목록}
-
-선택지:
-  - 그대로 사용
-  - 항목 추가
-  - 수정하기
-
-추가 시:
-  - 기존 항목 유지
-  - 새 항목을 목록 형태로 입력
-```
-
-**B. Phase 0을 건너뛴 경우 (직접 입력 모드)**:
-```
-질문: "커맨드가 수행할 작업(Will)을 입력해주세요"
-- 형식: 목록 형태
-- 예:
-  - 프로젝트를 빌드합니다
-  - 테스트를 실행하고 결과를 확인합니다
-  - production 서버에 배포합니다
-
-질문: "커맨드가 수행하지 않을 작업(Will Not)을 입력해주세요"
-- 형식: 목록 형태
-- 예:
-  - 테스트가 실패하면 배포하지 않습니다
-  - 수동 승인 없이 자동 배포하지 않습니다
-  - 롤백 작업은 수행하지 않습니다
-```
-
-**질문 7 - Tool Coordination (도구 사용)**
-
-**A. Phase 0을 완료한 경우 (추천 모드)**:
-```
-질문: "대화에서 식별한 사용 도구입니다. 확인해주세요."
-
-추출된 도구 목록:
-{자동_식별된_도구_목록}
-
-선택지:
-  - 모두 포함
-  - 선택적으로 포함
-  - 도구 추가
-
-도구 추가 시:
-  - 도구 이름과 사용 목적 입력
-```
-
-**B. Phase 0을 건너뛴 경우 (직접 입력 모드)**:
-```
-질문: "커맨드에서 사용할 도구를 선택해주세요"
-- 형식: 도구명: 사용 목적
-- 예:
-  - Bash: 빌드 스크립트 실행 및 배포 명령 수행
-  - Read: 설정 파일 읽기 및 환경 변수 확인
-  - Write: 배포 로그 작성
+Question: "Please enter the command name to create"
+- Format: kebab-case (lowercase, hyphens only)
+- Examples: deploy-production, run-tests, code-review
+- Validation: Re-ask if format is incorrect
 ```
 
 ---
 
-### Phase 3: 예제 문서화
+**Question 3 - Command Description**
 
-**이 Phase에서는 Usage와 Examples를 수집합니다.**
-
-**질문 8 - Usage (사용법)**
-
-**A. Phase 0을 완료한 경우 (추천 모드)**:
+**A. If Phase 0 completed (Recommendation mode)**:
 ```
-질문: "대화를 바탕으로 사용법을 생성했습니다. 확인해주세요."
+Question: "Here is the command description generated from conversation content. What would you like to do?"
 
-자동 생성된 사용법:
-{생성된_사용법_예시}
+Present auto-generated description: "{analyzed_description}"
 
-선택지:
-  - 그대로 사용
-  - 수정하기
+Options:
+  - Use as is
+  - Modify
+
+If "Modify" is selected:
+  - Provide current description as default
+  - Allow text input for user editing
 ```
 
-**B. Phase 0을 건너뛴 경우 (직접 입력 모드)**:
+**B. If Phase 0 skipped (Manual input mode)**:
 ```
-질문: "커맨드의 사용법을 입력해주세요"
-- 형식:
-  /{커맨드명} [arguments] [--flags]
-- 예:
+Question: "Please enter a brief description of the command (1-2 sentences)"
+- Format: Concise and clear description
+- Example: "Workflow for building project and deploying to production environment"
+```
+
+### Phase 2: Define Workflow and Tools
+
+**In this Phase, collect all of Triggers, Behavioral Flow, Tool Coordination, and Boundaries.**
+**Proceed in recommendation mode or manual input mode depending on Phase 0 completion.**
+
+**Question 4 - Triggers (Trigger Conditions)**
+
+**A. If Phase 0 completed (Recommendation mode)**:
+```
+Question: "Here are the trigger conditions extracted from conversation. Would you like to review and add more?"
+
+Extracted trigger list:
+{auto_extracted_trigger_list}
+
+Options:
+  - Use as is
+  - Add triggers
+  - Modify all
+
+If additional input needed:
+  - Keep existing triggers and add new items
+  - Multi-line input allowed
+```
+
+**B. If Phase 0 skipped (Manual input mode)**:
+```
+Question: "Please enter conditions (triggers) for automatic command execution"
+- Format: List format
+- Examples:
+  - When deployment is ready
+  - When merged to production branch
+  - When release tag is created
+```
+
+**Question 5 - Behavioral Flow (Execution Steps)**
+
+**A. If Phase 0 completed (Recommendation mode)**:
+```
+Question: "Here are the execution steps identified from conversation. Would you like to review and modify?"
+
+Extracted execution steps:
+{auto_organized_execution_steps}
+
+Options:
+  - Use as is
+  - Add steps
+  - Modify all
+
+When adding/modifying:
+  - Provide existing steps in editable format
+  - Guide step numbering and description format
+```
+
+**B. If Phase 0 skipped (Manual input mode)**:
+```
+Question: "Please enter the execution steps for the command"
+- Format:
+  1. **Step name**: Step description
+  2. **Step name**: Step description
+- Examples:
+  1. **Validation**: Pre-deployment condition check (tests passed, branch verified)
+  2. **Build**: Build and optimize project
+  3. **Test**: Validate build artifacts
+  4. **Deploy**: Deploy to production server
+```
+
+**Question 6 - Boundaries (Boundary Definition)**
+
+**A. If Phase 0 completed (Recommendation mode)**:
+```
+Question: "Here are the boundary conditions identified from conversation. Would you like to review and add more?"
+
+Will (Tasks to perform):
+{auto_collected_will_list}
+
+Will Not (Tasks not to perform):
+{auto_collected_will_not_list}
+
+Options:
+  - Use as is
+  - Add items
+  - Modify
+
+When adding:
+  - Keep existing items
+  - Enter new items in list format
+```
+
+**B. If Phase 0 skipped (Manual input mode)**:
+```
+Question: "Please enter tasks the command Will perform"
+- Format: List format
+- Examples:
+  - Build the project
+  - Run tests and verify results
+  - Deploy to production server
+
+Question: "Please enter tasks the command Will Not perform"
+- Format: List format
+- Examples:
+  - Will not deploy if tests fail
+  - Will not auto-deploy without manual approval
+  - Will not perform rollback operations
+```
+
+**Question 7 - Tool Coordination (Tool Usage)**
+
+**A. If Phase 0 completed (Recommendation mode)**:
+```
+Question: "Here are the tools identified from conversation. Please review."
+
+Extracted tool list:
+{auto_identified_tool_list}
+
+Options:
+  - Include all
+  - Include selectively
+  - Add tools
+
+When adding tools:
+  - Enter tool name and usage purpose
+```
+
+**B. If Phase 0 skipped (Manual input mode)**:
+```
+Question: "Please select tools to use in the command"
+- Format: tool_name: usage purpose
+- Examples:
+  - Bash: Execute build scripts and deployment commands
+  - Read: Read configuration files and verify environment variables
+  - Write: Write deployment logs
+```
+
+---
+
+### Phase 3: Document Examples
+
+**In this Phase, collect Usage and Examples.**
+
+**Question 8 - Usage (How to Use)**
+
+**A. If Phase 0 completed (Recommendation mode)**:
+```
+Question: "Based on conversation, we've generated usage instructions. Please review."
+
+Auto-generated usage:
+{generated_usage_example}
+
+Options:
+  - Use as is
+  - Modify
+```
+
+**B. If Phase 0 skipped (Manual input mode)**:
+```
+Question: "Please enter usage instructions for the command"
+- Format:
+  /{command-name} [arguments] [--flags]
+- Example:
   /deploy-production --env=prod --confirm
 ```
 
-**질문 9 - Examples (사용 예제)**
+**Question 9 - Examples (Usage Examples)**
 
-**A. Phase 0을 완료한 경우 (추천 모드)**:
+**A. If Phase 0 completed (Recommendation mode)**:
 ```
-질문: "대화에서 발견한 사용 예제입니다. 확인해주세요."
+Question: "Here are usage examples found in conversation. Please review."
 
-발견된 예제 개수: {예제_개수}개
+Number of examples found: {number_of_examples}
 
-각 예제에 대해:
-  - 예제 제목: {자동_생성된_제목}
-  - 사용법: {추출된_사용법}
-  - 설명: {추출된_설명}
+For each example:
+  - Example title: {auto_generated_title}
+  - Usage: {extracted_usage}
+  - Description: {extracted_description}
 
-선택지:
-  - 모두 포함
-  - 선택적으로 포함
-  - 예제 추가
-  - 예제 제외
+Options:
+  - Include all
+  - Include selectively
+  - Add examples
+  - Exclude examples
 ```
 
-**B. Phase 0을 건너뛴 경우 (직접 입력 모드)**:
+**B. If Phase 0 skipped (Manual input mode)**:
 ```
-질문: "사용 예제를 추가하시겠습니까?"
+Question: "Would you like to add usage examples?"
 
-선택지:
-  - 예 (예제 작성)
-  - 아니오 (기본 예제만 포함)
+Options:
+  - Yes (write examples)
+  - No (include default examples only)
 
-만약 "예"를 선택하면:
-  예제 제목, 사용법, 설명 입력 요청
+If "Yes" is selected:
+  Request example title, usage, and description
 ```
 
 ---
 
-### Phase 4: 파일 생성 및 검증
+### Phase 4: Create and Validate File
 
-**이 Phase에서는 파일 생성, 검증, 사용자 안내를 모두 수행합니다.**
+**In this Phase, perform file creation, validation, and user guidance.**
 
-**1. 파일 생성**
+**1. File Creation**
 
-수집한 정보를 바탕으로 다음 파일 구조를 생성합니다:
+Create the following file structure based on collected information:
 
 ```
-plugins/command-creator/commands/{커맨드-이름}.md
+plugins/command-creator/commands/{command-name}.md
 ```
 
-**타입별 템플릿 선택**:
+**Template Selection by Type**:
 
-Phase 1에서 선택한 커맨드 타입에 따라 최적화된 템플릿을 사용합니다.
+Use optimized template based on command type selected in Phase 1.
 
 ---
 
-**타입 1: Simple Task 템플릿** (50-150 단어):
+**Type 1: Simple Task Template** (50-150 words):
 ```markdown
 ---
-name: {커맨드-이름}
-description: "{커맨드-설명}"
+name: {command-name}
+description: "{command-description}"
 ---
 
-# /{커맨드-이름}
+# /{command-name}
 
-{간단한_설명_1-2문장}
+{brief_description_1-2_sentences}
 
 ## Triggers
-{트리거_조건_목록}
+{trigger_condition_list}
 
 ## Usage
 \```bash
-/{커맨드-이름} [arguments]
+/{command-name} [arguments]
 \```
 
 ## Behavioral Flow
-1. **{단계1}**: {설명}
-2. **{단계2}**: {설명}
+1. **{step1}**: {description}
+2. **{step2}**: {description}
 
 ## Example
 \```bash
-{사용_예시}
+{usage_example}
 \```
-{예시_설명}
+{example_description}
 
 ## Boundaries
 
 **Will:**
-{수행할_작업_목록}
+{tasks_to_perform_list}
 
 **Will Not:**
-{수행하지_않을_작업_목록}
+{tasks_not_to_perform_list}
 ```
 
 ---
 
-**타입 2: Workflow Pipeline 템플릿** (150-400 단어):
+**Type 2: Workflow Pipeline Template** (150-400 words):
 ```markdown
 ---
-name: {커맨드-이름}
-description: "{커맨드-설명}"
+name: {command-name}
+description: "{command-description}"
 ---
 
-# /{커맨드-이름}
+# /{command-name}
 
-{워크플로우_개요_1-2문단}
+{workflow_overview_1-2_paragraphs}
 
 ## Triggers
-{트리거_조건_목록}
+{trigger_condition_list}
 
 ## Usage
 \```bash
-/{커맨드-이름} [options]
+/{command-name} [options]
 \```
 
 ## Behavioral Flow
 
-### 1. {Phase명}
-{Phase_설명}
+### 1. {phase_name}
+{phase_description}
 
 Key actions:
-- {액션1}
-- {액션2}
+- {action1}
+- {action2}
 
-### 2. {Phase명}
-{Phase_설명}
+### 2. {phase_name}
+{phase_description}
 
 Key actions:
-- {액션1}
-- {액션2}
+- {action1}
+- {action2}
 
-### 3. {Phase명}
-{Phase_설명}
+### 3. {phase_name}
+{phase_description}
 
 ## Tool Coordination
-{도구_사용_목록}
+{tool_usage_list}
 
 ## Examples
 
-### {예제_제목_1}
+### {example_title_1}
 \```bash
-{예제_사용법_1}
+{example_usage_1}
 \```
-{예제_설명_1}
+{example_description_1}
 
-### {예제_제목_2}
+### {example_title_2}
 \```bash
-{예제_사용법_2}
+{example_usage_2}
 \```
-{예제_설명_2}
+{example_description_2}
 
 ## Boundaries
 
 **Will:**
-{수행할_작업_목록}
+{tasks_to_perform_list}
 
 **Will Not:**
-{수행하지_않을_작업_목록}
+{tasks_not_to_perform_list}
 ```
 
 ---
 
-**타입 3: Complex Orchestration 템플릿** (400-800 단어):
+**Type 3: Complex Orchestration Template** (400-800 words):
 ```markdown
 ---
-name: {커맨드-이름}
-description: "{커맨드-설명}"
+name: {command-name}
+description: "{command-description}"
 ---
 
-# /{커맨드-이름}
+# /{command-name}
 
-{복잡한_워크플로우_개요_2-3문단}
+{complex_workflow_overview_2-3_paragraphs}
 
 ## Triggers
-{트리거_조건_목록}
+{trigger_condition_list}
 
 ## Usage
 \```bash
-/{커맨드-이름} [options] [--flags]
+/{command-name} [options] [--flags]
 \```
 
 ### Options
-- `--option1`: {설명}
-- `--option2`: {설명}
+- `--option1`: {description}
+- `--option2`: {description}
 
 ### Flags
-- `--flag1`: {설명}
-- `--flag2`: {설명}
+- `--flag1`: {description}
+- `--flag2`: {description}
 
 ## Behavioral Flow
 
-### Phase 1: {Phase명}
-{상세_Phase_설명}
+### Phase 1: {phase_name}
+{detailed_phase_description}
 
 **Steps:**
-1. {단계1_설명}
-2. {단계2_설명}
-3. {단계3_설명}
+1. {step1_description}
+2. {step2_description}
+3. {step3_description}
 
 **Conditions:**
-- If {조건1}: {동작1}
-- If {조건2}: {동작2}
+- If {condition1}: {action1}
+- If {condition2}: {action2}
 
-### Phase 2: {Phase명}
-{상세_Phase_설명}
+### Phase 2: {phase_name}
+{detailed_phase_description}
 
 **Steps:**
-1. {단계1_설명}
-2. {단계2_설명}
+1. {step1_description}
+2. {step2_description}
 
 **Error Handling:**
-- {에러1}: {처리방법}
-- {에러2}: {처리방법}
+- {error1}: {handling_method}
+- {error2}: {handling_method}
 
-### Phase 3: {Phase명}
-{상세_Phase_설명}
+### Phase 3: {phase_name}
+{detailed_phase_description}
 
 **Validation:**
-- {검증1}
-- {검증2}
+- {validation1}
+- {validation2}
 
 ## Tool Coordination
 
 ### Primary Tools
-- **{도구명}**: {사용_목적_및_방법}
+- **{tool_name}**: {usage_purpose_and_method}
 
 ### Secondary Tools
-- **{도구명}**: {사용_목적_및_방법}
+- **{tool_name}**: {usage_purpose_and_method}
 
 ## Key Patterns
 
-### {패턴명}
-{패턴_설명_및_예시}
+### {pattern_name}
+{pattern_description_and_example}
 
-### {패턴명}
-{패턴_설명_및_예시}
+### {pattern_name}
+{pattern_description_and_example}
 
 ## Examples
 
-### Example 1: {시나리오_1}
+### Example 1: {scenario_1}
 \```bash
-{상세_사용법_1}
+{detailed_usage_1}
 \```
 
 **Expected Outcome:**
-{예상_결과_설명}
+{expected_result_description}
 
 **Troubleshooting:**
-{문제_해결_가이드}
+{troubleshooting_guide}
 
-### Example 2: {시나리오_2}
+### Example 2: {scenario_2}
 \```bash
-{상세_사용법_2}
+{detailed_usage_2}
 \```
 
 **Expected Outcome:**
-{예상_결과_설명}
+{expected_result_description}
 
-### Example 3: {시나리오_3}
+### Example 3: {scenario_3}
 \```bash
-{상세_사용법_3}
+{detailed_usage_3}
 \```
 
 ## Boundaries
 
 **Will:**
-{수행할_작업_목록_상세}
+{detailed_tasks_to_perform_list}
 
 **Will Not:**
-{수행하지_않을_작업_목록_상세}
+{detailed_tasks_not_to_perform_list}
 
 **Safety Checks:**
-{안전_검사_항목}
+{safety_check_items}
 ```
 
 ---
 
-**2. 검증 실행**
+**2. Execute Validation**
 
-파일 생성 후 @shared/command/validation-criteria.md 기준으로 자동 검증을 수행합니다:
+After file creation, perform automatic validation based on @shared/command/validation-criteria.md criteria:
 
-1. **파일 생성 확인**
-   - 디렉토리가 올바르게 생성되었는지 확인
-   - 커맨드 파일이 존재하는지 확인
+1. **Verify File Creation**
+   - Verify directory was created correctly
+   - Verify command file exists
 
-2. **내용 검증** (validation-criteria.md 기준)
-   - Frontmatter (---) 형식이 올바른지 확인
-   - name과 description 필드 검증
-   - 모든 필수 섹션이 포함되어 있는지 확인 (Triggers, Usage/Flow, Boundaries)
-   - 코드 블록 언어 명시 확인
-   - 마크다운 문법이 올바른지 확인
+2. **Content Validation** (validation-criteria.md criteria)
+   - Verify Frontmatter (---) format is correct
+   - Validate name and description fields
+   - Verify all required sections are included (Triggers, Usage/Flow, Boundaries)
+   - Verify code block language specification
+   - Verify markdown syntax is correct
 
-3. **검증 결과 리포트**
+3. **Validation Results Report**
    ```
-   ✅ 검증 완료!
+   ✅ Validation complete!
 
-   📊 품질 점수: {점수}/100 ({등급})
+   📊 Quality score: {score}/100 ({grade})
 
-   ✅ 통과한 검증:
-   - {검증_항목_1}
-   - {검증_항목_2}
+   ✅ Passed validations:
+   - {validation_item_1}
+   - {validation_item_2}
 
-   ⚠️ 개선 가능한 부분:
-   - {개선_항목_1}
-   - {개선_항목_2}
+   ⚠️ Areas for improvement:
+   - {improvement_item_1}
+   - {improvement_item_2}
 
-   💡 자세한 평가는 /evaluate-command로 확인하세요.
-   ```
-
----
-
-**3. 사용자 안내**
-   ```
-   ✅ 커맨드가 성공적으로 생성되었습니다!
-
-   📂 위치: plugins/command-creator/commands/{커맨드-이름}.md
-
-   📖 다음 단계:
-   1. .claude/commands/로 복사하여 사용
-      cp plugins/command-creator/commands/{커맨드-이름}.md .claude/commands/
-
-   2. 또는 심볼릭 링크 생성
-      ln -s "$(pwd)/plugins/command-creator/commands/{커맨드-이름}.md" .claude/commands/{커맨드-이름}.md
-
-   3. 커맨드 실행
-      /{커맨드-이름}
-
-   💡 팁:
-   - 커맨드는 언제든지 수정 가능합니다
-   - 네임스페이스를 사용하려면 파일명을 {네임스페이스}/{커맨드-이름}.md로 변경하세요
-   - 품질 평가: /evaluate-command로 상세 평가 및 개선 제안 확인
-   - 다른 사람과 공유하여 팀의 워크플로우를 표준화하세요
+   💡 For detailed evaluation, check with /evaluate-command.
    ```
 
 ---
 
-## 검증 기준
+**3. User Guidance**
+   ```
+   ✅ Command created successfully!
 
-생성된 커맨드는 @shared/command/validation-criteria.md 기준으로 자동 검증됩니다:
+   📂 Location: plugins/command-creator/commands/{command-name}.md
 
-- ✅ 구조 검증 (20점): 파일 위치, 명명 규칙
-- ✅ Frontmatter 검증 (15점): name, description 형식
-- ✅ 필수 섹션 검증 (25점): Triggers, Usage/Flow, Boundaries
-- ✅ 콘텐츠 품질 검증 (25점): 코드 블록, 예제, 섹션 계층
-- ✅ 커맨드 타입 적합성 (10점): 단어 수, 복잡도
-- ✅ 일관성 및 완성도 (5점): 오타, 완성도
+   📖 Next steps:
+   1. Copy to .claude/commands/ to use
+      cp plugins/command-creator/commands/{command-name}.md .claude/commands/
 
-## 성공 기준
+   2. Or create symbolic link
+      ln -s "$(pwd)/plugins/command-creator/commands/{command-name}.md" .claude/commands/{command-name}.md
 
-- ✅ 현재 세션의 대화 내용을 분석하여 워크플로우 정보를 추출함
-- ✅ 분석 결과를 바탕으로 커맨드 이름, 트리거, 실행 단계, 도구를 자동으로 추천함
-- ✅ 추천된 내용을 사용자에게 선택지로 제시함
-- ✅ 사용자가 추천 내용을 선택하거나 수정할 수 있음
-- ✅ 입력된 정보가 유효성 검사를 통과함
-- ✅ 표준 구조의 커맨드 `.md` 파일이 생성됨
-- ✅ Frontmatter와 모든 필수 섹션이 포함됨
-- ✅ 생성된 커맨드가 즉시 사용 가능함
-- ✅ 사용자에게 명확한 다음 단계 안내가 제공됨
+   3. Run command
+      /{command-name}
 
-## 에러 처리
+   💡 Tips:
+   - Commands can be modified at any time
+   - To use namespace, change filename to {namespace}/{command-name}.md
+   - Quality evaluation: Check detailed evaluation and improvement suggestions with /evaluate-command
+   - Share with others to standardize team workflows
+   ```
 
-### 잘못된 커맨드 이름
+---
+
+## Validation Criteria
+
+Generated commands are automatically validated based on @shared/command/validation-criteria.md criteria:
+
+- ✅ Structure validation (20 points): File location, naming conventions
+- ✅ Frontmatter validation (15 points): name, description format
+- ✅ Required sections validation (25 points): Triggers, Usage/Flow, Boundaries
+- ✅ Content quality validation (25 points): Code blocks, examples, section hierarchy
+- ✅ Command type suitability (10 points): Word count, complexity
+- ✅ Consistency and completeness (5 points): Typos, completeness
+
+## Success Criteria
+
+- ✅ Analyze conversation content in current session to extract workflow information
+- ✅ Automatically recommend command name, triggers, execution steps, and tools based on analysis results
+- ✅ Present recommendations to user as options
+- ✅ User can select or modify recommendations
+- ✅ Input information passes validation checks
+- ✅ Standard structured command `.md` file is created
+- ✅ Frontmatter and all required sections are included
+- ✅ Generated command is ready for immediate use
+- ✅ Clear next step guidance is provided to user
+
+## Error Handling
+
+### Invalid Command Name
 ```
-❌ 입력된 이름이 올바른 형식이 아닙니다.
-📝 커맨드 이름은 kebab-case 형식이어야 합니다.
-   예: deploy-production, run-tests, code-review
+❌ Entered name is not in correct format.
+📝 Command name must be in kebab-case format.
+   Examples: deploy-production, run-tests, code-review
 
-재입력해주세요:
+Please re-enter:
 ```
 
-### 이미 존재하는 커맨드
+### Command Already Exists
 ```
-⚠️ 같은 이름의 커맨드가 이미 존재합니다.
-📂 위치: plugins/command-creator/commands/{커맨드-이름}.md
+⚠️ A command with the same name already exists.
+📂 Location: plugins/command-creator/commands/{command-name}.md
 
-다음 중 선택해주세요:
-1. 다른 이름 사용
-2. 기존 커맨드 덮어쓰기 (기존 내용 손실)
-3. 취소
-```
-
-### 필수 정보 누락
-```
-⚠️ 필수 정보가 입력되지 않았습니다.
-📋 다음 정보를 입력해주세요: {누락된-필드}
+Please select:
+1. Use different name
+2. Overwrite existing command (existing content will be lost)
+3. Cancel
 ```
 
-## 주의사항
+### Missing Required Information
+```
+⚠️ Required information was not entered.
+📋 Please enter the following information: {missing-field}
+```
 
-1. **진행 상황 추적**:
-   - 각 Phase 시작 시 "✅ Phase X 완료 → 🔄 Phase Y 시작: [Phase 설명]" 형식으로 진행 상황 안내
-   - 전체 프로세스 중 현재 위치를 명확히 표시: "📊 진행 상황: X/5 Phase 완료"
-   - Phase 완료 시 체크리스트 업데이트 상태를 사용자에게 알림
-   - 예시:
+## Notes
+
+1. **Progress Tracking**:
+   - Guide progress at the start of each Phase in the format "✅ Phase X complete → 🔄 Phase Y starting: [Phase description]"
+   - Clearly indicate current position in overall process: "📊 Progress: X/5 Phases complete"
+   - Notify user of checklist update status when Phase completes
+   - Example:
      ```
-     ✅ Phase 1 완료 → 🔄 Phase 2 시작: 워크플로우 및 도구 정의
+     ✅ Phase 1 complete → 🔄 Phase 2 starting: Define workflow and tools
 
-     📊 진행 상황: 2/5 Phase 완료
-     - ✅ Phase 0, 1 완료
-     - 🔄 Phase 2 진행 중
-     - ⏳ Phase 3, 4 대기 중
+     📊 Progress: 2/5 Phases complete
+     - ✅ Phase 0, 1 complete
+     - 🔄 Phase 2 in progress
+     - ⏳ Phase 3, 4 pending
      ```
 
-2. **Phase 0 조건부 실행**:
-   - 먼저 대화 내용 충분성을 판단 (메시지 5개 이상, 워크플로우 내용 포함 여부)
-   - 충분하지 않으면 Phase 0 건너뛰고 직접 입력 모드로 진행
-   - 충분하면 대화 분석 후 추천 모드로 진행
+2. **Conditional Phase 0 Execution**:
+   - First assess conversation content sufficiency (5+ messages, includes workflow content)
+   - If insufficient, skip Phase 0 and proceed in manual input mode
+   - If sufficient, analyze conversation then proceed in recommendation mode
 
-2. **대화 분석 우선** (Phase 0 실행 시):
-   - 질문하기 전에 반드시 현재 세션의 대화 내용을 분석하여 워크플로우 추출
-   - 분석 결과가 없거나 부족하면 사용자에게 안내 후 직접 입력 모드로 전환
+2. **Conversation Analysis Priority** (When Phase 0 executes):
+   - Must analyze conversation content in current session to extract workflow before asking questions
+   - If analysis results are missing or insufficient, notify user then switch to manual input mode
 
-3. **모드별 질문 방식**:
-   - **추천 모드**: 추출된 내용을 선택지로 제시하고 "직접 입력" 옵션 포함
-   - **직접 입력 모드**: 예시와 함께 사용자에게 직접 입력 요청
+3. **Question Approach by Mode**:
+   - **Recommendation mode**: Present extracted content as options and include "manual input" option
+   - **Manual input mode**: Request direct user input with examples
 
-4. **AskUserQuestion 사용**: 모든 정보 수집은 AskUserQuestion 도구를 통해 단계별로 진행
+4. **AskUserQuestion Usage**: All information gathering proceeds step-by-step through AskUserQuestion tool
 
-5. **Write 도구 사용**: 커맨드 파일 생성 시 Write 도구 사용
+5. **Write Tool Usage**: Use Write tool when creating command file
 
-6. **Bash 도구 사용**: 디렉토리 생성 시 `mkdir -p` 명령 사용
+6. **Bash Tool Usage**: Use `mkdir -p` command when creating directories
 
-7. **검증 필수**: 파일 생성 후 반드시 @shared/command/validation-criteria.md 기준으로 검증
+7. **Validation Required**: Must validate based on @shared/command/validation-criteria.md criteria after file creation
 
-8. **검증 리포트**: 검증 결과를 간단히 요약하여 사용자에게 제공
+8. **Validation Report**: Provide brief summary of validation results to user
 
-9. **친절한 피드백**: 각 단계마다 사용자에게 진행 상황 안내
+9. **Friendly Feedback**: Guide user on progress at each step
 
-10. **분석 결과 공유**: Phase 0 완료 시 발견된 워크플로우를 요약하여 사용자에게 제시
+10. **Share Analysis Results**: When Phase 0 completes, present summary of discovered workflows to user
 
-11. **Frontmatter 정확성**: name과 description 필드가 올바르게 설정되었는지 확인
+11. **Frontmatter Accuracy**: Verify name and description fields are correctly set
 
-12. **평가 커맨드 안내**: 생성 완료 후 /evaluate-command로 상세 평가 가능함을 안내
+12. **Evaluation Command Guidance**: Inform user that detailed evaluation is available with /evaluate-command after creation
 
-## 대화 분석 가이드라인
+## Conversation Analysis Guidelines
 
-### 효과적인 분석을 위한 체크리스트
+### Checklist for Effective Analysis
 
-- ✅ **워크플로우 식별**: 대화에서 논의된 작업 흐름과 자동화 프로세스 찾기
-- ✅ **트리거 추출**: "~할 때", "~하면" 등의 조건문 수집
-- ✅ **단계 파악**: 순서대로 수행되는 작업들 식별
-- ✅ **도구 수집**: Bash 명령, 파일 작업 등 사용 도구 파악
-- ✅ **경계 식별**: "해야 한다", "하면 안 된다" 등의 제약 조건 찾기
-- ✅ **실행 맥락 이해**: 언제, 왜 이 워크플로우가 필요한지 파악
+- ✅ **Workflow Identification**: Find work flows and automation processes discussed in conversation
+- ✅ **Trigger Extraction**: Collect conditional statements like "when ~", "if ~"
+- ✅ **Step Identification**: Identify tasks performed in sequence
+- ✅ **Tool Collection**: Identify tools used such as Bash commands, file operations
+- ✅ **Boundary Identification**: Find constraints like "must", "must not"
+- ✅ **Execution Context Understanding**: Identify when and why this workflow is needed
 
-### 추천 생성 전략
+### Recommendation Generation Strategy
 
-**커맨드 이름 생성**:
-- 워크플로우의 주요 작업을 2-4개 단어로 요약
-- kebab-case 형식 준수
-- 동사-명사 조합 선호 (예: deploy-production, run-tests)
+**Command Name Generation**:
+- Summarize main workflow tasks in 2-4 words
+- Follow kebab-case format
+- Prefer verb-noun combinations (e.g., deploy-production, run-tests)
 
-**설명 생성**:
-- 1-2문장으로 워크플로우의 목적과 결과 명확히
-- "~을 ~하는" 형식 사용
-- 구체적인 작업과 목표 명시
+**Description Generation**:
+- Clearly state workflow purpose and results in 1-2 sentences
+- Use "~to do~" format
+- Specify concrete tasks and goals
 
-**워크플로우 구조화**:
-- 대화에서 논의된 단계를 논리적 순서로 재구성
-- 각 단계의 입력/출력 명확히
-- 의존성과 조건 파악
+**Workflow Structuring**:
+- Restructure steps discussed in conversation in logical order
+- Clarify input/output of each step
+- Identify dependencies and conditions
 
 ---
 
-**이제 커맨드 생성을 시작합니다. 먼저 현재 세션의 대화를 분석하고, 워크플로우 정보를 추출한 후, 사용자와 대화하며 커맨드를 완성합니다.**
+**Now begin command creation. First analyze conversation in current session, extract workflow information, then complete the command through user dialogue.**

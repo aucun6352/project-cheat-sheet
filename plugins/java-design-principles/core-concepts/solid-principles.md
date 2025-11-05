@@ -1,49 +1,49 @@
-### 2. SOLID 원칙
+### 2. SOLID Principles
 
-#### Single Responsibility Principle (SRP) - 단일 책임 원칙
+#### Single Responsibility Principle (SRP)
 
-**정의**: 클래스는 변경해야 할 이유가 단 하나여야 하며, 하나의 책임만 가져야 합니다.
+**Definition**: A class should have only one reason to change and only one responsibility.
 
-**핵심 아이디어**:
-"책임"은 "변경의 이유"를 의미합니다. 클래스가 여러 이유로 변경된다면, 그것은 여러 책임을 가진 것입니다.
+**Core Idea**:
+"Responsibility" means "reason to change". If a class changes for multiple reasons, it has multiple responsibilities.
 
-**왜 중요한가**:
-- **유지보수성 향상**: 한 기능의 변경이 다른 기능에 영향을 주지 않습니다
-- **테스트 용이성**: 단일 책임 클래스는 테스트하기 쉽습니다
-- **재사용성 증가**: 특정 책임만 필요할 때 해당 클래스만 재사용할 수 있습니다
-- **이해 용이성**: 클래스의 목적이 명확합니다
+**Why It Matters**:
+- **Improved Maintainability**: Changes to one feature don't affect other features
+- **Testability**: Single responsibility classes are easier to test
+- **Increased Reusability**: You can reuse only the class you need
+- **Ease of Understanding**: The purpose of the class is clear
 
-**위반 징후**:
-- 클래스 이름에 "Manager", "Utility", "Helper" 같은 모호한 단어 사용
-- 하나의 클래스에서 데이터베이스 접근, 비즈니스 로직, UI 처리를 모두 수행
-- 클래스를 설명할 때 "그리고(and)"가 필요한 경우
-- 메서드가 10개 이상인 클래스
+**Violation Signs**:
+- Using vague words like "Manager", "Utility", "Helper" in class names
+- A single class performing database access, business logic, and UI processing
+- Needing "and" when describing a class
+- Classes with more than 10 methods
 
-**적용 방법**:
-1. **책임 식별**: 클래스가 무엇을 하는지 한 문장으로 설명해보세요
-2. **분리 시점 판단**: "그리고"가 들어가면 분리를 고려하세요
-3. **응집도 확인**: 클래스의 모든 메서드가 동일한 데이터를 사용하는가?
-4. **변경 이유 분석**: 이 클래스가 변경되는 이유를 나열해보세요
+**How to Apply**:
+1. **Identify Responsibility**: Describe what the class does in one sentence
+2. **Determine Separation Point**: Consider splitting if "and" is needed
+3. **Check Cohesion**: Do all methods in the class use the same data?
+4. **Analyze Reasons for Change**: List the reasons why this class would change
 
-**실무 적용**:
+**Practical Application**:
 ```java
-// ❌ SRP 위반 - 여러 책임을 가진 클래스
+// ❌ SRP Violation - Class with multiple responsibilities
 public class Employee {
     private String name;
     private double salary;
 
-    // 책임 1: 급여 계산
+    // Responsibility 1: Calculate salary
     public double calculatePay() { }
 
-    // 책임 2: 데이터베이스 저장
+    // Responsibility 2: Save to database
     public void save() { }
 
-    // 책임 3: 보고서 생성
+    // Responsibility 3: Generate report
     public String generateReport() { }
 }
-// 문제: 급여 정책 변경, 데이터베이스 변경, 보고서 형식 변경 모두 이 클래스를 수정하게 됨
+// Problem: Changes to salary policy, database, or report format all modify this class
 
-// ✅ SRP 준수 - 각 책임을 별도 클래스로 분리
+// ✅ SRP Compliant - Each responsibility in separate classes
 public class Employee {
     private String name;
     private double salary;
@@ -54,56 +54,56 @@ public class Employee {
 
 public class PayrollCalculator {
     public double calculatePay(Employee employee) {
-        // 급여 계산 로직
+        // Salary calculation logic
     }
 }
 
 public class EmployeeRepository {
     public void save(Employee employee) {
-        // 데이터베이스 저장 로직
+        // Database save logic
     }
 }
 
 public class EmployeeReportGenerator {
     public String generateReport(Employee employee) {
-        // 보고서 생성 로직
+        // Report generation logic
     }
 }
 ```
 
-**검증 질문**:
-- 이 클래스를 변경해야 하는 이유가 여러 개인가?
-- 다른 액터(사용자, 시스템)가 이 클래스의 다른 메서드를 사용하는가?
+**Validation Questions**:
+- Are there multiple reasons to change this class?
+- Do different actors (users, systems) use different methods of this class?
 
 ---
 
-#### Open/Closed Principle (OCP) - 개방/폐쇄 원칙
+#### Open/Closed Principle (OCP)
 
-**정의**: 소프트웨어 엔티티(클래스, 모듈, 함수)는 확장에는 열려 있고 수정에는 닫혀 있어야 합니다.
+**Definition**: Software entities (classes, modules, functions) should be open for extension but closed for modification.
 
-**핵심 아이디어**:
-기존 코드를 변경하지 않고도(닫혀 있음) 새로운 기능을 추가할 수 있어야(열려 있음) 합니다.
+**Core Idea**:
+You should be able to add new functionality (open) without modifying existing code (closed).
 
-**왜 중요한가**:
-- **안정성**: 기존 코드를 건드리지 않아 버그 발생 위험이 적습니다
-- **확장성**: 새로운 기능을 쉽게 추가할 수 있습니다
-- **유지보수성**: 변경의 영향 범위가 제한적입니다
-- **재사용성**: 기존 코드를 다양한 방식으로 확장할 수 있습니다
+**Why It Matters**:
+- **Stability**: Lower risk of bugs since existing code isn't touched
+- **Extensibility**: Easy to add new features
+- **Maintainability**: Limited scope of change impact
+- **Reusability**: Existing code can be extended in various ways
 
-**적용 방법**:
-1. **추상화 사용**: 인터페이스나 추상 클래스로 변화 지점을 추상화
-2. **다형성 활용**: 상속이나 인터페이스 구현으로 확장
-3. **전략 패턴**: 알고리즘을 인터페이스로 정의하고 구현체를 교체
-4. **템플릿 메서드**: 변하지 않는 부분은 고정하고 변하는 부분만 확장
+**How to Apply**:
+1. **Use Abstraction**: Abstract variation points with interfaces or abstract classes
+2. **Leverage Polymorphism**: Extend through inheritance or interface implementation
+3. **Strategy Pattern**: Define algorithms as interfaces and swap implementations
+4. **Template Method**: Fix unchanging parts and extend only varying parts
 
-**위반 징후**:
-- 새 기능 추가 시 기존 클래스의 if-else나 switch-case가 늘어남
-- instanceof로 타입을 체크하는 코드
-- 새 타입 추가마다 여러 클래스를 수정해야 함
+**Violation Signs**:
+- if-else or switch-case statements growing when adding new features
+- Code checking types with instanceof
+- Need to modify multiple classes when adding new types
 
-**실무 적용**:
+**Practical Application**:
 ```java
-// ❌ OCP 위반 - 새 도형 추가마다 이 클래스를 수정해야 함
+// ❌ OCP Violation - Must modify this class when adding new shapes
 public class AreaCalculator {
     public double calculateArea(Object shape) {
         if (shape instanceof Circle) {
@@ -113,12 +113,12 @@ public class AreaCalculator {
             Rectangle rect = (Rectangle) shape;
             return rect.width * rect.height;
         }
-        // 새 도형을 추가할 때마다 여기에 else if를 추가해야 함
+        // Must add else if here when adding new shapes
         return 0;
     }
 }
 
-// ✅ OCP 준수 - 확장에는 열려있고 수정에는 닫혀있음
+// ✅ OCP Compliant - Open for extension, closed for modification
 public interface Shape {
     double calculateArea();
 }
@@ -142,7 +142,7 @@ public class Rectangle implements Shape {
     }
 }
 
-// 새 도형 추가 - 기존 코드 수정 없이 확장만
+// Adding new shape - Extension only, no modification to existing code
 public class Triangle implements Shape {
     private double base;
     private double height;
@@ -153,7 +153,7 @@ public class Triangle implements Shape {
     }
 }
 
-// 계산기는 전혀 수정할 필요 없음
+// Calculator needs no modification
 public class AreaCalculator {
     public double calculateArea(Shape shape) {
         return shape.calculateArea();
@@ -161,40 +161,40 @@ public class AreaCalculator {
 }
 ```
 
-**검증 질문**:
-- 새 기능을 추가할 때 기존 클래스를 수정하고 있는가?
-- if-else나 switch-case가 점점 늘어나고 있는가?
+**Validation Questions**:
+- Are you modifying existing classes when adding new features?
+- Are if-else or switch-case statements growing?
 
 ---
 
-#### Liskov Substitution Principle (LSP) - 리스코프 치환 원칙
+#### Liskov Substitution Principle (LSP)
 
-**정의**: 서브타입(자식 클래스)은 언제나 기반타입(부모 클래스)으로 교체할 수 있어야 합니다.
+**Definition**: Subtypes (child classes) must be substitutable for their base types (parent classes).
 
-**핵심 아이디어**:
-부모 클래스를 사용하는 코드가 자식 클래스로 대체되어도 정상적으로 동작해야 합니다.
+**Core Idea**:
+Code using a parent class should work correctly when replaced with a child class.
 
-**왜 중요한가**:
-- **다형성의 올바른 사용**: 상속을 올바르게 사용했는지 검증합니다
-- **예측 가능성**: 서브타입이 예상치 못한 동작을 하지 않습니다
-- **신뢰성**: 부모 타입의 계약을 자식도 지킵니다
-- **유지보수성**: 상속 계층을 안전하게 변경할 수 있습니다
+**Why It Matters**:
+- **Correct Use of Polymorphism**: Validates proper use of inheritance
+- **Predictability**: Subtypes don't behave unexpectedly
+- **Reliability**: Children honor the parent type's contract
+- **Maintainability**: Inheritance hierarchies can be safely modified
 
-**위반 징후**:
-- 자식 클래스에서 부모의 메서드를 오버라이드하여 예외를 던짐
-- 자식 클래스가 부모의 메서드를 비워두거나 아무것도 안 함
-- 자식 클래스가 부모보다 더 강한 사전조건을 요구
-- 자식 클래스가 부모보다 더 약한 사후조건을 보장
+**Violation Signs**:
+- Child class overriding parent's method to throw exceptions
+- Child class leaving parent's method empty or doing nothing
+- Child class requiring stronger preconditions than parent
+- Child class ensuring weaker postconditions than parent
 
-**적용 방법**:
-1. **계약 준수**: 부모 클래스의 메서드 계약을 자식도 지켜야 함
-2. **사전조건 강화 금지**: 자식이 더 엄격한 입력을 요구하면 안 됨
-3. **사후조건 약화 금지**: 자식이 더 약한 출력을 보장하면 안 됨
-4. **불변조건 유지**: 부모의 불변 규칙을 자식도 유지해야 함
+**How to Apply**:
+1. **Honor Contract**: Child must follow parent's method contract
+2. **No Strengthening Preconditions**: Child can't require stricter inputs
+3. **No Weakening Postconditions**: Child can't guarantee weaker outputs
+4. **Maintain Invariants**: Child must maintain parent's invariant rules
 
-**실무 적용**:
+**Practical Application**:
 ```java
-// ❌ LSP 위반 - 직사각형-정사각형 문제
+// ❌ LSP Violation - Rectangle-Square problem
 public class Rectangle {
     protected int width;
     protected int height;
@@ -216,24 +216,24 @@ public class Square extends Rectangle {
     @Override
     public void setWidth(int width) {
         this.width = width;
-        this.height = width;  // 정사각형이므로 높이도 같게
+        this.height = width;  // Square so height must match
     }
 
     @Override
     public void setHeight(int height) {
         this.width = height;
-        this.height = height;  // 정사각형이므로 너비도 같게
+        this.height = height;  // Square so width must match
     }
 }
 
-// 문제 발생
+// Problem occurs
 public void testRectangle(Rectangle rect) {
     rect.setWidth(5);
     rect.setHeight(4);
-    assert rect.getArea() == 20;  // Rectangle이면 통과, Square면 실패!
+    assert rect.getArea() == 20;  // Passes for Rectangle, fails for Square!
 }
 
-// ✅ LSP 준수 - 상속 대신 컴포지션 사용
+// ✅ LSP Compliant - Use composition instead of inheritance
 public interface Shape {
     int getArea();
 }
@@ -272,40 +272,40 @@ public class Square implements Shape {
 }
 ```
 
-**검증 질문**:
-- 부모 타입을 자식 타입으로 바꿨을 때 코드가 여전히 올바르게 동작하는가?
-- 자식 클래스에서 부모의 메서드를 오버라이드할 때 UnsupportedOperationException을 던지고 있는가?
+**Validation Questions**:
+- Does the code still work correctly when replacing parent type with child type?
+- Are child classes throwing UnsupportedOperationException when overriding parent methods?
 
 ---
 
-#### Interface Segregation Principle (ISP) - 인터페이스 분리 원칙
+#### Interface Segregation Principle (ISP)
 
-**정의**: 클라이언트는 자신이 사용하지 않는 메서드에 의존하도록 강요받아서는 안 됩니다.
+**Definition**: Clients should not be forced to depend on methods they do not use.
 
-**핵심 아이디어**:
-하나의 큰 인터페이스보다 여러 개의 작고 구체적인 인터페이스가 낫습니다.
+**Core Idea**:
+Multiple small, specific interfaces are better than one large interface.
 
-**왜 중요한가**:
-- **불필요한 의존성 제거**: 사용하지 않는 메서드 변경에 영향받지 않습니다
-- **유연성 증가**: 필요한 인터페이스만 구현할 수 있습니다
-- **이해 용이성**: 작은 인터페이스는 이해하기 쉽습니다
-- **테스트 간소화**: 작은 인터페이스는 모킹하기 쉽습니다
+**Why It Matters**:
+- **Eliminates Unnecessary Dependencies**: Not affected by changes to unused methods
+- **Increased Flexibility**: Can implement only needed interfaces
+- **Ease of Understanding**: Small interfaces are easier to understand
+- **Simplified Testing**: Small interfaces are easier to mock
 
-**위반 징후**:
-- 인터페이스의 일부 메서드만 사용하는 클라이언트
-- 빈 메서드나 예외를 던지는 메서드 구현
-- 메서드가 10개 이상인 인터페이스
-- 서로 관련 없는 기능들이 하나의 인터페이스에 있음
+**Violation Signs**:
+- Clients using only some methods of an interface
+- Implementing empty methods or methods that throw exceptions
+- Interfaces with more than 10 methods
+- Unrelated functionalities in one interface
 
-**적용 방법**:
-1. **역할별 분리**: 인터페이스를 역할(role)별로 분리하세요
-2. **클라이언트 중심**: 클라이언트가 실제로 사용하는 메서드만 포함하세요
-3. **작게 유지**: 인터페이스는 작고 응집도 높게 유지하세요
-4. **다중 구현**: 필요한 경우 여러 인터페이스를 구현하세요
+**How to Apply**:
+1. **Separate by Role**: Separate interfaces by role
+2. **Client-Centric**: Include only methods clients actually use
+3. **Keep Small**: Keep interfaces small and highly cohesive
+4. **Multiple Implementation**: Implement multiple interfaces when needed
 
-**실무 적용**:
+**Practical Application**:
 ```java
-// ❌ ISP 위반 - 비대한 인터페이스
+// ❌ ISP Violation - Bloated interface
 public interface Worker {
     void work();
     void eat();
@@ -317,21 +317,21 @@ public interface Worker {
     void manageTeam();
 }
 
-// 문제: 개발자는 manageTeam이 필요 없고, 매니저는 writeCode가 필요 없음
+// Problem: Developer doesn't need manageTeam, Manager doesn't need writeCode
 public class Developer implements Worker {
-    public void work() { /* 구현 */ }
-    public void eat() { /* 구현 */ }
-    public void sleep() { /* 구현 */ }
-    public void getPaid() { /* 구현 */ }
-    public void attendMeeting() { /* 구현 */ }
-    public void writeCode() { /* 구현 */ }
-    public void reviewCode() { /* 구현 */ }
+    public void work() { /* implementation */ }
+    public void eat() { /* implementation */ }
+    public void sleep() { /* implementation */ }
+    public void getPaid() { /* implementation */ }
+    public void attendMeeting() { /* implementation */ }
+    public void writeCode() { /* implementation */ }
+    public void reviewCode() { /* implementation */ }
     public void manageTeam() {
         throw new UnsupportedOperationException("Developer doesn't manage team");
     }
 }
 
-// ✅ ISP 준수 - 역할별로 인터페이스 분리
+// ✅ ISP Compliant - Interfaces separated by role
 public interface Workable {
     void work();
 }
@@ -358,73 +358,73 @@ public interface Manageable {
     void attendMeeting();
 }
 
-// 필요한 인터페이스만 구현
+// Implement only needed interfaces
 public class Developer implements Workable, Eatable, Sleepable, Payable, Codeable {
-    public void work() { /* 구현 */ }
-    public void eat() { /* 구현 */ }
-    public void sleep() { /* 구현 */ }
-    public void getPaid() { /* 구현 */ }
-    public void writeCode() { /* 구현 */ }
-    public void reviewCode() { /* 구현 */ }
+    public void work() { /* implementation */ }
+    public void eat() { /* implementation */ }
+    public void sleep() { /* implementation */ }
+    public void getPaid() { /* implementation */ }
+    public void writeCode() { /* implementation */ }
+    public void reviewCode() { /* implementation */ }
 }
 
 public class Manager implements Workable, Eatable, Sleepable, Payable, Manageable {
-    public void work() { /* 구현 */ }
-    public void eat() { /* 구현 */ }
-    public void sleep() { /* 구현 */ }
-    public void getPaid() { /* 구현 */ }
-    public void manageTeam() { /* 구현 */ }
-    public void attendMeeting() { /* 구현 */ }
+    public void work() { /* implementation */ }
+    public void eat() { /* implementation */ }
+    public void sleep() { /* implementation */ }
+    public void getPaid() { /* implementation */ }
+    public void manageTeam() { /* implementation */ }
+    public void attendMeeting() { /* implementation */ }
 }
 ```
 
-**검증 질문**:
-- 이 인터페이스를 구현하는 모든 클래스가 모든 메서드를 실제로 사용하는가?
-- 빈 메서드나 예외를 던지는 메서드가 있는가?
+**Validation Questions**:
+- Do all classes implementing this interface actually use all methods?
+- Are there empty methods or methods throwing exceptions?
 
 ---
 
-#### Dependency Inversion Principle (DIP) - 의존성 역전 원칙
+#### Dependency Inversion Principle (DIP)
 
-**정의**:
-1. 고수준 모듈은 저수준 모듈에 의존해서는 안 됩니다. 둘 다 추상화에 의존해야 합니다.
-2. 추상화는 세부사항에 의존해서는 안 됩니다. 세부사항이 추상화에 의존해야 합니다.
+**Definition**:
+1. High-level modules should not depend on low-level modules. Both should depend on abstractions.
+2. Abstractions should not depend on details. Details should depend on abstractions.
 
-**핵심 아이디어**:
-구체적인 구현이 아닌 인터페이스나 추상 클래스에 의존하세요.
+**Core Idea**:
+Depend on interfaces or abstract classes, not concrete implementations.
 
-**왜 중요한가**:
-- **결합도 감소**: 구현 변경이 상위 모듈에 영향을 주지 않습니다
-- **테스트 용이성**: Mock 객체로 쉽게 대체할 수 있습니다
-- **유연성 증가**: 구현체를 쉽게 교체할 수 있습니다
-- **확장성**: 새로운 구현체를 추가하기 쉽습니다
+**Why It Matters**:
+- **Reduced Coupling**: Implementation changes don't affect higher modules
+- **Testability**: Easy to replace with mock objects
+- **Increased Flexibility**: Easy to swap implementations
+- **Extensibility**: Easy to add new implementations
 
-**위반 징후**:
-- 클래스 내부에서 `new` 키워드로 구체 클래스를 직접 생성
-- 구체 클래스 타입으로 필드나 파라미터를 선언
-- static 메서드에 직접 의존
-- 데이터베이스, 파일 시스템 등 외부 시스템에 직접 의존
+**Violation Signs**:
+- Directly creating concrete classes with `new` keyword inside classes
+- Declaring fields or parameters as concrete class types
+- Direct dependency on static methods
+- Direct dependency on external systems like databases or file systems
 
-**적용 방법**:
-1. **인터페이스 정의**: 의존할 기능을 인터페이스로 정의
-2. **의존성 주입**: 생성자, 세터, 또는 메서드로 의존성을 주입
-3. **팩토리 사용**: 객체 생성을 팩토리에 위임
-4. **추상화 선호**: 구체 클래스보다 인터페이스나 추상 클래스 사용
+**How to Apply**:
+1. **Define Interfaces**: Define dependencies as interfaces
+2. **Dependency Injection**: Inject dependencies through constructor, setter, or method
+3. **Use Factories**: Delegate object creation to factories
+4. **Prefer Abstraction**: Use interfaces or abstract classes over concrete classes
 
-**실무 적용**:
+**Practical Application**:
 ```java
-// ❌ DIP 위반 - 구체 클래스에 직접 의존
+// ❌ DIP Violation - Direct dependency on concrete class
 public class OrderService {
-    // MySQLDatabase라는 구체 클래스에 직접 의존
+    // Direct dependency on MySQLDatabase concrete class
     private MySQLDatabase database = new MySQLDatabase();
 
     public void processOrder(Order order) {
-        // MySQL에서 PostgreSQL로 변경하려면 이 코드를 수정해야 함
+        // Must modify this code to change from MySQL to PostgreSQL
         database.save(order);
     }
 }
 
-// ✅ DIP 준수 - 추상화에 의존
+// ✅ DIP Compliant - Depend on abstraction
 public interface Database {
     void save(Order order);
     Order findById(Long id);
@@ -433,12 +433,12 @@ public interface Database {
 public class MySQLDatabase implements Database {
     @Override
     public void save(Order order) {
-        // MySQL 저장 로직
+        // MySQL save logic
     }
 
     @Override
     public Order findById(Long id) {
-        // MySQL 조회 로직
+        // MySQL query logic
         return null;
     }
 }
@@ -446,32 +446,32 @@ public class MySQLDatabase implements Database {
 public class PostgreSQLDatabase implements Database {
     @Override
     public void save(Order order) {
-        // PostgreSQL 저장 로직
+        // PostgreSQL save logic
     }
 
     @Override
     public Order findById(Long id) {
-        // PostgreSQL 조회 로직
+        // PostgreSQL query logic
         return null;
     }
 }
 
-// 인터페이스에 의존하고, 의존성 주입 사용
+// Depend on interface, use dependency injection
 public class OrderService {
     private final Database database;
 
-    // 생성자 주입 - 구체적인 구현은 외부에서 결정
+    // Constructor injection - Concrete implementation decided externally
     public OrderService(Database database) {
         this.database = database;
     }
 
     public void processOrder(Order order) {
-        // 어떤 데이터베이스든 상관없이 동작
+        // Works with any database
         database.save(order);
     }
 }
 
-// 사용 예시
+// Usage example
 Database mysql = new MySQLDatabase();
 OrderService service1 = new OrderService(mysql);
 
@@ -479,9 +479,9 @@ Database postgres = new PostgreSQLDatabase();
 OrderService service2 = new OrderService(postgres);
 ```
 
-**의존성 주입 방법**:
+**Dependency Injection Methods**:
 ```java
-// 1. 생성자 주입 (권장)
+// 1. Constructor injection (recommended)
 public class Service {
     private final Dependency dependency;
 
@@ -490,7 +490,7 @@ public class Service {
     }
 }
 
-// 2. 세터 주입
+// 2. Setter injection
 public class Service {
     private Dependency dependency;
 
@@ -499,7 +499,7 @@ public class Service {
     }
 }
 
-// 3. 메서드 주입
+// 3. Method injection
 public class Service {
     public void doSomething(Dependency dependency) {
         dependency.execute();
@@ -507,11 +507,11 @@ public class Service {
 }
 ```
 
-**검증 질문**:
-- 이 클래스가 구체 클래스에 직접 의존하고 있는가?
-- 구현체를 변경할 때 이 클래스도 수정해야 하는가?
+**Validation Questions**:
+- Is this class directly depending on concrete classes?
+- Do you need to modify this class when changing implementations?
 
 ---
 ---
 
-[← 메인으로 돌아가기](../SKILL.md)
+[← Back to Main](../SKILL.md)

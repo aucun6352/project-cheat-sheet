@@ -1,51 +1,51 @@
-# SKILL.md 검증 기준 (Validation Criteria)
+# SKILL.md Validation Criteria
 
-이 문서는 SKILL.md 파일의 품질을 평가하기 위한 공통 검증 기준을 정의합니다.
-`/create-skill`과 `/evaluate-skill` 커맨드에서 공통으로 사용됩니다.
-
----
-
-## 📊 점수 체계
-
-**총점: 100점**
-
-| 검증 항목 | 배점 | 설명 |
-|-----------|------|------|
-| 1. 구조 검증 | 20점 | 파일 존재, Progressive Disclosure 적합성 |
-| 2. Frontmatter 검증 | 15점 | name, description, license 형식 |
-| 3. 필수 섹션 검증 | 20점 | H1, When to Use, Core Concepts, Best Practices |
-| 4. 콘텐츠 품질 검증 | 25점 | 코드 블록, 섹션 계층, 링크, 용어 일관성 |
-| 5. 스킬 타입 적합성 | 10점 | 단어 수와 타입 매칭, 권장 섹션 포함 |
-| 6. 일관성 및 완성도 | 10점 | 전체적인 품질, 오타, 완성도 |
+This document defines the common validation criteria for evaluating the quality of SKILL.md files.
+Used by both `/create-skill` and `/evaluate-skill` commands.
 
 ---
 
-## 📈 등급 기준
+## 📊 Scoring System
 
-| 등급 | 점수 | 평가 | 조치 |
-|------|------|------|------|
-| **A** | 90-100 | 우수 | 유지 또는 미세 조정 |
-| **B** | 80-89 | 양호 | 소폭 개선 권장 |
-| **C** | 70-79 | 보통 | 개선 필요 |
-| **D** | 60-69 | 부족 | 주요 개선 필수 |
-| **F** | < 60 | 불합격 | 재작성 권장 |
+**Total Score: 100 points**
+
+| Validation Item | Points | Description |
+|-----------------|--------|-------------|
+| 1. Structure Validation | 20 points | File existence, Progressive Disclosure appropriateness |
+| 2. Frontmatter Validation | 15 points | name, description, license format |
+| 3. Required Section Validation | 20 points | H1, When to Use, Core Concepts, Best Practices |
+| 4. Content Quality Validation | 25 points | Code blocks, section hierarchy, links, terminology consistency |
+| 5. Skill Type Appropriateness | 10 points | Word count and type matching, recommended sections |
+| 6. Consistency and Completeness | 10 points | Overall quality, typos, completeness |
 
 ---
 
-## 📏 단어 수 계산 방법
+## 📈 Grade Standards
 
-**계산 대상:**
-- Frontmatter 제외 (---로 감싸진 부분)
-- 마크다운 본문 텍스트만 포함
-- 코드 블록 내용 **포함**
-- 주석 포함
+| Grade | Score | Assessment | Action |
+|-------|-------|------------|--------|
+| **A** | 90-100 | Excellent | Maintain or fine-tune |
+| **B** | 80-89 | Good | Minor improvements recommended |
+| **C** | 70-79 | Fair | Improvements needed |
+| **D** | 60-69 | Poor | Major improvements required |
+| **F** | < 60 | Fail | Rewrite recommended |
 
-**계산 방법:**
+---
+
+## 📏 Word Count Calculation Method
+
+**Calculation Target:**
+- Excluding Frontmatter (section wrapped in ---)
+- Including markdown body text only
+- Including code block content
+- Including comments
+
+**Calculation Method:**
 ```
-총 단어 수 = (공백으로 분리된 모든 단어 수)
+Total word count = (all words separated by spaces)
 ```
 
-**예시:**
+**Example:**
 ```markdown
 ---
 name: example
@@ -53,342 +53,342 @@ name: example
 
 # Title
 
-This is a test. (4 단어)
+This is a test. (4 words)
 
 ```python
-def hello():  (2 단어)
-    pass      (1 단어)
+def hello():  (2 words)
+    pass      (1 word)
 ```
 
-총 단어 수 = 7
+Total word count = 7
 ```
 
 ---
 
-## ✅ 검증 1: 구조 검증 (20점)
+## ✅ Validation 1: Structure Validation (20 points)
 
-### 항목
+### Items
 
-**1.1 SKILL.md 파일 존재 (5점)**
-- ✅ SKILL.md 파일이 존재함
-- ❌ 파일이 없거나 다른 이름
+**1.1 SKILL.md File Existence (5 points)**
+- ✅ SKILL.md file exists
+- ❌ File missing or different name
 
-**1.2 Progressive Disclosure 레벨 적합성 (15점)**
+**1.2 Progressive Disclosure Level Appropriateness (15 points)**
 
-단어 수에 따른 권장 파일 구조:
+Recommended file structure based on word count:
 
-| 단어 수 | Level | 권장 구조 | 배점 |
-|---------|-------|-----------|------|
-| < 400 | 1 | `SKILL.md` 단일 파일 | 15점 |
-| 400-1,500 | 2 | `SKILL.md` + `examples/` | 15점 |
-| 1,500-3,500 | 3 | + `REFERENCE.md` | 15점 |
-| > 3,500 | 4 | + `EXAMPLES.md`, `FORMS.md` | 15점 |
+| Word Count | Level | Recommended Structure | Points |
+|------------|-------|----------------------|--------|
+| < 400 | 1 | Single `SKILL.md` file | 15 points |
+| 400-1,500 | 2 | `SKILL.md` + `examples/` | 15 points |
+| 1,500-3,500 | 3 | + `REFERENCE.md` | 15 points |
+| > 3,500 | 4 | + `EXAMPLES.md`, `FORMS.md` | 15 points |
 
-**점수 계산:**
-- 권장 레벨과 정확히 일치: 15점
-- 1단계 차이 (예: Level 2인데 Level 1): 10점
-- 2단계 이상 차이: 5점
+**Score Calculation:**
+- Exactly matches recommended level: 15 points
+- 1 level difference (e.g., Level 2 but Level 1): 10 points
+- 2 or more levels difference: 5 points
 
 ---
 
-## ✅ 검증 2: Frontmatter 검증 (15점)
+## ✅ Validation 2: Frontmatter Validation (15 points)
 
-### 항목
+### Items
 
-**2.1 name 필드 (10점)**
+**2.1 name Field (10 points)**
 
-**필수 조건:**
-- 존재 여부
-- kebab-case 형식 (소문자 + 하이픈)
-- 64자 이내
-- 정규표현식: `^[a-z0-9]+(-[a-z0-9]+)*$`
+**Required Conditions:**
+- Existence
+- kebab-case format (lowercase + hyphens)
+- 64 characters or less
+- Regex: `^[a-z0-9]+(-[a-z0-9]+)*$`
 
-**점수 계산:**
-- 모든 조건 만족: 10점
-- 존재하지만 형식 오류: 5점
-- 존재하지 않음: 0점
+**Score Calculation:**
+- All conditions met: 10 points
+- Exists but format error: 5 points
+- Does not exist: 0 points
 
-**예시:**
+**Examples:**
 ```yaml
-# ✅ 올바른 예
+# ✅ Correct examples
 name: java-design-principles
 name: quick-start-guide
 name: api-reference-v2
 
-# ❌ 잘못된 예
-name: Java Design Principles  # 공백, 대문자
-name: api_reference  # 언더스코어
-name: guide  # 너무 짧음 (일반적으로 2단어 이상 권장)
+# ❌ Incorrect examples
+name: Java Design Principles  # Spaces, uppercase
+name: api_reference  # Underscore
+name: guide  # Too short (generally 2+ words recommended)
 ```
 
-**2.2 description 필드 (5점)**
+**2.2 description Field (5 points)**
 
-**필수 조건:**
-- 존재 여부
-- 1024자 이내
-- 3인칭 표현 권장
-- "무엇을+언제" 명시 권장
+**Required Conditions:**
+- Existence
+- 1024 characters or less
+- Third-person expression recommended
+- "What+When" specification recommended
 
-**점수 계산:**
-- 모든 조건 만족: 5점
-- 존재하지만 1024자 초과: 3점
-- 존재하지 않음: 0점
+**Score Calculation:**
+- All conditions met: 5 points
+- Exists but exceeds 1024 characters: 3 points
+- Does not exist: 0 points
 
-**예시:**
+**Examples:**
 ```yaml
-# ✅ 올바른 예
-description: Java 개발에서 필수적인 설계 원칙과 모범 사례를 제공하는 종합 가이드
+# ✅ Correct example
+description: Comprehensive guide providing essential design principles and best practices for Java development
 
-# ✅ 허용되는 예
+# ✅ Acceptable example
 description: Provides essential design principles for Java development
 
-# ⚠️ 개선 필요
-description: Java principles  # 너무 짧음, "언제" 없음
+# ⚠️ Needs improvement
+description: Java principles  # Too short, missing "when"
 ```
 
-**2.3 license 필드 (선택사항, 가산점)**
+**2.3 license Field (Optional, bonus points)**
 
-- 있음: +2점 (보너스)
-- 없음: 0점 (감점 없음)
-- 권장 형식: "Complete terms in LICENSE.txt"
+- Present: +2 points (bonus)
+- Absent: 0 points (no deduction)
+- Recommended format: "Complete terms in LICENSE.txt"
 
 ---
 
-## ✅ 검증 3: 필수 섹션 검증 (20점)
+## ✅ Validation 3: Required Section Validation (20 points)
 
-### 항목
+### Items
 
-**3.1 H1 제목 (5점)**
-- ✅ 정확히 1개 존재: 5점
-- ⚠️ 0개 또는 2개 이상: 0점
+**3.1 H1 Heading (5 points)**
+- ✅ Exactly 1 exists: 5 points
+- ⚠️ 0 or 2 or more: 0 points
 
-**3.2 When to Use This Skill 섹션 (5점)**
-- ✅ 섹션 존재 + 내용 있음: 5점
-- ⚠️ 섹션만 있고 내용 없음: 2점
-- ❌ 섹션 없음: 0점
+**3.2 When to Use This Skill Section (5 points)**
+- ✅ Section exists + has content: 5 points
+- ⚠️ Section only without content: 2 points
+- ❌ Section missing: 0 points
 
-**3.3 Core Concepts 섹션 (5점)**
-- ✅ 섹션 존재 + 내용 있음: 5점
-- ⚠️ 섹션만 있고 내용 없음: 2점
-- ❌ 섹션 없음: 0점
+**3.3 Core Concepts Section (5 points)**
+- ✅ Section exists + has content: 5 points
+- ⚠️ Section only without content: 2 points
+- ❌ Section missing: 0 points
 
-**3.4 Best Practices 또는 Common Pitfalls 섹션 (5점)**
-- ✅ 둘 중 하나 이상 존재 + 내용 있음: 5점
-- ⚠️ 섹션만 있고 내용 없음: 2점
-- ❌ 둘 다 없음: 0점
-
----
-
-## ✅ 검증 4: 콘텐츠 품질 검증 (25점)
-
-### 항목
-
-**4.1 코드 블록 언어 명시 (10점)**
-
-**검사 방법:**
-- 모든 ` ``` ` 코드 블록을 찾음
-- 언어 태그 유무 확인 (예: ` ```python `, ` ```java `)
-
-**점수 계산:**
-```
-명시율 = (언어가 명시된 코드 블록 수) / (전체 코드 블록 수) × 100%
-
-점수 = 명시율 / 10
-```
-
-**예시:**
-- 10개 중 10개 명시: 100% → 10점
-- 10개 중 8개 명시: 80% → 8점
-- 10개 중 5개 명시: 50% → 5점
-
-**4.2 섹션 계층 구조 (5점)**
-
-**규칙:**
-- H1 (# ) : 1개만
-- H2 (## ) : H1 다음
-- H3 (### ) : H2 다음 (H1 바로 다음에 오면 안 됨)
-
-**점수 계산:**
-- 완벽한 계층: 5점
-- 1-2개 위반: 3점
-- 3개 이상 위반: 0점
-
-**4.3 링크 상대 경로 사용 (5점)**
-
-**검사:**
-- 내부 파일 링크는 상대 경로 (./REFERENCE.md, ./examples/)
-- 외부 링크는 절대 경로 허용
-
-**점수:**
-- 모든 내부 링크가 상대 경로: 5점
-- 일부 절대 경로 사용: 3점
-- 대부분 절대 경로: 0점
-
-**4.4 용어 일관성 (5점)**
-
-**검사 항목:**
-- MCP 형식: `ServerName:tool_name` (예: `Serena:find_symbol`)
-- 시간 독립적 표현 ("2024년" 대신 "최신", "현재")
-- 일관된 용어 사용 (예: "사용자" vs "유저" 통일)
-
-**점수:**
-- 일관성 유지: 5점
-- 소폭 불일치: 3점
-- 심각한 불일치: 0점
+**3.4 Best Practices or Common Pitfalls Section (5 points)**
+- ✅ At least one exists + has content: 5 points
+- ⚠️ Section only without content: 2 points
+- ❌ Both missing: 0 points
 
 ---
 
-## ✅ 검증 5: 스킬 타입 적합성 (10점)
+## ✅ Validation 4: Content Quality Validation (25 points)
 
-### 스킬 타입별 단어 수 기준
+### Items
 
-| 타입 | 단어 수 범위 | 주요 섹션 |
-|------|--------------|-----------|
+**4.1 Code Block Language Specification (10 points)**
+
+**Inspection Method:**
+- Find all ` ``` ` code blocks
+- Check for language tag presence (e.g., ` ```python `, ` ```java `)
+
+**Score Calculation:**
+```
+Specification rate = (code blocks with language specified) / (total code blocks) × 100%
+
+Score = specification rate / 10
+```
+
+**Examples:**
+- 10 out of 10 specified: 100% → 10 points
+- 8 out of 10 specified: 80% → 8 points
+- 5 out of 10 specified: 50% → 5 points
+
+**4.2 Section Hierarchy Structure (5 points)**
+
+**Rules:**
+- H1 (# ) : Only 1
+- H2 (## ) : After H1
+- H3 (### ) : After H2 (should not come directly after H1)
+
+**Score Calculation:**
+- Perfect hierarchy: 5 points
+- 1-2 violations: 3 points
+- 3 or more violations: 0 points
+
+**4.3 Link Relative Path Usage (5 points)**
+
+**Inspection:**
+- Internal file links use relative paths (./REFERENCE.md, ./examples/)
+- External links can use absolute paths
+
+**Score:**
+- All internal links use relative paths: 5 points
+- Some absolute paths used: 3 points
+- Mostly absolute paths: 0 points
+
+**4.4 Terminology Consistency (5 points)**
+
+**Inspection Items:**
+- MCP format: `ServerName:tool_name` (e.g., `Serena:find_symbol`)
+- Time-independent expressions (use "latest", "current" instead of "2024")
+- Consistent terminology use (e.g., unify "user" vs "users")
+
+**Score:**
+- Maintains consistency: 5 points
+- Minor inconsistencies: 3 points
+- Severe inconsistencies: 0 points
+
+---
+
+## ✅ Validation 5: Skill Type Appropriateness (10 points)
+
+### Word Count Standards by Skill Type
+
+| Type | Word Count Range | Main Sections |
+|------|------------------|---------------|
 | **Quick Workflow** | 200-400 | Quick Start, Detailed Workflow |
 | **Comprehensive Guide** | 600-1,500 | Overview, How to Use, Patterns, Examples |
 | **Technical Reference** | 1,500-5,000+ | Quick Reference, API Reference, Examples |
 | **Philosophy-Driven** | 1,000-3,000 | Philosophy/Approach, Implementation Workflow |
 
-### 점수 계산
+### Score Calculation
 
-**5.1 단어 수 적합성 (5점)**
-- 권장 범위 내: 5점
-- 20% 이내 벗어남: 3점
-- 20% 이상 벗어남: 0점
+**5.1 Word Count Appropriateness (5 points)**
+- Within recommended range: 5 points
+- Deviates within 20%: 3 points
+- Deviates more than 20%: 0 points
 
-**5.2 권장 섹션 포함 (5점)**
-- 타입별 권장 섹션 모두 포함: 5점
-- 50% 이상 포함: 3점
-- 50% 미만: 0점
-
----
-
-## ✅ 검증 6: 일관성 및 완성도 (10점)
-
-### 항목
-
-**6.1 오타 및 문법 (5점)**
-- 심각한 오타 0개: 5점
-- 1-3개: 3점
-- 4개 이상: 0점
-
-**6.2 완성도 (5점)**
-- 모든 섹션 완성: 5점
-- "TODO", "WIP" 등 미완성 표시 있음: 2점
-- 빈 섹션 다수: 0점
+**5.2 Recommended Sections Included (5 points)**
+- All type-specific recommended sections included: 5 points
+- 50% or more included: 3 points
+- Less than 50%: 0 points
 
 ---
 
-## 🔄 검증 절차
+## ✅ Validation 6: Consistency and Completeness (10 points)
 
-### 1단계: 파일 읽기
-```
-Read 도구로 SKILL.md 파일 읽기
-→ 파일이 없으면 즉시 실패
-```
+### Items
 
-### 2단계: 기본 정보 추출
-```
-- Frontmatter 파싱 (YAML)
-- 단어 수 계산
-- H1/H2/H3 개수 세기
-- 코드 블록 개수 세기
-```
+**6.1 Typos and Grammar (5 points)**
+- 0 severe typos: 5 points
+- 1-3 typos: 3 points
+- 4 or more: 0 points
 
-### 3단계: 6가지 검증 실행
-```
-각 검증 항목별로:
-1. 조건 확인
-2. 점수 계산
-3. 개선 제안 생성
-```
+**6.2 Completeness (5 points)**
+- All sections complete: 5 points
+- "TODO", "WIP" or other incomplete markers present: 2 points
+- Multiple empty sections: 0 points
 
-### 4단계: 총점 계산 및 등급 부여
+---
+
+## 🔄 Validation Procedure
+
+### Step 1: Read File
 ```
-총점 = 검증1 + 검증2 + ... + 검증6
-등급 = 총점에 따른 A/B/C/D/F
+Read SKILL.md file with Read tool
+→ Fail immediately if file does not exist
 ```
 
-### 5단계: 리포트 생성
+### Step 2: Extract Basic Information
 ```
-- Executive Summary (3줄 요약)
-- 점수 및 등급
-- 잘된 점
-- 개선 필요
-- 상세 검증 결과
-- 개선 제안
+- Parse Frontmatter (YAML)
+- Calculate word count
+- Count H1/H2/H3
+- Count code blocks
+```
+
+### Step 3: Execute 6 Validations
+```
+For each validation item:
+1. Check conditions
+2. Calculate score
+3. Generate improvement suggestions
+```
+
+### Step 4: Calculate Total Score and Assign Grade
+```
+Total score = validation1 + validation2 + ... + validation6
+Grade = A/B/C/D/F based on total score
+```
+
+### Step 5: Generate Report
+```
+- Executive Summary (3-line summary)
+- Score and grade
+- Strengths
+- Areas needing improvement
+- Detailed validation results
+- Improvement suggestions
 ```
 
 ---
 
-## 📝 검증 결과 예시
+## 📝 Validation Result Example
 
 ```markdown
-📊 SKILL.md 검증 결과
+📊 SKILL.md Validation Result
 
 ## 📌 Executive Summary
-**등급: B (85/100)**
-**핵심 문제: 코드 블록 언어 미지정 5개, H1 제목 중복**
-**추천 조치: 자동 수정 적용으로 90점 이상 달성 가능**
+**Grade: B (85/100)**
+**Key Issue: 5 code blocks without language specification, duplicate H1 heading**
+**Recommended Action: Can achieve 90+ points with auto-correction**
 
 ---
 
-## 점수 상세
+## Score Details
 
-| 검증 항목 | 점수 | 만점 | 비고 |
-|-----------|------|------|------|
-| 1. 구조 검증 | 20 | 20 | ✅ |
-| 2. Frontmatter 검증 | 13 | 15 | ⚠️ description 길이 초과 |
-| 3. 필수 섹션 검증 | 20 | 20 | ✅ |
-| 4. 콘텐츠 품질 검증 | 17 | 25 | ⚠️ 코드 블록 언어 50% 미지정 |
-| 5. 스킬 타입 적합성 | 10 | 10 | ✅ |
-| 6. 일관성 및 완성도 | 5 | 10 | ⚠️ 오타 4개 발견 |
-| **총점** | **85** | **100** | **B (양호)** |
+| Validation Item | Score | Max | Notes |
+|-----------------|-------|-----|-------|
+| 1. Structure Validation | 20 | 20 | ✅ |
+| 2. Frontmatter Validation | 13 | 15 | ⚠️ description length exceeded |
+| 3. Required Section Validation | 20 | 20 | ✅ |
+| 4. Content Quality Validation | 17 | 25 | ⚠️ 50% code blocks without language |
+| 5. Skill Type Appropriateness | 10 | 10 | ✅ |
+| 6. Consistency and Completeness | 5 | 10 | ⚠️ 4 typos found |
+| **Total** | **85** | **100** | **B (Good)** |
 
 ---
 
-## ✅ 잘된 점
-- Progressive Disclosure 완벽 적용 (Level 3)
-- 필수 섹션 모두 포함
-- 스킬 타입에 적합한 단어 수
+## ✅ Strengths
+- Perfect Progressive Disclosure application (Level 3)
+- All required sections included
+- Word count appropriate for skill type
 
-## ⚠️ 개선 필요
-1. **코드 블록 언어 미지정** (Line 125, 234, 456, 567, 789)
-2. **Frontmatter description 길이 초과** (1050자 / 1024자)
-3. **오타 4개** (Line 45, 123, 345, 678)
+## ⚠️ Needs Improvement
+1. **Code blocks without language specification** (Line 125, 234, 456, 567, 789)
+2. **Frontmatter description length exceeded** (1050 chars / 1024 chars)
+3. **4 typos** (Line 45, 123, 345, 678)
 
-## 💡 개선 제안
-- 자동 수정으로 코드 블록 언어 추가 → +8점
-- description 트리밍 → +2점
-- 예상 개선 후 점수: **95점 (A)**
+## 💡 Improvement Suggestions
+- Add language to code blocks with auto-correction → +8 points
+- Trim description → +2 points
+- Expected score after improvements: **95 points (A)**
 ```
 
 ---
 
-## 🛠️ 이 문서 사용 방법
+## 🛠️ How to Use This Document
 
-### /create-skill 커맨드에서
+### In /create-skill Command
 ```markdown
-Phase 4: 검증 및 완료
+Phase 4: Validation and Completion
 
-**검증 실행:**
-@shared/skill/validation-criteria.md 의 검증 절차를 따라 실행합니다.
+**Execute Validation:**
+Follow validation procedure from @shared/skill/validation-criteria.md.
 
-**리포트 생성:**
-검증 결과를 바탕으로 간단한 요약 리포트를 생성합니다.
+**Generate Report:**
+Generate simple summary report based on validation results.
 ```
 
-### /evaluate-skill 커맨드에서
+### In /evaluate-skill Command
 ```markdown
-Phase 1: SKILL.md 평가
+Phase 1: SKILL.md Evaluation
 
-**검증 실행:**
-@shared/skill/validation-criteria.md 의 검증 절차를 따라 실행합니다.
+**Execute Validation:**
+Follow validation procedure from @shared/skill/validation-criteria.md.
 
-**상세 리포트 생성:**
-Executive Summary + 상세 검증 결과 + 개선 제안을 포함한 완전한 리포트를 생성합니다.
+**Generate Detailed Report:**
+Generate complete report including Executive Summary + detailed validation results + improvement suggestions.
 ```
 
 ---
 
-이 검증 기준은 SKILL.md 품질의 일관성을 보장하고, 객관적인 평가를 가능하게 합니다.
+This validation criteria ensures quality consistency of SKILL.md and enables objective evaluation.

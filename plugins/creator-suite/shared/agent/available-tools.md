@@ -1,286 +1,286 @@
-# 서브 에이전트 사용 가능 도구 목록
+# Sub-Agent Available Tools
 
-서브 에이전트에서 사용할 수 있는 모든 도구와 각 도구의 설명, 용도, 보안 고려사항을 정리한 문서입니다.
-
----
-
-## 📚 전체 도구 목록
-
-| 도구 | 설명 | 주요 용도 | 보안 등급 |
-|------|------|-----------|-----------|
-| **Read** | 파일 읽기 | 코드 분석, 검증, 리뷰 | 🟢 안전 |
-| **Write** | 파일 쓰기/생성 | 파일 생성, 내용 작성 | 🟡 주의 |
-| **Edit** | 파일 편집 | 기존 파일 수정 | 🟡 주의 |
-| **Bash** | 명령어 실행 | 도구 실행, 빌드, 테스트 | 🔴 위험 |
-| **Grep** | 패턴 검색 | 코드 검색, 패턴 찾기 | 🟢 안전 |
-| **Glob** | 파일 검색 | 파일 패턴 매칭 | 🟢 안전 |
-| **WebFetch** | 웹 페이지 가져오기 | 문서 조회, 정보 수집 | 🟢 안전 |
-| **WebSearch** | 웹 검색 | 정보 검색, 문서 찾기 | 🟢 안전 |
+A document listing all tools available for sub-agents, with descriptions, use cases, and security considerations for each tool.
 
 ---
 
-## 🔧 도구 상세 설명
+## 📚 Complete Tool List
+
+| Tool | Description | Main Use | Security Level |
+|------|-------------|----------|----------------|
+| **Read** | Read files | Code analysis, validation, review | 🟢 Safe |
+| **Write** | Write/create files | File creation, content writing | 🟡 Caution |
+| **Edit** | Edit files | Modify existing files | 🟡 Caution |
+| **Bash** | Execute commands | Tool execution, build, test | 🔴 Dangerous |
+| **Grep** | Pattern search | Code search, pattern finding | 🟢 Safe |
+| **Glob** | File search | File pattern matching | 🟢 Safe |
+| **WebFetch** | Fetch web pages | Document lookup, information gathering | 🟢 Safe |
+| **WebSearch** | Web search | Information search, find documentation | 🟢 Safe |
+
+---
+
+## 🔧 Tool Detailed Descriptions
 
 ### Read
-**설명**: 파일의 내용을 읽습니다.
+**Description**: Reads file contents.
 
-**사용 사례**:
-- 코드 분석 및 리뷰
-- 설정 파일 검증
-- 문서 읽기
-- 테스트 파일 확인
+**Use Cases**:
+- Code analysis and review
+- Configuration file validation
+- Document reading
+- Test file verification
 
-**보안 고려사항**:
-- ✅ 읽기 전용, 안전함
-- ✅ 파일 시스템 변경 없음
+**Security Considerations**:
+- ✅ Read-only, safe
+- ✅ No file system changes
 
-**권장 에이전트 타입**: 모든 타입
+**Recommended Agent Types**: All types
 
 ---
 
 ### Write
-**설명**: 새로운 파일을 생성하거나 기존 파일을 완전히 덮어씁니다.
+**Description**: Creates new files or completely overwrites existing files.
 
-**사용 사례**:
-- 새 파일 생성
-- 보고서 작성
-- 설정 파일 생성
-- 템플릿 파일 작성
+**Use Cases**:
+- Create new files
+- Write reports
+- Create configuration files
+- Write template files
 
-**보안 고려사항**:
-- ⚠️ 기존 파일을 덮어쓸 수 있음
-- ⚠️ 의도하지 않은 파일 손실 가능
-- 💡 사용 전 Read로 기존 파일 확인 권장
+**Security Considerations**:
+- ⚠️ Can overwrite existing files
+- ⚠️ Potential unintended file loss
+- 💡 Recommended to check existing files with Read first
 
-**권장 에이전트 타입**: Specialist (포맷터), Orchestrator (워크플로우 관리)
+**Recommended Agent Types**: Specialist (formatter), Orchestrator (workflow management)
 
 ---
 
 ### Edit
-**설명**: 기존 파일의 특정 부분을 수정합니다.
+**Description**: Modifies specific parts of existing files.
 
-**사용 사례**:
-- 코드 수정
-- 버전 번호 업데이트
-- 설정 값 변경
-- 리팩토링
+**Use Cases**:
+- Code modification
+- Version number updates
+- Configuration value changes
+- Refactoring
 
-**보안 고려사항**:
-- ⚠️ 파일 내용 변경
-- 💡 정확한 패턴 매칭 필요
-- 💡 변경 전 백업 권장
+**Security Considerations**:
+- ⚠️ File content modification
+- 💡 Accurate pattern matching required
+- 💡 Backup recommended before changes
 
-**권장 에이전트 타입**: Specialist (코드 포맷터), Orchestrator (버전 관리)
+**Recommended Agent Types**: Specialist (code formatter), Orchestrator (version management)
 
 ---
 
 ### Bash
-**설명**: 쉘 명령어를 실행합니다.
+**Description**: Executes shell commands.
 
-**사용 사례**:
-- 테스트 실행 (npm test, pytest)
-- 빌드 명령 (npm run build)
-- 린터 실행 (eslint, black)
-- Git 명령 (git status, git add)
-- 패키지 관리 (npm install, pip install)
+**Use Cases**:
+- Run tests (npm test, pytest)
+- Build commands (npm run build)
+- Run linters (eslint, black)
+- Git commands (git status, git add)
+- Package management (npm install, pip install)
 
-**보안 고려사항**:
-- 🔴 임의 명령 실행 가능
-- 🔴 파일 시스템 변경 가능
-- 🔴 네트워크 요청 가능
-- 💡 명령어 범위를 명확히 제한해야 함
-- 💡 위험한 명령 (rm -rf, sudo) 실행 금지
+**Security Considerations**:
+- 🔴 Can execute arbitrary commands
+- 🔴 Can modify file system
+- 🔴 Can make network requests
+- 💡 Command scope must be clearly limited
+- 💡 Prohibit dangerous commands (rm -rf, sudo)
 
-**권장 에이전트 타입**: Specialist (도구 실행), Analyst (검증), Orchestrator (빌드/배포)
+**Recommended Agent Types**: Specialist (tool execution), Analyst (validation), Orchestrator (build/deployment)
 
 ---
 
 ### Grep
-**설명**: 파일 내용에서 패턴을 검색합니다.
+**Description**: Searches for patterns in file contents.
 
-**사용 사례**:
-- 특정 코드 패턴 찾기
-- 보안 취약점 검색
-- TODO/FIXME 찾기
-- 의존성 검색
+**Use Cases**:
+- Find specific code patterns
+- Search for security vulnerabilities
+- Find TODO/FIXME
+- Search dependencies
 
-**보안 고려사항**:
-- ✅ 읽기 전용, 안전함
-- ✅ 파일 시스템 변경 없음
+**Security Considerations**:
+- ✅ Read-only, safe
+- ✅ No file system changes
 
-**권장 에이전트 타입**: Analyst (코드 리뷰, 보안 감사)
+**Recommended Agent Types**: Analyst (code review, security audit)
 
 ---
 
 ### Glob
-**설명**: 파일 경로 패턴으로 파일을 검색합니다.
+**Description**: Searches for files using file path patterns.
 
-**사용 사례**:
-- 특정 확장자 파일 찾기 (*.ts, *.py)
-- 디렉토리 구조 탐색
-- 파일 목록 생성
+**Use Cases**:
+- Find files with specific extensions (*.ts, *.py)
+- Explore directory structure
+- Generate file lists
 
-**보안 고려사항**:
-- ✅ 읽기 전용, 안전함
-- ✅ 파일 시스템 변경 없음
+**Security Considerations**:
+- ✅ Read-only, safe
+- ✅ No file system changes
 
-**권장 에이전트 타입**: Analyst, Orchestrator
+**Recommended Agent Types**: Analyst, Orchestrator
 
 ---
 
 ### WebFetch
-**설명**: 웹 페이지의 내용을 가져옵니다.
+**Description**: Fetches web page contents.
 
-**사용 사례**:
-- 공식 문서 조회
-- API 문서 확인
-- 외부 정보 수집
+**Use Cases**:
+- Look up official documentation
+- Check API documentation
+- Collect external information
 
-**보안 고려사항**:
-- ✅ 읽기 전용
-- ⚠️ 외부 네트워크 요청
-- 💡 신뢰할 수 있는 도메인만 사용 권장
+**Security Considerations**:
+- ✅ Read-only
+- ⚠️ External network requests
+- 💡 Recommended to use only trusted domains
 
-**권장 에이전트 타입**: Analyst (정보 수집), Orchestrator (문서 확인)
+**Recommended Agent Types**: Analyst (information gathering), Orchestrator (document checking)
 
 ---
 
 ### WebSearch
-**설명**: 웹에서 정보를 검색합니다.
+**Description**: Searches for information on the web.
 
-**사용 사례**:
-- 최신 기술 정보 검색
-- 에러 메시지 해결 방법 찾기
-- 베스트 프랙티스 조회
+**Use Cases**:
+- Search for latest technical information
+- Find error message solutions
+- Look up best practices
 
-**보안 고려사항**:
-- ✅ 읽기 전용
-- ⚠️ 외부 네트워크 요청
-- 💡 검색 결과 검증 필요
+**Security Considerations**:
+- ✅ Read-only
+- ⚠️ External network requests
+- 💡 Search result validation required
 
-**권장 에이전트 타입**: Analyst, Orchestrator
+**Recommended Agent Types**: Analyst, Orchestrator
 
 ---
 
-## 🔐 최소 권한 원칙
+## 🔐 Principle of Least Privilege
 
-에이전트의 역할에 따라 필요한 최소한의 도구만 허용하는 것이 권장됩니다.
+It's recommended to allow only the minimum tools necessary for the agent's role.
 
-### 역할별 권장 도구 조합
+### Recommended Tool Combinations by Role
 
-#### 읽기 전용 분석 (코드 리뷰, 보안 감사)
+#### Read-Only Analysis (code review, security audit)
 ```yaml
 tools: Read,Grep
 ```
-**이유**: 파일을 읽고 검색만 하므로 안전함
+**Reason**: Safe as it only reads and searches files
 
-#### 분석 + 도구 실행 (테스트 실행, 린터)
+#### Analysis + Tool Execution (test execution, linters)
 ```yaml
 tools: Read,Grep,Bash
 ```
-**이유**: 분석 후 도구를 실행하여 검증
+**Reason**: Analysis followed by tool execution for validation
 
-#### 파일 수정 (포맷팅, 코드 정리)
+#### File Modification (formatting, code cleanup)
 ```yaml
 tools: Read,Write,Edit
 ```
-**이유**: 파일을 읽고 수정해야 함
+**Reason**: Need to read and modify files
 
-#### 복잡한 워크플로우 (빌드, 배포, 릴리스)
+#### Complex Workflow (build, deployment, release)
 ```yaml
 tools: Read,Write,Bash
 ```
-**이유**: 파일 읽기/쓰기 + 명령 실행 필요
+**Reason**: File read/write + command execution needed
 
-#### 포괄적 분석 (종합 리뷰)
+#### Comprehensive Analysis (comprehensive review)
 ```yaml
 tools: Read,Grep,Bash
 ```
-**이유**: 코드 분석 + 테스트/린터 실행
+**Reason**: Code analysis + test/linter execution
 
 ---
 
-## ⚠️ 타입별 도구 적합성 검증
+## ⚠️ Tool Suitability Validation by Type
 
-### Specialist (단일 작업 전문)
+### Specialist (single task specialist)
 
-**권장 도구**:
+**Recommended Tools**:
 - Formatting: `Read,Write,Bash`
 - Validation: `Read,Bash`
 - Link Checking: `Read,Bash,WebFetch`
 
-**경고 발생 시나리오**:
+**Warning Scenarios**:
 ```yaml
-# ❌ 포맷터에 Grep은 불필요
+# ❌ Grep unnecessary for formatter
 specialist_formatter:
-  tools: Read,Write,Bash,Grep  # Grep 경고
-  reason: "포맷팅에는 검색 불필요"
+  tools: Read,Write,Bash,Grep  # Grep warning
+  reason: "Search not needed for formatting"
 
-# ✅ 적절한 도구 조합
+# ✅ Appropriate tool combination
 specialist_formatter:
   tools: Read,Write,Bash
 ```
 
 ---
 
-### Analyst (분석 및 리뷰)
+### Analyst (analysis and review)
 
-**권장 도구**:
+**Recommended Tools**:
 - Code Review: `Read,Grep,Bash`
 - Security Audit: `Read,Grep`
 - Performance Analysis: `Read,Grep,Bash`
 
-**경고 발생 시나리오**:
+**Warning Scenarios**:
 ```yaml
-# ❌ 분석 작업에 Write는 부적절 (읽기 전용이어야 함)
+# ❌ Write inappropriate for analysis tasks (should be read-only)
 analyst_reviewer:
-  tools: Read,Grep,Write  # Write 경고
-  reason: "분석은 읽기 전용이어야 함"
+  tools: Read,Grep,Write  # Write warning
+  reason: "Analysis should be read-only"
 
-# ✅ 적절한 도구 조합
+# ✅ Appropriate tool combination
 analyst_reviewer:
   tools: Read,Grep,Bash
 ```
 
 ---
 
-### Orchestrator (복잡한 워크플로우)
+### Orchestrator (complex workflow)
 
-**권장 도구**:
+**Recommended Tools**:
 - Deployment: `Read,Write,Bash`
 - Release Management: `Read,Write,Edit,Bash`
 - CI/CD Pipeline: `Read,Write,Bash,Grep`
 
-**경고 발생 시나리오**:
+**Warning Scenarios**:
 ```yaml
-# ⚠️ 모든 도구 허용은 권장하지 않음
+# ⚠️ Allowing all tools not recommended
 orchestrator_release:
-  tools: "*"  # 모든 도구 - 과도한 권한
-  reason: "필요한 도구만 명시해야 함"
+  tools: "*"  # All tools - excessive permissions
+  reason: "Should specify only necessary tools"
 
-# ✅ 적절한 도구 조합
+# ✅ Appropriate tool combination
 orchestrator_release:
   tools: Read,Write,Bash
 ```
 
 ---
 
-## 🛡️ 보안 체크리스트
+## 🛡️ Security Checklist
 
-에이전트 생성 시 다음 사항을 확인하세요:
+Check the following when creating agents:
 
-- [ ] **최소 권한**: 역할에 필요한 최소한의 도구만 허용했는가?
-- [ ] **읽기 전용**: 분석 작업은 Read, Grep만 사용하는가?
-- [ ] **Write/Edit 정당성**: 파일 수정이 정말 필요한가?
-- [ ] **Bash 명령 범위**: 실행할 명령어가 명확히 정의되어 있는가?
-- [ ] **위험 명령 금지**: rm -rf, sudo 등 위험한 명령을 사용하지 않는가?
-- [ ] **모든 도구 허용 회피**: tools: "*" 사용을 피했는가?
+- [ ] **Least Privilege**: Are only the minimum tools necessary for the role allowed?
+- [ ] **Read-Only**: Do analysis tasks use only Read, Grep?
+- [ ] **Write/Edit Justification**: Is file modification really necessary?
+- [ ] **Bash Command Scope**: Are the commands to execute clearly defined?
+- [ ] **Dangerous Command Prohibition**: Not using dangerous commands like rm -rf, sudo?
+- [ ] **Avoid All Tools**: Avoided using tools: "*"?
 
 ---
 
-## 📖 참고 자료
+## 📖 References
 
-- **검증 기준**: `validation-criteria.md`
-- **타입 시스템**: `type-system.md`
-- **베스트 프랙티스**: `best-practices.md`
-- **템플릿**: `templates/` 디렉토리
+- **Validation Criteria**: `validation-criteria.md`
+- **Type System**: `type-system.md`
+- **Best Practices**: `best-practices.md`
+- **Templates**: `templates/` directory

@@ -1,38 +1,38 @@
-# 서브 에이전트 베스트 프랙티스
+# Sub-Agent Best Practices
 
-효과적이고 안전한 서브 에이전트를 작성하기 위한 베스트 프랙티스와 작성 팁입니다.
-
----
-
-## ✅ Do's (권장 사항)
-
-### 1. 명확한 역할 정의
-
-**원칙**: 에이전트가 무엇을 하는지 한 문장으로 설명할 수 있어야 합니다.
-
-**좋은 예시**:
-```markdown
-"TypeScript와 Python 코드의 품질, 보안, 성능을 종합적으로 검증하는 전문 리뷰어"
-```
-
-**나쁜 예시**:
-```markdown
-"코드를 개선합니다"  # 너무 모호함
-"여러 가지 작업을 수행합니다"  # 역할이 불명확
-```
-
-**체크리스트**:
-- [ ] 역할이 한 문장으로 명확히 설명되는가?
-- [ ] 전문 분야가 구체적으로 명시되었는가?
-- [ ] 입력과 출력이 명확한가?
+Best practices and writing tips for creating effective and safe sub-agents.
 
 ---
 
-### 2. 구체적인 트리거 조건
+## ✅ Do's (Recommendations)
 
-**원칙**: 에이전트가 언제 실행될지 명확하고 구체적으로 정의합니다.
+### 1. Clear Role Definition
 
-**좋은 예시**:
+**Principle**: You should be able to describe what the agent does in one sentence.
+
+**Good Example**:
+```markdown
+"A professional reviewer that comprehensively validates the quality, security, and performance of TypeScript and Python code"
+```
+
+**Bad Example**:
+```markdown
+"Improves code"  # Too vague
+"Performs various tasks"  # Unclear role
+```
+
+**Checklist**:
+- [ ] Is the role clearly described in one sentence?
+- [ ] Is the area of expertise specifically stated?
+- [ ] Are inputs and outputs clear?
+
+---
+
+### 2. Specific Trigger Conditions
+
+**Principle**: Clearly and specifically define when the agent will be executed.
+
+**Good Example**:
 ```markdown
 ## Triggers
 - PR creation or update
@@ -42,59 +42,59 @@
 - Explicit: "Use the code-reviewer subagent"
 ```
 
-**나쁜 예시**:
+**Bad Example**:
 ```markdown
 ## Triggers
-- 코드 관련 작업
-- 필요할 때
-- 사용자가 요청하면
+- Code-related tasks
+- When needed
+- When user requests
 ```
 
-**체크리스트**:
-- [ ] 3-5개의 구체적 시나리오가 있는가?
-- [ ] 파일 확장자나 브랜치명이 명시되어 있는가?
-- [ ] 사용자 명령어 패턴이 포함되어 있는가?
+**Checklist**:
+- [ ] Are there 3-5 specific scenarios?
+- [ ] Are file extensions or branch names specified?
+- [ ] Are user command patterns included?
 
 ---
 
-### 3. 최소 권한 원칙 (Principle of Least Privilege)
+### 3. Principle of Least Privilege
 
-**원칙**: 역할 수행에 필요한 최소한의 도구만 허용합니다.
+**Principle**: Allow only the minimum tools necessary to perform the role.
 
-**좋은 예시**:
+**Good Example**:
 ```yaml
-# 분석 에이전트 (읽기 전용)
+# Analysis agent (read-only)
 tools: Read,Grep
 
-# 분석 + 검증 도구 실행
+# Analysis + validation tool execution
 tools: Read,Grep,Bash
 
-# 포맷팅 (파일 수정 필요)
+# Formatting (file modification needed)
 tools: Read,Write,Bash
 ```
 
-**나쁜 예시**:
+**Bad Example**:
 ```yaml
-# 분석 에이전트에 Write 권한
+# Write permission for analysis agent
 name: code-reviewer
-tools: Read,Write,Bash  # Write 불필요!
+tools: Read,Write,Bash  # Write unnecessary!
 
-# 모든 도구 허용
-# tools 필드 생략 (모든 도구 허용됨)
+# All tools allowed
+# tools field omitted (all tools allowed)
 ```
 
-**체크리스트**:
-- [ ] 분석 작업은 Read, Grep만 사용하는가?
-- [ ] Write/Edit는 정말 필요한 경우만 허용했는가?
-- [ ] Bash는 어떤 명령을 실행할지 명확한가?
+**Checklist**:
+- [ ] Does analysis work use only Read, Grep?
+- [ ] Is Write/Edit allowed only when truly necessary?
+- [ ] Is it clear which commands Bash will execute?
 
 ---
 
-### 4. 명확한 경계 설정 (Boundaries)
+### 4. Clear Boundary Setting
 
-**원칙**: Will/Will Not을 명확히 정의하여 에이전트 행동을 제한합니다.
+**Principle**: Clearly define Will/Will Not to limit agent behavior.
 
-**좋은 예시**:
+**Good Example**:
 ```markdown
 ## Boundaries
 
@@ -113,29 +113,29 @@ tools: Read,Write,Bash  # Write 불필요!
 - Make changes without explicit user approval
 ```
 
-**나쁜 예시**:
+**Bad Example**:
 ```markdown
 ## Boundaries
 
 **Will:**
-- 코드 분석
+- Analyze code
 
 **Will Not:**
-- 나쁜 일
+- Bad things
 ```
 
-**체크리스트**:
-- [ ] Will 항목이 3-5개인가?
-- [ ] Will Not 항목이 2-4개인가?
-- [ ] 보안 고려사항이 포함되어 있는가?
+**Checklist**:
+- [ ] Are there 3-5 Will items?
+- [ ] Are there 2-4 Will Not items?
+- [ ] Are security considerations included?
 
 ---
 
-### 5. 구조화된 출력 형식
+### 5. Structured Output Format
 
-**원칙**: 일관된 출력 형식을 제공하여 사용자 경험을 향상시킵니다.
+**Principle**: Provide consistent output format to improve user experience.
 
-**좋은 예시**:
+**Good Example**:
 ```markdown
 ## Output Format
 \`\`\`
@@ -160,54 +160,54 @@ tools: Read,Write,Bash  # Write 불필요!
 \`\`\`
 ```
 
-**나쁜 예시**:
+**Bad Example**:
 ```markdown
 ## Output Format
-결과를 출력합니다
+Output results
 ```
 
-**체크리스트**:
-- [ ] 출력 예시가 구체적으로 제공되었는가?
-- [ ] 구조가 명확하고 읽기 쉬운가?
-- [ ] 이모지나 마크다운을 적절히 사용했는가?
+**Checklist**:
+- [ ] Are specific output examples provided?
+- [ ] Is the structure clear and easy to read?
+- [ ] Are emojis or markdown appropriately used?
 
 ---
 
-### 6. 타입별 맞춤 구조
+### 6. Type-Specific Structure
 
-**원칙**: Specialist/Analyst/Orchestrator에 맞는 구조를 사용합니다.
+**Principle**: Use structure appropriate for Specialist/Analyst/Orchestrator.
 
 **Specialist**:
 ```markdown
-- 100-300 단어
-- 3-4단계 Behavioral Guidelines
-- 간결한 Output Format
-- 빠른 실행 (<30초)
+- 100-300 words
+- 3-4 step Behavioral Guidelines
+- Concise Output Format
+- Fast execution (<30 seconds)
 ```
 
 **Analyst**:
 ```markdown
-- 300-800 단어
+- 300-800 words
 - 4-5 Phase Analysis Process
-- 심각도 분류 시스템
-- 구조화된 보고서
+- Severity classification system
+- Structured reports
 ```
 
 **Orchestrator**:
 ```markdown
-- 800-2000+ 단어
+- 800-2000+ words
 - 4-6 Phase Workflow
-- 상세한 Error Handling
-- 롤백 메커니즘
+- Detailed Error Handling
+- Rollback mechanisms
 ```
 
 ---
 
-### 7. 에러 처리 및 검증
+### 7. Error Handling and Validation
 
-**원칙**: 특히 Orchestrator는 상세한 에러 처리가 필수입니다.
+**Principle**: Detailed error handling is essential especially for Orchestrators.
 
-**좋은 예시** (Orchestrator):
+**Good Example** (Orchestrator):
 ```markdown
 ## Error Handling
 
@@ -227,74 +227,74 @@ tools: Read,Write,Bash  # Write 불필요!
 - **Notification**: Standard notification
 ```
 
-**체크리스트**:
-- [ ] 주요 에러 시나리오가 3-5개 정의되었는가?
-- [ ] 각 에러에 대한 복구 전략이 있는가?
-- [ ] 롤백 메커니즘이 포함되어 있는가? (Orchestrator)
+**Checklist**:
+- [ ] Are 3-5 major error scenarios defined?
+- [ ] Is there a recovery strategy for each error?
+- [ ] Is a rollback mechanism included? (Orchestrator)
 
 ---
 
-### 8. 타입과 모델 일치
+### 8. Type and Model Alignment
 
-**원칙**: 작업 복잡도에 맞는 모델을 선택합니다.
+**Principle**: Choose a model appropriate for task complexity.
 
-| 타입 | 권장 모델 | 이유 |
-|------|-----------|------|
-| Specialist (단순) | haiku | 빠르고 저렴 |
-| Specialist (복잡) | inherit | 적절한 성능 |
-| Analyst | sonnet | 정밀한 분석 필요 |
-| Orchestrator | sonnet/opus | 복잡한 조율 필요 |
+| Type | Recommended Model | Reason |
+|------|-------------------|--------|
+| Specialist (simple) | haiku | Fast and cheap |
+| Specialist (complex) | inherit | Appropriate performance |
+| Analyst | sonnet | Precise analysis needed |
+| Orchestrator | sonnet/opus | Complex orchestration needed |
 
-**체크리스트**:
-- [ ] 단순 작업에 opus 사용하지 않았는가?
-- [ ] 복잡한 분석에 haiku 사용하지 않았는가?
+**Checklist**:
+- [ ] Not using opus for simple tasks?
+- [ ] Not using haiku for complex analysis?
 
 ---
 
-## ❌ Don'ts (피해야 할 사항)
+## ❌ Don'ts (Things to Avoid)
 
-### 1. 모호한 역할
+### 1. Vague Roles
 
-**❌ 나쁜 예**:
+**❌ Bad Example**:
 ```markdown
-description: "코드를 개선합니다"
+description: "Improves code"
 ```
 
-**✅ 좋은 예**:
+**✅ Good Example**:
 ```markdown
-description: "TypeScript 코드의 성능과 보안을 분석하고 구체적인 개선 방안을 제시하는 분석가"
+description: "An analyst that analyzes TypeScript code performance and security and suggests specific improvements"
 ```
 
 ---
 
-### 2. 과도한 권한
+### 2. Excessive Permissions
 
-**❌ 나쁜 예**:
+**❌ Bad Example**:
 ```yaml
-# 분석 에이전트에 Write 권한
+# Write permission for analysis agent
 name: security-auditor
 tools: Read,Write,Bash
 ```
 
-**✅ 좋은 예**:
+**✅ Good Example**:
 ```yaml
-# 분석은 읽기 전용
+# Analysis is read-only
 name: security-auditor
 tools: Read,Grep,Bash
 ```
 
 ---
 
-### 3. 불명확한 트리거
+### 3. Unclear Triggers
 
-**❌ 나쁜 예**:
+**❌ Bad Example**:
 ```markdown
 ## Triggers
-- 코드 관련 작업
-- 필요할 때
+- Code-related tasks
+- When needed
 ```
 
-**✅ 좋은 예**:
+**✅ Good Example**:
 ```markdown
 ## Triggers
 - PR creation or update
@@ -304,14 +304,14 @@ tools: Read,Grep,Bash
 
 ---
 
-### 4. 에러 처리 누락
+### 4. Missing Error Handling
 
-**❌ 나쁜 예** (Orchestrator):
+**❌ Bad Example** (Orchestrator):
 ```markdown
-# 에러 처리 섹션 없음
+# No error handling section
 ```
 
-**✅ 좋은 예**:
+**✅ Good Example**:
 ```markdown
 ## Error Handling
 - Build Failures: ABORT release
@@ -321,127 +321,127 @@ tools: Read,Grep,Bash
 
 ---
 
-### 5. 테스트 없이 배포
+### 5. Deployment Without Testing
 
-**❌ 나쁜 예**:
-- 생성 후 바로 프로덕션 사용
-- 트리거 조건 검증 안 함
+**❌ Bad Example**:
+- Production use immediately after creation
+- No trigger condition validation
 
-**✅ 좋은 예**:
-- 생성 후 반드시 테스트
-- 트리거 조건이 올바르게 동작하는지 확인
-- 여러 시나리오에서 검증
+**✅ Good Example**:
+- Test after creation
+- Verify trigger conditions work correctly
+- Validate in multiple scenarios
 
 ---
 
-### 6. 모든 도구 허용
+### 6. Allowing All Tools
 
-**❌ 나쁜 예**:
+**❌ Bad Example**:
 ```yaml
-# tools 필드 생략 (모든 도구 허용)
+# tools field omitted (all tools allowed)
 ---
 name: example
-description: "설명"
+description: "Description"
 ---
 ```
 
-**✅ 좋은 예**:
+**✅ Good Example**:
 ```yaml
-# 필요한 도구만 명시
+# Specify only necessary tools
 ---
 name: example
-description: "설명"
+description: "Description"
 tools: Read,Grep,Bash
 ---
 ```
 
 ---
 
-## 💡 타입별 작성 팁
+## 💡 Type-Specific Writing Tips
 
-### Specialist 작성 팁
+### Specialist Writing Tips
 
-**핵심 원칙**: 단순함, 빠름, 명확함
+**Core Principles**: Simplicity, speed, clarity
 
 ✅ **Do's**:
-- 한 가지 작업에만 집중
-- 3-4단계의 간단한 프로세스
-- 빠른 실행 (< 30초)
-- 최소 도구만 사용
+- Focus on one task only
+- 3-4 step simple process
+- Fast execution (< 30 seconds)
+- Use minimum tools only
 
 ❌ **Don'ts**:
-- 복잡한 워크플로우 (→ Orchestrator)
-- 다중 작업 처리
-- 과도한 분석 (→ Analyst)
+- Complex workflows (→ Orchestrator)
+- Multi-task handling
+- Excessive analysis (→ Analyst)
 
-**예시 체크리스트**:
-- [ ] 100-300 단어 범위인가?
-- [ ] 단일 명확한 목적이 있는가?
-- [ ] 3-4단계의 간단한 프로세스인가?
+**Example Checklist**:
+- [ ] Is it within 100-300 words?
+- [ ] Does it have a single clear purpose?
+- [ ] Is there a simple 3-4 step process?
 
 ---
 
-### Analyst 작성 팁
+### Analyst Writing Tips
 
-**핵심 원칙**: 종합적 분석, 건설적 피드백, 읽기 전용
+**Core Principles**: Comprehensive analysis, constructive feedback, read-only
 
 ✅ **Do's**:
-- 여러 관점에서 종합 분석
-- 구체적인 예제와 함께 피드백
-- 심각도 분류 시스템 사용
-- 참조 문서 제공
+- Comprehensive analysis from multiple perspectives
+- Specific feedback with examples
+- Use severity classification system
+- Provide reference documentation
 
 ❌ **Don'ts**:
-- 코드 직접 수정 (읽기 전용!)
-- 추상적이거나 모호한 피드백
-- 실행 또는 테스트 수행
+- Direct code modification (read-only!)
+- Abstract or vague feedback
+- Execute or run tests
 
-**예시 체크리스트**:
-- [ ] 300-800 단어 범위인가?
-- [ ] 4-5단계의 분석 프로세스가 있는가?
-- [ ] 심각도 분류 시스템이 있는가?
-- [ ] Write/Edit 도구를 사용하지 않는가?
+**Example Checklist**:
+- [ ] Is it within 300-800 words?
+- [ ] Is there a 4-5 phase analysis process?
+- [ ] Is there a severity classification system?
+- [ ] Not using Write/Edit tools?
 
 ---
 
-### Orchestrator 작성 팁
+### Orchestrator Writing Tips
 
-**핵심 원칙**: 조율, 에러 처리, 안전성
+**Core Principles**: Orchestration, error handling, safety
 
 ✅ **Do's**:
-- 다단계 워크플로우 명확히 정의
-- 상세한 에러 처리 및 롤백
-- 각 Phase별 검증 조건
-- 진행 상황 실시간 보고
+- Clearly define multi-phase workflow
+- Detailed error handling and rollback
+- Validation conditions for each phase
+- Real-time progress reporting
 
 ❌ **Don'ts**:
-- 에러 처리 누락
-- 롤백 메커니즘 없음
-- 검증 없이 다음 단계 진행
+- Missing error handling
+- No rollback mechanism
+- Proceeding to next step without validation
 
-**예시 체크리스트**:
-- [ ] 800-2000+ 단어 범위인가?
-- [ ] 4-6단계의 워크플로우가 있는가?
-- [ ] 에러 처리 전략이 정의되었는가?
-- [ ] 롤백 메커니즘이 포함되었는가?
+**Example Checklist**:
+- [ ] Is it within 800-2000+ words?
+- [ ] Is there a 4-6 phase workflow?
+- [ ] Are error handling strategies defined?
+- [ ] Is a rollback mechanism included?
 
 ---
 
-## 🔒 보안 베스트 프랙티스
+## 🔒 Security Best Practices
 
-### 1. 최소 권한 원칙
+### 1. Principle of Least Privilege
 
 ```yaml
-# ✅ 좋은 예
-tools: Read,Grep  # 분석만 필요
+# ✅ Good Example
+tools: Read,Grep  # Only analysis needed
 
-# ❌ 나쁜 예
-# tools 필드 생략 (모든 도구 허용)
+# ❌ Bad Example
+# tools field omitted (all tools allowed)
 ```
 
 ---
 
-### 2. 위험한 명령 금지
+### 2. Prohibit Dangerous Commands
 
 ```markdown
 ## Boundaries
@@ -455,7 +455,7 @@ tools: Read,Grep  # 분석만 필요
 
 ---
 
-### 3. 입력 검증
+### 3. Input Validation
 
 ```markdown
 ## Behavioral Guidelines
@@ -466,7 +466,7 @@ tools: Read,Grep  # 분석만 필요
 
 ---
 
-### 4. 안전 검사 (Orchestrator)
+### 4. Safety Checks (Orchestrator)
 
 ```markdown
 ## Safety Checks
@@ -478,57 +478,57 @@ tools: Read,Grep  # 분석만 필요
 
 ---
 
-## 📊 품질 향상 팁
+## 📊 Quality Improvement Tips
 
-### 1. 검증 점수 90점 이상 목표
+### 1. Target 90+ Validation Score
 
-**높은 점수를 위한 팁**:
-- 모든 필수 섹션 포함
-- 구체적이고 상세한 설명
-- 타입에 맞는 단어 수
-- 트리거 조건 3개 이상
-- 구조화된 출력 형식
-
----
-
-### 2. 실전 테스트
-
-**테스트 시나리오**:
-1. 트리거 조건 검증
-2. 다양한 입력으로 테스트
-3. 에러 시나리오 확인
-4. 출력 형식 검증
+**Tips for high scores**:
+- Include all required sections
+- Specific and detailed descriptions
+- Word count appropriate for type
+- 3+ trigger conditions
+- Structured output format
 
 ---
 
-### 3. 반복적 개선
+### 2. Practical Testing
 
-**개선 프로세스**:
-1. 생성 후 검증 리포트 확인
-2. "개선 가능한 부분" 적용
-3. 실제 사용하며 피드백 수집
-4. 지속적으로 업데이트
+**Test Scenarios**:
+1. Trigger condition validation
+2. Test with various inputs
+3. Verify error scenarios
+4. Validate output format
 
 ---
 
-## 🎯 실전 예시
+### 3. Iterative Improvement
 
-### 예시 1: 좋은 Specialist
+**Improvement Process**:
+1. Check validation report after creation
+2. Apply "Improvable areas"
+3. Collect feedback from actual use
+4. Continuously update
+
+---
+
+## 🎯 Practical Examples
+
+### Example 1: Good Specialist
 
 ```yaml
 ---
 name: eslint-enforcer
-description: "JavaScript/TypeScript 파일에 ESLint 규칙을 자동으로 적용하고 코드 스타일을 일관성있게 유지하는 전문 포맷터"
+description: "A professional formatter that automatically applies ESLint rules to JavaScript/TypeScript files and maintains consistent code style"
 tools: Read,Write,Bash
 model: haiku
 ---
 
 # ESLint Enforcer
 
-단순하고 명확한 작업에 집중합니다.
+Focuses on simple and clear tasks.
 
 ## Role
-ESLint를 실행하여 코드 스타일을 자동으로 수정합니다.
+Execute ESLint to automatically fix code style.
 
 ## Triggers
 - User mentions "lint", "eslint", "format"
@@ -536,9 +536,9 @@ ESLint를 실행하여 코드 스타일을 자동으로 수정합니다.
 - Explicit: "run eslint"
 
 ## Behavioral Guidelines
-1. **Read**: 파일을 읽어 현재 상태 파악
-2. **Execute**: `npx eslint --fix {file}` 실행
-3. **Report**: 수정 내용과 남은 문제 보고
+1. **Read**: Read file to understand current state
+2. **Execute**: Run `npx eslint --fix {file}`
+3. **Report**: Report fixes and remaining issues
 
 ## Output Format
 ✅ ESLint Results
@@ -550,30 +550,30 @@ ESLint를 실행하여 코드 스타일을 자동으로 수정합니다.
 **Will Not:** Modify .eslintrc, Ignore errors
 ```
 
-**왜 좋은가**:
-- 단일 명확한 목적
-- 3단계 프로세스
-- 최소 필요 도구
-- 빠른 모델 (haiku)
+**Why it's good**:
+- Single clear purpose
+- 3-step process
+- Minimum necessary tools
+- Fast model (haiku)
 
 ---
 
-### 예시 2: 좋은 Analyst
+### Example 2: Good Analyst
 
 ```yaml
 ---
 name: security-auditor
-description: "애플리케이션의 보안 취약점을 식별하고 OWASP 기준으로 평가하는 전문 보안 분석가"
+description: "A professional security analyst that identifies application security vulnerabilities and evaluates them based on OWASP standards"
 tools: Read,Grep,Bash
 model: sonnet
 ---
 
 # Security Auditor
 
-보안 취약점을 종합적으로 분석합니다.
+Comprehensively analyzes security vulnerabilities.
 
 ## Role
-OWASP Top 10 기준으로 보안 감사를 수행합니다.
+Perform security audit based on OWASP Top 10.
 
 ## Expertise Areas
 - OWASP Top 10 vulnerabilities
@@ -587,10 +587,10 @@ OWASP Top 10 기준으로 보안 감사를 수행합니다.
 - Code changes in auth/security modules
 
 ## Analysis Process
-1. **Scan**: SQL injection, XSS, CSRF 검색
-2. **Analyze**: 인증/권한 로직 검토
-3. **Review**: 데이터 처리 및 암호화 확인
-4. **Report**: 위험도별 분류 보고
+1. **Scan**: Search for SQL injection, XSS, CSRF
+2. **Analyze**: Review authentication/authorization logic
+3. **Review**: Verify data handling and encryption
+4. **Report**: Classify by risk level
 
 ## Output Format
 🔒 Security Audit Report
@@ -598,34 +598,34 @@ OWASP Top 10 기준으로 보안 감사를 수행합니다.
 Critical: {count} | High: {count}
 
 ## Critical Vulnerabilities
-[상세 내용]
+[Details]
 
 ## Recommendations
-[우선순위별 개선 사항]
+[Improvements by priority]
 
 ## Analysis Standards
-- **Critical**: 즉시 조치 필요
-- **High**: 배포 전 수정 권장
-- **Medium**: 계획적 개선
-- **Low**: 참고 사항
+- **Critical**: Immediate action required
+- **High**: Fix recommended before deployment
+- **Medium**: Planned improvement
+- **Low**: For reference
 
 ## Boundaries
-**Will:** 취약점 식별, 위험 평가, 개선 제안
-**Will Not:** 코드 수정, 프로덕션 데이터 접근
+**Will:** Identify vulnerabilities, assess risks, suggest improvements
+**Will Not:** Modify code, access production data
 ```
 
-**왜 좋은가**:
-- 종합적 분석
-- 심각도 분류
-- 읽기 전용 (Write 없음)
-- 적절한 모델 (sonnet)
+**Why it's good**:
+- Comprehensive analysis
+- Severity classification
+- Read-only (no Write)
+- Appropriate model (sonnet)
 
 ---
 
-## 📖 참고 자료
+## 📖 References
 
-- **타입 시스템**: `type-system.md`
-- **모델 선택 가이드**: `model-selection-guide.md`
-- **도구 가이드**: `available-tools.md`
-- **검증 기준**: `validation-criteria.md`
-- **Frontmatter 예시**: `examples/frontmatter-examples.md`
+- **Type System**: `type-system.md`
+- **Model Selection Guide**: `model-selection-guide.md`
+- **Tool Guide**: `available-tools.md`
+- **Validation Criteria**: `validation-criteria.md`
+- **Frontmatter Examples**: `examples/frontmatter-examples.md`

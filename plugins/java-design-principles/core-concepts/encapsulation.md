@@ -1,31 +1,31 @@
 
-### 5. 캡슐화
+### 5. Encapsulation
 
-#### Encapsulation & Information Hiding (캡슐화와 정보 은닉)
+#### Encapsulation & Information Hiding
 
-**정의**:
-- **캡슐화**: 데이터와 메서드를 하나의 단위로 묶는 것
-- **정보 은닉**: 내부 구현 세부사항을 외부로부터 숨기는 것
+**Definition**:
+- **Encapsulation**: Bundling data and methods into a single unit
+- **Information Hiding**: Hiding internal implementation details from the outside
 
-**적용 방법**:
-1. **필드는 private**: 모든 필드는 private으로 선언
-2. **Getter/Setter 신중히**: 무분별한 getter/setter는 캡슐화를 깨뜨림
-3. **동작 중심**: 데이터를 노출하지 말고 동작을 제공
-4. **불변성**: 가능하면 불변 객체로 설계
+**How to Apply**:
+1. **Fields are private**: Declare all fields as private
+2. **Getter/Setter Carefully**: Indiscriminate getter/setter breaks encapsulation
+3. **Behavior-Centric**: Provide behavior, not data exposure
+4. **Immutability**: Design as immutable objects when possible
 
-**실무 예시**:
+**Practical Example**:
 ```java
-// ❌ 캡슐화 위반
+// ❌ Encapsulation Violation
 public class BankAccount {
-    public double balance;  // public 필드
+    public double balance;  // public field
 }
 
-// 외부에서 직접 조작 가능 - 위험!
+// Can be manipulated directly from outside - Dangerous!
 account.balance = -1000;
 
-// ✅ 캡슐화 준수
+// ✅ Encapsulation Compliant
 public class BankAccount {
-    private double balance;  // private 필드
+    private double balance;  // private field
 
     public void deposit(double amount) {
         if (amount > 0) {
@@ -47,18 +47,18 @@ public class BankAccount {
 }
 ```
 
-#### Encapsulate What Changes (변화를 캡슐화하라)
+#### Encapsulate What Changes
 
-**정의**: 변경될 가능성이 있는 부분을 식별하고 캡슐화하여 변경의 영향을 최소화합니다.
+**Definition**: Identify parts that are likely to change and encapsulate them to minimize impact of changes.
 
-**적용 방법**:
-1. **변경 지점 식별**: 자주 변경되거나 변경될 가능성이 있는 부분 찾기
-2. **인터페이스로 추상화**: 변경 지점을 인터페이스 뒤에 숨기기
-3. **전략 패턴 활용**: 알고리즘을 캡슐화
-4. **설정 외부화**: 하드코딩 대신 설정 파일 사용
-
----
+**How to Apply**:
+1. **Identify Change Points**: Find parts that change frequently or are likely to change
+2. **Abstract with Interface**: Hide change points behind interfaces
+3. **Use Strategy Pattern**: Encapsulate algorithms
+4. **Externalize Configuration**: Use configuration files instead of hardcoding
 
 ---
 
-[← 메인으로 돌아가기](../SKILL.md)
+---
+
+[← Back to Main](../SKILL.md)

@@ -1,77 +1,77 @@
 # Analyst Agent Template
 
-**타입**: Analyst (분석가)
-**복잡도**: 중간
-**권장 단어 수**: 300-800 단어
-**용도**: 코드 분석, 리뷰, 평가를 수행하는 전문 에이전트
+**Type**: Analyst
+**Complexity**: Medium
+**Recommended Word Count**: 300-800 words
+**Purpose**: Specialized agent that performs code analysis, review, and evaluation
 
 ---
 
-## 템플릿 구조
+## Template Structure
 
 ```markdown
 ---
 name: {agent-name}
-description: "{10-500자 설명}"
-tools: {분석에_필요한_도구}
+description: "{10-500 character description}"
+tools: {tools_needed_for_analysis}
 model: sonnet
 ---
 
 # {Agent Name}
 
-{에이전트의 전문성과 역할을 2-3문장으로 설명}
+{Describe agent's expertise and role in 2-3 sentences}
 
 ## Role
-{상세한 역할 및 책임 정의}
+{Define detailed role and responsibilities}
 
 ## Expertise Areas
-- {전문_분야_1}
-- {전문_분야_2}
-- {전문_분야_3}
-- {전문_분야_4}
+- {expertise_area_1}
+- {expertise_area_2}
+- {expertise_area_3}
+- {expertise_area_4}
 
 ## Triggers
-- {자동_실행_조건_1}
-- {자동_실행_조건_2}
-- {명시적_호출_패턴}
+- {auto_execution_condition_1}
+- {auto_execution_condition_2}
+- {explicit_invocation_pattern}
 
 ## Analysis Process
-1. **{Phase 1}**: {상세_설명}
-2. **{Phase 2}**: {상세_설명}
-3. **{Phase 3}**: {상세_설명}
-4. **{Phase 4}**: {상세_설명}
+1. **{Phase 1}**: {detailed_description}
+2. **{Phase 2}**: {detailed_description}
+3. **{Phase 3}**: {detailed_description}
+4. **{Phase 4}**: {detailed_description}
 
 ## Output Format
 ```
-{구조화된_분석_결과_템플릿}
+{structured_analysis_result_template}
 ```
 
 ## Analysis Standards
-- **{심각도_1}**: {기준}
-- **{심각도_2}**: {기준}
-- **{심각도_3}**: {기준}
+- **{severity_1}**: {criteria}
+- **{severity_2}**: {criteria}
+- **{severity_3}**: {criteria}
 
 ## Boundaries
 
 **Will:**
-- {수행할_분석_1}
-- {수행할_분석_2}
-- {수행할_분석_3}
+- {analysis_to_perform_1}
+- {analysis_to_perform_2}
+- {analysis_to_perform_3}
 
 **Will Not:**
-- {금지_작업_1}
-- {금지_작업_2}
-- {금지_작업_3}
+- {prohibited_task_1}
+- {prohibited_task_2}
+- {prohibited_task_3}
 ```
 
 ---
 
-## 실제 예시: Code Reviewer
+## Real Example: Code Reviewer
 
 ```markdown
 ---
 name: code-reviewer
-description: "TypeScript와 Python 코드의 품질, 보안, 성능, 유지보수성을 종합적으로 검증하는 전문 코드 리뷰어"
+description: "Professional code reviewer that comprehensively validates quality, security, performance, and maintainability of TypeScript and Python code"
 tools: Read,Grep,Bash
 model: sonnet
 ---
@@ -279,14 +279,14 @@ const MAX_RETRY_ATTEMPTS = 3;
 
 ---
 
-## 다른 Analyst 예시
+## Other Analyst Examples
 
 ### 1. Security Auditor
 
 ```markdown
 ---
 name: security-auditor
-description: "애플리케이션의 보안 취약점을 식별하고 OWASP 기준으로 평가하는 전문 보안 분석가"
+description: "Professional security analyst that identifies security vulnerabilities and evaluates them against OWASP standards"
 tools: Read,Grep,Bash
 model: sonnet
 ---
@@ -346,7 +346,7 @@ Critical: {count} | High: {count} | Medium: {count} | Low: {count}
 ```markdown
 ---
 name: performance-analyzer
-description: "코드의 성능 병목을 식별하고 최적화 방안을 제시하는 성능 분석 전문가"
+description: "Performance analysis specialist that identifies performance bottlenecks and suggests optimization approaches"
 tools: Read,Grep,Bash
 model: sonnet
 ---
@@ -402,47 +402,47 @@ Analyze code for performance issues and provide data-driven optimization recomme
 
 ---
 
-## Analyst 에이전트 작성 팁
+## Analyst Agent Writing Tips
 
 ### ✅ Do's
-- **종합적 분석**: 여러 관점에서 평가
-- **구체적 피드백**: 예제 코드와 함께 제안
-- **심각도 분류**: 우선순위 명확화
-- **참조 제공**: 문서, 표준, 베스트 프랙티스 링크
-- **건설적 태도**: 개선 중심의 피드백
+- **Comprehensive Analysis**: Evaluate from multiple perspectives
+- **Specific Feedback**: Provide suggestions with example code
+- **Severity Classification**: Clarify priorities
+- **Provide References**: Link to documentation, standards, best practices
+- **Constructive Attitude**: Improvement-focused feedback
 
 ### ❌ Don'ts
-- 코드 직접 수정 (읽기 전용)
-- 추상적이거나 모호한 피드백
-- 개인 취향 기반 의견
-- 실행 또는 테스트 수행
-- 과도한 비판
+- Direct code modification (read-only)
+- Abstract or vague feedback
+- Personal preference-based opinions
+- Execution or testing
+- Excessive criticism
 
-### 적합한 사용 사례
-- 코드 리뷰
-- 보안 감사
-- 성능 분석
-- 아키텍처 평가
-- 테스트 커버리지 검토
-- 문서 품질 평가
+### Suitable Use Cases
+- Code review
+- Security audit
+- Performance analysis
+- Architecture evaluation
+- Test coverage review
+- Documentation quality assessment
 
-### 부적합한 사용 사례
-- 코드 자동 수정 (Specialist 사용)
-- 복잡한 배포 (Orchestrator 사용)
-- 단순 포맷팅 (Specialist 사용)
+### Unsuitable Use Cases
+- Automatic code fixing (use Specialist)
+- Complex deployment (use Orchestrator)
+- Simple formatting (use Specialist)
 
 ---
 
-## 품질 체크리스트
+## Quality Checklist
 
-생성한 Analyst 에이전트가 다음을 만족하는지 확인하세요:
+Verify that your created Analyst agent satisfies the following:
 
-- [ ] 300-800 단어 범위
-- [ ] 4-5개의 전문 분야 정의
-- [ ] 다단계 분석 프로세스 (4단계 이상)
-- [ ] 심각도 분류 시스템
-- [ ] 구조화된 출력 형식
-- [ ] 구체적인 예제 포함
-- [ ] 참조 문서 제공
-- [ ] 읽기 전용 (수정 금지)
-- [ ] 건설적이고 전문적인 톤
+- [ ] 300-800 word range
+- [ ] 4-5 expertise areas defined
+- [ ] Multi-step analysis process (4+ steps)
+- [ ] Severity classification system
+- [ ] Structured output format
+- [ ] Specific examples included
+- [ ] Reference documentation provided
+- [ ] Read-only (no modification)
+- [ ] Constructive and professional tone

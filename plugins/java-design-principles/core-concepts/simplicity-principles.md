@@ -1,27 +1,27 @@
-# 단순성의 원칙 (Simplicity Principles)
+# Simplicity Principles
 
 ## KISS (Keep It Simple, Stupid)
 
-**정의**: 복잡한 시스템보다 단순한 시스템을 유지하라는 원칙입니다.
+**Definition**: The principle of maintaining simple systems rather than complex ones.
 
-**왜 중요한가**:
-- 단순한 코드는 작성 시간이 적게 걸립니다
-- 버그가 발생할 여지가 적습니다
-- 이해하기 쉽고 수정이 간편합니다
-- 새로운 팀원이 빠르게 이해할 수 있습니다
+**Why It Matters**:
+- Simple code takes less time to write
+- Less room for bugs to occur
+- Easy to understand and simple to modify
+- New team members can understand it quickly
 
-**적용 방법**:
-- 메서드는 한 가지 일만 하도록 작게 유지하세요
-- 중첩된 if문이 3단계 이상이면 리팩토링을 고려하세요
-- 복잡한 조건문은 명확한 이름의 메서드로 추출하세요
-- 클래스가 100줄을 넘어가면 분리를 고려하세요
+**How to Apply**:
+- Keep methods small, doing only one thing
+- Consider refactoring when nested if statements exceed 3 levels
+- Extract complex conditions into methods with clear names
+- Consider splitting classes that exceed 100 lines
 
-**실무 팁**:
+**Practical Tips**:
 ```java
-// ❌ 복잡함
+// ❌ Complex
 if ((user.getAge() >= 18 && user.hasLicense()) || user.hasParentalConsent())
 
-// ✅ 단순함
+// ✅ Simple
 if (canDrive(user))
 
 private boolean canDrive(User user) {
@@ -35,56 +35,56 @@ private boolean isAdult(User user) {
 
 ## YAGNI (You Aren't Gonna Need It)
 
-**정의**: 실제로 필요할 때만 기능을 구현하고, 미래를 예측한 구현을 피하라는 원칙입니다.
+**Definition**: The principle of implementing features only when actually needed, avoiding predictive implementation for the future.
 
-**왜 중요한가**:
-- 불필요한 코드 작성에 시간을 낭비하지 않습니다
-- 코드베이스를 간결하게 유지합니다
-- 실제 요구사항에 집중하게 됩니다
-- 변경 비용을 줄입니다
+**Why It Matters**:
+- Don't waste time writing unnecessary code
+- Keeps the codebase concise
+- Focuses on actual requirements
+- Reduces cost of change
 
-**위반 징후**:
-- "나중에 필요할 것 같아서" 추가한 기능
-- 사용되지 않는 메서드나 클래스
-- 과도하게 일반화된 인터페이스
-- 아직 요구되지 않은 확장성 고려
+**Violation Signs**:
+- Features added "because we might need it later"
+- Unused methods or classes
+- Overly generalized interfaces
+- Extensibility considerations not yet required
 
-**적용 방법**:
-- 현재 스토리/티켓에서 요구하는 기능만 구현하세요
-- "나중에 필요할 것 같다"는 생각이 들면 일단 멈추세요
-- 필요해질 때까지 기다렸다가 그때 추가하세요
+**How to Apply**:
+- Implement only the features required by the current story/ticket
+- Stop when you think "we might need this later"
+- Wait until it's actually needed, then add it
 
-**실무 예시**:
+**Practical Example**:
 ```java
-// ❌ YAGNI 위반 - 아직 필요하지 않은 다국어 지원
+// ❌ YAGNI Violation - Unnecessary multi-language support
 public class EmailService {
     public void sendEmail(String to, String subject, String body, Locale locale) {
-        // 현재는 영어만 지원하지만 "나중을 위해" locale 파라미터 추가
+        // Currently only supports English but added locale parameter "for later"
     }
 }
 
-// ✅ YAGNI 준수 - 실제 필요한 것만
+// ✅ YAGNI Compliant - Only what's actually needed
 public class EmailService {
     public void sendEmail(String to, String subject, String body) {
-        // 다국어 지원이 실제로 요구될 때 추가
+        // Add multi-language support when actually required
     }
 }
 ```
 
 ## Do The Simplest Thing That Could Possibly Work
 
-**정의**: 문제를 해결하는 가장 단순한 방법을 찾아 구현하라는 원칙입니다.
+**Definition**: The principle of finding and implementing the simplest solution to a problem.
 
-**적용 방법**:
-- 항상 질문하세요: "이 문제를 해결하는 가장 단순한 방법은 무엇인가?"
-- 첫 번째 해결책을 구현한 후, 더 단순하게 만들 수 있는지 검토하세요
-- 복잡한 패턴이 정말 필요한지 자문하세요
+**How to Apply**:
+- Always ask: "What's the simplest way to solve this problem?"
+- After implementing the first solution, review if it can be made simpler
+- Question whether complex patterns are really necessary
 
-**실무 팁**:
-- 디자인 패턴을 남용하지 마세요 (단순한 if문으로 충분한데 Strategy 패턴 사용)
-- 3개 미만의 구현체를 위해 인터페이스를 만들지 마세요
-- 먼저 동작하게 만들고, 그 다음에 개선하세요
+**Practical Tips**:
+- Don't overuse design patterns (using Strategy pattern when a simple if statement suffices)
+- Don't create interfaces for fewer than 3 implementations
+- Make it work first, then improve
 
 ---
 
-[← 메인으로 돌아가기](../SKILL.md)
+[← Back to Main](../SKILL.md)

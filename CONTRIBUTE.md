@@ -1,54 +1,54 @@
-# 기여 가이드
+# Contribution Guide
 
-project-cheat-sheet 프로젝트에 기여해주셔서 감사합니다!
+Thank you for contributing to the project-cheat-sheet project!
 
-## 🚀 시작하기
+## 🚀 Getting Started
 
 ```bash
-# Fork 후 Clone
+# Fork and Clone
 git clone https://github.com/YOUR_USERNAME/project-cheat-sheet.git
 cd project-cheat-sheet
 
-# 브랜치 생성
+# Create branch
 git checkout -b feature/your-feature-name
 ```
 
-## 🤝 기여 방법
+## 🤝 How to Contribute
 
-### 플러그인 추가/수정
+### Adding/Modifying Plugins
 
-`plugins/` 디렉토리의 플러그인을 추가하거나 수정할 수 있습니다.
+You can add or modify plugins in the `plugins/` directory.
 
-**Creator Suite 사용 권장 (선택사항)**
+**Using Creator Suite is Recommended (Optional)**
 
-강제는 아니지만, 플러그인에 agent/command/skill을 추가할 때 **Creator Suite를 사용하는 것을 권장합니다**:
+It is not mandatory, but **using Creator Suite is recommended** when adding agents/commands/skills to plugins:
 
 ```bash
-/create-agent    # 플러그인에 Agent 추가
-/create-command  # 플러그인에 Command 추가
-/create-skill    # 플러그인에 Skill 추가
+/create-agent    # Add Agent to plugin
+/create-command  # Add Command to plugin
+/create-skill    # Add Skill to plugin
 ```
 
-Creator Suite를 사용하면:
-- ✅ 자동 검증으로 품질 보장
-- ✅ 일관된 구조 유지
-- ✅ 빠르고 정확한 생성
+Benefits of using Creator Suite:
+- ✅ Quality assurance through automatic validation
+- ✅ Maintains consistent structure
+- ✅ Fast and accurate generation
 
-**Creator Suite 개선 지향**
+**Creator Suite Improvement Oriented**
 
-Creator Suite를 사용하면서 발견한 개선점이 있다면:
-- Creator Suite 자체를 개선하는 PR 환영
-- 버그 수정이나 기능 개선 제안
-- 더 나은 자동화 아이디어 공유
+If you find improvements while using Creator Suite:
+- PRs to improve Creator Suite itself are welcome
+- Bug fixes or feature improvement suggestions
+- Share better automation ideas
 
-직접 작성도 가능하지만, Creator Suite를 통한 기여가 프로젝트의 품질과 일관성 유지에 도움이 됩니다.
+You can write directly, but contributing through Creator Suite helps maintain project quality and consistency.
 
 
-## 💡 도움말
+## 💡 Help
 
 - 📖 [Creator Suite README](plugins/creator-suite/README.md)
-- 🐛 [이슈 제출](https://github.com/aucun6352/project-cheat-sheet/issues)
+- 🐛 [Submit Issues](https://github.com/aucun6352/project-cheat-sheet/issues)
 
 ---
 
-**모든 기여에 감사드립니다! 🚀**
+**Thank you for all contributions! 🚀**

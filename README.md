@@ -1,81 +1,81 @@
 # Project Cheat Sheet
 
-Claude Code를 위한 프로젝트 치트 시트 저장소입니다.
+A project cheat sheet repository for Claude Code.
 
-## 📖 개요
+## 📖 Overview
 
-**AI 친화적 개발을 위한 Claude Code 플러그인 저장소**
+**Claude Code Plugin Repository for AI-Friendly Development**
 
-단순히 좋은 플러그인을 만드는 것이 아니라, **개발 자체를 AI 친화적으로** 할 수 있게 만드는 것이 목표입니다.
+The goal is not just to create good plugins, but to make **development itself AI-friendly**.
 
-각 플러그인은 Claude Code와의 시너지를 극대화하여 더 효율적인 AI 기반 개발 경험을 제공합니다.
+Each plugin maximizes synergy with Claude Code to provide a more efficient AI-based development experience.
 
-## 🚀 빠른 시작
+## 🚀 Quick Start
 
-### 마켓플레이스 추가
+### Add Marketplace
 
 ```bash
 /plugin marketplace add aucun6352/project-cheat-sheet
 ```
 
-### 플러그인 설치
+### Install Plugins
 
 ```bash
-# 전체 마켓플레이스 설치
+# Install entire marketplace
 /plugin install project-cheat-sheet
 
-# 또는 개별 플러그인 설치
+# Or install individual plugins
 /plugin install creator-suite
 /plugin install java-design-patterns
 /plugin install designing-hexagonal-architecture
 ```
 
-## 📦 플러그인 목록
+## 📦 Plugin List
 
 ### Creator Suite
-**Claude가 자동화를 더 잘하도록 도와주는 도구를 자동으로 만듭니다.**
+**Automatically creates tools that help Claude better automate tasks.**
 
-- `/create-agent` - Agent 자동 생성
-- `/create-command` - Command 자동 생성
-- `/create-skill` - Skill 자동 생성
-- `/project-tooling` - 프로젝트 분석 및 맞춤형 도구 추천
+- `/create-agent` - Automatic Agent generation
+- `/create-command` - Automatic Command generation
+- `/create-skill` - Automatic Skill generation
+- `/project-tooling` - Project analysis and customized tool recommendations
 
-[자세히 보기](plugins/creator-suite/README.md)
+[Learn more](plugins/creator-suite/README.md)
 
 ### Java Design Patterns
-**Java 디자인 패턴 치트 시트**
+**Java Design Patterns Cheat Sheet**
 
-Java 개발에 필요한 디자인 패턴과 모범 사례를 제공합니다.
+Provides design patterns and best practices required for Java development.
 
-[자세히 보기](plugins/java-design-patterns/)
+[Learn more](plugins/java-design-patterns/)
 
 ### Designing Hexagonal Architecture
-**헥사고날 아키텍처 설계 가이드**
+**Hexagonal Architecture Design Guide**
 
-모듈 간 결합도를 낮춰 AI가 이해해야 하는 컨텍스트를 줄이는 헥사고날 아키텍처 설계 가이드를 제공합니다. Claude Code와 함께 사용하면 더욱 효율적인 개발이 가능합니다.
+Provides a hexagonal architecture design guide that reduces coupling between modules, thereby reducing the context AI needs to understand. More efficient development is possible when used with Claude Code.
 
-[자세히 보기](plugins/designing-hexagonal-architecture/)
+[Learn more](plugins/designing-hexagonal-architecture/)
 
-## 🤝 기여하기
+## 🤝 Contributing
 
-프로젝트에 기여하고 싶으시다면 [CONTRIBUTE.md](CONTRIBUTE.md)를 참조해주세요.
+If you would like to contribute to the project, please refer to [CONTRIBUTE.md](CONTRIBUTE.md).
 
-**플러그인 기여 시 Creator Suite 사용을 권장합니다:**
+**Using Creator Suite for plugin contributions is recommended:**
 
-## 📝 라이선스
+## 📝 License
 
 MIT License
 
-## 👤 작성자
+## 👤 Author
 
 **gglee**
 - Email: aucun6352@gmail.com
 
-## 🔗 관련 링크
+## 🔗 Related Links
 
-- [Claude Code 문서](https://docs.claude.com/en/docs/claude-code)
-- [플러그인 개발 가이드](https://docs.claude.com/en/docs/claude-code/plugins)
+- [Claude Code Documentation](https://docs.claude.com/en/docs/claude-code)
+- [Plugin Development Guide](https://docs.claude.com/en/docs/claude-code/plugins)
 
 ---
 
-**버전**: 0.1.0
+**Version**: 0.1.0
