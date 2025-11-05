@@ -5,14 +5,14 @@
     "email": "aucun6352@gmail.com"
   },
   "metadata": {
-    "description": "프로젝트 치트 시트 저장소입니다.",
-    "version": "0.2.0"  
+    "description": "Repository for project cheat sheets.",
+    "version": "0.2.0"
 },
   "plugins": [
     {
       "name": "creator-suite",
       "source": "./plugins/creator-suite",
-      "description": "Claude가 자동화를 더 잘하도록 도와주는 도구를 자동으로 만듭니다.",
+      "description": "Automatically creates tools that help Claude perform automation better.",
       "version": "0.1.0",
       "author": {
         "name": "gglee"
@@ -21,16 +21,15 @@
     {
       "name": "java-design-patterns",
       "source": "./plugins/java-design-patterns",
-      "description": "Java 디자인 패턴 치트 시트 플러그인입니다.",
+      "description": "Java design patterns implemented as skill plugins.",
       "version": "0.1.0",
-      "author": {
-        "name": "gglee"
-      }
+      "homepage": "https://github.com/iluwatar/java-design-patterns-vuepress-web",
+      "license": "MIT"
     },
     {
-      "name": "designing-hexagonal-architecture",
-      "source": "./plugins/designing-hexagonal-architecture",
-      "description": "헥사고날 아키텍쳐 플러그인 입니다.",
+      "name": "design-architecture",
+      "source": "./plugins/design-architecture",
+      "description": "Design architecture plugin.",
       "version": "0.1.0",
       "author": {
         "name": "gglee"
