@@ -406,7 +406,7 @@ Read 도구로 커맨드 파일 읽기
 Phase 4: 파일 생성 및 검증
 
 **검증 실행:**
-@command-creator/shared/validation-criteria.md 의 검증 절차를 따라 실행합니다.
+@shared/command/validation-criteria.md 의 검증 절차를 따라 실행합니다.
 
 **리포트 생성:**
 검증 결과를 바탕으로 간단한 요약 리포트를 생성합니다.
@@ -417,7 +417,7 @@ Phase 4: 파일 생성 및 검증
 Phase 1: 커맨드 평가
 
 **검증 실행:**
-@command-creator/shared/validation-criteria.md 의 검증 절차를 따라 실행합니다.
+@shared/command/validation-criteria.md 의 검증 절차를 따라 실행합니다.
 
 **상세 리포트 생성:**
 Executive Summary + 상세 검증 결과 + 개선 제안을 포함한 완전한 리포트를 생성합니다.

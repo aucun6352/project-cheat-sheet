@@ -620,7 +620,7 @@ description: "{커맨드-설명}"
 
 **2. 검증 실행**
 
-파일 생성 후 @command-creator/shared/validation-criteria.md 기준으로 자동 검증을 수행합니다:
+파일 생성 후 @shared/command/validation-criteria.md 기준으로 자동 검증을 수행합니다:
 
 1. **파일 생성 확인**
    - 디렉토리가 올바르게 생성되었는지 확인
@@ -679,7 +679,7 @@ description: "{커맨드-설명}"
 
 ## 검증 기준
 
-생성된 커맨드는 @command-creator/shared/validation-criteria.md 기준으로 자동 검증됩니다:
+생성된 커맨드는 @shared/command/validation-criteria.md 기준으로 자동 검증됩니다:
 
 - ✅ 구조 검증 (20점): 파일 위치, 명명 규칙
 - ✅ Frontmatter 검증 (15점): name, description 형식
@@ -763,7 +763,7 @@ description: "{커맨드-설명}"
 
 6. **Bash 도구 사용**: 디렉토리 생성 시 `mkdir -p` 명령 사용
 
-7. **검증 필수**: 파일 생성 후 반드시 @command-creator/shared/validation-criteria.md 기준으로 검증
+7. **검증 필수**: 파일 생성 후 반드시 @shared/command/validation-criteria.md 기준으로 검증
 
 8. **검증 리포트**: 검증 결과를 간단히 요약하여 사용자에게 제공
 

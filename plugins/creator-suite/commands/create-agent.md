@@ -287,13 +287,13 @@ description: "프로젝트를 분석하여 맞춤형 서브 에이전트를 대�
   2. Analyst - 분석/리뷰 (300-800 단어)
   3. Orchestrator - 복잡한 워크플로우 (800-2000+ 단어)
 
-💡 각 타입의 상세 설명과 예시: @agent-creator/shared/type-system.md
+💡 각 타입의 상세 설명과 예시: @shared/agent/type-system.md
 ```
 
 **타입 선택 후 템플릿 로드**:
 ```bash
 # 선택한 타입에 맞는 템플릿 읽기
-Read @agent-creator/shared/templates/{선택한_타입}-template.md
+Read @shared/agent/templates/{선택한_타입}-template.md
 ```
 
 ---
@@ -432,7 +432,7 @@ Read @agent-creator/shared/templates/{선택한_타입}-template.md
   - WebSearch
   - 모든 도구 허용 (권장하지 않음)
 
-💡 각 도구의 상세 설명, 사용법, 최소 권한 원칙: @agent-creator/shared/available-tools.md
+💡 각 도구의 상세 설명, 사용법, 최소 권한 원칙: @shared/agent/available-tools.md
 ```
 
 **도구 선택 후 검증**: 역할과 도구의 적합성 자동 검사
@@ -440,7 +440,7 @@ Read @agent-creator/shared/templates/{선택한_타입}-template.md
 - Analyst 리뷰어에 Write 부적절 → 경고
 - 타입별 권장 도구 조합과 비교
 
-💡 상세 검증 규칙: @agent-creator/shared/available-tools.md
+💡 상세 검증 규칙: @shared/agent/available-tools.md
 
 ---
 
@@ -455,7 +455,7 @@ Read @agent-creator/shared/templates/{선택한_타입}-template.md
   - opus - Claude Opus (최고 품질, 비쌈)
   - haiku - Claude Haiku (빠름, 저렴)
 
-💡 타입별 권장 모델, 상세 비교, 선택 가이드: @agent-creator/shared/model-selection-guide.md
+💡 타입별 권장 모델, 상세 비교, 선택 가이드: @shared/agent/model-selection-guide.md
 ```
 
 ---
@@ -728,7 +728,7 @@ Secondary Tools (보조 도구):
    ---
    ```
 
-   💡 타입별 Frontmatter 예시: @agent-creator/shared/examples/frontmatter-examples.md
+   💡 타입별 Frontmatter 예시: @shared/agent/examples/frontmatter-examples.md
 
 3. **시스템 프롬프트 작성** (타입별로 다른 구조)
 
@@ -737,7 +737,7 @@ Secondary Tools (보조 도구):
    - **Analyst**: Role → Expertise Areas → Triggers → Analysis Process → Output Format → Analysis Standards → Boundaries
    - **Orchestrator**: Role → Responsibilities → Triggers → Workflow Phases → Tool Coordination → Error Handling → Boundaries
 
-   💡 타입별 완전한 구조와 예시: @agent-creator/shared/templates/{타입}-template.md
+   💡 타입별 완전한 구조와 예시: @shared/agent/templates/{타입}-template.md
 
 4. **파일 저장**
    ```bash
@@ -750,7 +750,7 @@ Secondary Tools (보조 도구):
 
 파일 생성 후 자동 검증을 수행합니다.
 
-📚 **검증 기준 상세**: @agent-creator/shared/validation-criteria.md
+📚 **검증 기준 상세**: @shared/agent/validation-criteria.md
 
 **검증 항목**: 구조(20점), Frontmatter(20점), 프롬프트 품질(30점), 도구 적합성(15점), 전문성 일치(10점), 완성도(5점)
 

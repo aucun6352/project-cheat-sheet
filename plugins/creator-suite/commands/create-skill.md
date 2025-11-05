@@ -17,7 +17,7 @@
 - [ ] Phase 1: 스킬 타입 선택 + 기본 정보 수집 (타입, 이름, 설명, 사용 시나리오, License)
 - [ ] Phase 2: 내용 작성 (핵심 개념, 패턴/예제, 모범 사례, 주의사항, 포맷팅)
 - [ ] Phase 3: 파일 생성 (Progressive Disclosure 적용 + 타입별 템플릿 생성)
-- [ ] Phase 4: 검증 및 완료 (@validation-criteria.md 기준 검증 + 사용자 안내)
+- [ ] Phase 4: 검증 및 완료 (@shared/skill/validation-criteria.md 기준 검증 + 사용자 안내)
 
 **🔄 진행 방식**:
 각 Phase를 시작할 때마다 다음과 같이 진행 상황을 안내합니다:
@@ -39,7 +39,7 @@ Phase 1, 2에서는 질문 진행 상황도 표시합니다:
 1. **대화 분석 및 추천**: 세션 대화 분석 → 스킬 메타데이터 자동 제안
 2. **타입 및 정보 수집**: 스킬 타입 선택 → 최적화된 질문으로 정보 수집
 3. **템플릿 기반 생성**: 타입별 템플릿 + Progressive Disclosure 적용
-4. **품질 검증 및 안내**: @validation-criteria.md 기준으로 검증 후 사용 방법 안내
+4. **품질 검증 및 안내**: @shared/skill/validation-criteria.md 기준으로 검증 후 사용 방법 안내
 
 ## 실행 단계
 
@@ -379,7 +379,7 @@ license: Complete terms in LICENSE.txt
 
 **검증 실행**:
 
-@skill-creator/shared/validation-criteria.md 의 검증 절차를 따라 실행합니다.
+@shared/skill/validation-criteria.md 의 검증 절차를 따라 실행합니다.
 
 **1. 기본 검증 수행**:
    - 구조 검증 (파일 존재, Progressive Disclosure 적합성)

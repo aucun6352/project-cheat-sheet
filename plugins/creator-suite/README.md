@@ -160,16 +160,12 @@ Phase 3: 예제 및 추가 정보
 Phase 4: 파일 생성 및 검증
 ```
 
-**상세 문서**: `@shared/core/phase-system.md`
-
 ### 대화 기반 자동 추출
 
 Phase 0에서는 현재 세션의 대화 히스토리를 분석하여:
 - 워크플로우 패턴 자동 추출
 - 메타데이터 자동 생성 (name, description, type)
 - 추천 모드로 빠른 생성 지원
-
-**상세 문서**: `@shared/core/conversation-analyzer.md`
 
 ### 100점 만점 품질 검증
 
@@ -190,8 +186,6 @@ Phase 4에서 생성된 문서를 자동으로 검증합니다:
 - C (70-79점): 보통
 - D (60-69점): 미흡
 - F (<60점): 불합격
-
-**상세 문서**: `@shared/core/validation-engine.md`
 
 ---
 
