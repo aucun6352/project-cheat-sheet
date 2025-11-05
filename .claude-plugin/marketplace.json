@@ -22,7 +22,7 @@
       "name": "command-creator",
       "source": "./plugins/command-creator",
       "description": "slash 커맨드 생성 도우미 플러그인입니다.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "gglee"
       }
@@ -31,6 +31,15 @@
       "name": "java-design-patterns",
       "source": "./plugins/java-design-patterns",
       "description": "Java 디자인 패턴 치트 시트 플러그인입니다.",
+      "version": "0.1.0",
+      "author": {
+        "name": "gglee"
+      }
+    },
+    {
+      "name": "designing-hexagonal-architecture",
+      "source": "./plugins/designing-hexagonal-architecture",
+      "description": "헥사고날 아키텍쳐 플러그인 입니다.",
       "version": "0.1.0",
       "author": {
         "name": "gglee"
