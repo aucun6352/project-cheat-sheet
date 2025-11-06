@@ -19,7 +19,7 @@ You operate as a skill creation expert with the following behavior:
 
 **📋 Progress Checklist**:
 - [ ] Phase 0: Conversation analysis and recommendation generation (conditional)
-- [ ] Phase 1: Skill type selection + basic information collection (type, name, description, usage scenarios, License)
+- [ ] Phase 1: Skill type selection + basic information collection (type, name, file location, description, usage scenarios)
 - [ ] Phase 2: Content writing (core concepts, patterns/examples, best practices, pitfalls, formatting)
 - [ ] Phase 3: File generation (applying Progressive Disclosure + type-specific templates)
 - [ ] Phase 4: Validation and completion (validation against @shared/skill/validation-criteria.md + user guidance)
@@ -163,10 +163,6 @@ In Phases 1 and 2, also display question progress:
    - Recommendation mode: Present extracted scenarios + add/modify options
    - Examples: "When designing a new API", "During code review", etc.
 
-6. **License** (optional): Whether to include license field in Frontmatter
-   - Recommended: "Complete terms in LICENSE.txt" (standard format)
-   - Can choose not to include
-
 ### Phase 2: Content Writing
 
 **Question pattern**: Same as Phase 1 (recommendation mode/manual input mode)
@@ -201,6 +197,20 @@ In Phases 1 and 2, also display question progress:
     - **Visual markers**: Best practice indicators (✅/❌)
     - **Table usage**: For quick reference
     - Default: Minimal use (only when necessary)
+
+12. **Allowed tools** (optional): Restrict which tools Claude can use when this skill is active
+    - **Purpose**: Control tool access for focused, predictable behavior
+    - **Default**: No restriction (all tools available)
+    - **When to restrict**: Skills requiring specific tool workflows, preventing unwanted side effects
+    - **Common tool list**: Read, Write, Edit, Grep, Glob, Bash, WebSearch, WebFetch, Task, SlashCommand
+    - **Manual input mode**:
+      - Ask: "Do you want to restrict tool access for this skill?"
+      - If Yes → Multi-select tools to allow
+      - If No → Skip (no restriction)
+    - **Recommendation mode**:
+      - Analyze conversation for tool usage patterns
+      - Suggest tools if clear pattern detected
+      - Otherwise offer "No restriction" as default
 
 ### Phase 3: File Generation
 
@@ -268,11 +278,16 @@ Write {location_path}/{skill-name}/FORMS.md
 **Frontmatter** (required):
 ```yaml
 ---
-name: {skill-name}           # kebab-case, within 64 characters
-description: {skill-description}     # Within 1024 characters, "what+when"
-license: Complete terms in LICENSE.txt  # Optional, used by 85% of skills
+name: {skill-name}                  # Required: kebab-case, max 64 characters
+description: "{skill-description}"  # Required: max 1024 characters, "what+when"
+allowed-tools: {tools-list}         # Optional: comma-separated tool names
 ---
 ```
+
+**Note**:
+- `description` must be wrapped in quotes to ensure YAML parsing
+- `allowed-tools` only included if user chose to restrict tools (Question 12)
+- Example: `allowed-tools: Read, Grep, Glob, Bash`
 
 **Required body sections**:
 - `# {Skill Title}` (H1, only one)
@@ -292,7 +307,7 @@ license: Complete terms in LICENSE.txt  # Optional, used by 85% of skills
 ```markdown
 ---
 name: quick-tool-name
-description: Brief description of what and when
+description: "Brief description of what and when"
 ---
 
 # Quick Tool Name
@@ -315,8 +330,7 @@ description: Brief description of what and when
 ```markdown
 ---
 name: comprehensive-skill-name
-description: Detailed description of purpose and context
-license: Complete terms in LICENSE.txt
+description: "Detailed description of purpose and context"
 ---
 
 # Comprehensive Skill Name
@@ -353,8 +367,7 @@ license: Complete terms in LICENSE.txt
 ```markdown
 ---
 name: technical-toolkit-name
-description: Comprehensive toolkit for specific technical domain
-license: Complete terms in LICENSE.txt
+description: "Comprehensive toolkit for specific technical domain"
 ---
 
 # Technical Toolkit Name
@@ -397,8 +410,7 @@ license: Complete terms in LICENSE.txt
 ```markdown
 ---
 name: creative-approach-name
-description: Conceptual framework for creative/judgment tasks
-license: Complete terms in LICENSE.txt
+description: "Conceptual framework for creative/judgment tasks"
 ---
 
 # Creative Approach Name
