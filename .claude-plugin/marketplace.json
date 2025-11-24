@@ -7,7 +7,7 @@
   "metadata": {
     "description": "Repository for project cheat sheets.",
     "version": "0.2.0"
-},
+  },
   "plugins": [
     {
       "name": "creator-suite",
@@ -32,8 +32,54 @@
       "description": "Design architecture plugin.",
       "version": "0.1.0",
       "author": {
-        "name": "gglee"
+        "name": "dazuiba"
       }
+    },
+    {
+      "name": "CCNotify",
+      "author": {
+        "name": "Enterprise Team",
+        "email": "enterprise@company.com"
+      },
+      "source": {
+        "source": "github",
+        "repo": "dazuiba/CCNotify"
+      },
+      "repository": "https://github.com/dazuiba/CCNotify",
+      "license": "MIT",
+      "hooks": {
+        "UserPromptSubmit": [
+          {
+            "hooks": [
+              {
+                "type": "command",
+                "command": "${CLAUDE_PLUGIN_ROOT}/ccnotify.py UserPromptSubmit"
+              }
+            ]
+          }
+        ],
+        "Stop": [
+          {
+            "hooks": [
+              {
+                "type": "command",
+                "command": "${CLAUDE_PLUGIN_ROOT}/ccnotify.py Stop"
+              }
+            ]
+          }
+        ],
+        "Notification": [
+          {
+            "hooks": [
+              {
+                "type": "command",
+                "command": "${CLAUDE_PLUGIN_ROOT}/ccnotify/ccnotify.py Notification"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "CCNotify provides desktop notifications for Claude Code, alerting you when Claude needs your input or completes tasks."
     }
   ]
 }
