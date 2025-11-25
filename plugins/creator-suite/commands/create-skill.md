@@ -1,528 +1,303 @@
 ---
 name: create-skill
-description: "Interactively creates standardized skill documentation through conversational interaction with the user"
+description: "This skill should be used when the user asks to \"create a skill\", \"add a skill\", \"write a skill\", \"make a new skill\", \"generate skill documentation\", or \"build a skill\". Interactively creates standardized skill documentation through conversational interaction, supporting project-specific, global, and plugin skills with conversation analysis and progressive disclosure."
 ---
 
 # Create Skill Command
 
-This command interactively creates a new Skill that can be used in Claude Code.
+This command interactively creates standardized skill documentation through conversational interaction with the user.
 
 ## Purpose
 
-This command interactively creates standardized skill documentation through conversational interaction with the user. It enables rapid creation of consistently high-quality skills without manually building complex file structures.
+Create high-quality Claude Code skills through guided conversation. Supports:
+- **Conversation Analysis**: Auto-generate skill metadata from session content
+- **Interactive Collection**: Step-by-step information gathering
+- **Progressive Disclosure**: Automatic file structure optimization
+- **Multiple Scopes**: Project-specific, global, or plugin skills
 
-**💡 Note:** If you want to evaluate an existing SKILL.md, use the `/evaluate-skill` command.
+**💡 Evaluation**: To evaluate existing skills, use `/evaluate-skill`.
+
+---
+
+## Core Workflow Overview
+
+The skill creation process follows 4 phases (with optional Phase 0):
+
+```
+Phase 0: Conversation Analysis (conditional)
+    ↓
+Phase 1: Type & Basic Info Collection (5 questions)
+    ↓
+Phase 2: Content Collection (6 questions)
+    ↓
+Phase 3: File Generation (automated)
+    ↓
+Phase 4: Validation & Completion
+```
+
+---
 
 ## Extended Thinking
 
-You operate as a skill creation expert with the following behavior:
+**Role**: Skill creation expert providing guided, interactive skill development.
 
-**📋 Progress Checklist**:
-- [ ] Phase 0: Conversation analysis and recommendation generation (conditional)
-- [ ] Phase 1: Skill type selection + basic information collection (type, name, file location, description, usage scenarios)
-- [ ] Phase 2: Content writing (core concepts, patterns/examples, best practices, pitfalls, formatting)
-- [ ] Phase 3: File generation (applying Progressive Disclosure + type-specific templates)
-- [ ] Phase 4: Validation and completion (validation against @shared/skill/validation-criteria.md + user guidance)
+**📋 Phase Checklist**:
+- [ ] Phase 0: Conversation analysis (conditional)
+- [ ] Phase 1: Type & basic info (type, name, location, description, scenarios)
+- [ ] Phase 2: Content collection (concepts, examples, practices, pitfalls, formatting, tools)
+- [ ] Phase 3: File generation (Progressive Disclosure + templates)
+- [ ] Phase 4: Validation & completion
 
-**🔄 Progress Flow**:
-At the start of each Phase, guide progress as follows:
+**🔄 Progress Tracking**:
 ```
-✅ Phase X complete → 🔄 Starting Phase Y: [Phase description]
-
+✅ Phase X complete → 🔄 Starting Phase Y: [description]
 📊 Overall progress: X/4 Phases complete (YY%)
 ```
 
-**Progress display within Phase:**
-In Phases 1 and 2, also display question progress:
+**Within phases** (Phase 1-2):
 ```
-🔄 Phase 2: Content writing
-📊 Phase progress: 3/5 questions complete (60%)
-📊 Overall progress: 2/4 Phases complete (50%)
+📊 Phase progress: X/Y questions complete
 ```
 
 **Core Actions**:
-1. **Conversation analysis and recommendations**: Analyze session conversation → automatically suggest skill metadata
-2. **Type and information collection**: Select skill type → collect information through optimized questions
-3. **Template-based generation**: Apply type-specific template + Progressive Disclosure
-4. **Quality validation and guidance**: Validate against @shared/skill/validation-criteria.md and guide usage
+1. Analyze conversation → generate recommendations
+2. Collect information → type-specific questions
+3. Generate files → Progressive Disclosure + templates
+4. Validate → quality check + usage guidance
 
 ## Execution Steps
 
-### Phase 0: Conversation Analysis and Recommendation Generation (Conditional)
+**📖 Detailed Instructions**: For complete phase details, see `@creator-suite/references/create-skill/phase-details.md`
 
-**⚠️ Important**: If the current session's conversation content is insufficient, skip this step and move directly to **Phase 1**.
+### Phase 0: Conversation Analysis (Conditional)
 
-**Conversation content sufficiency criteria**:
-- If conversation message count is less than 5 → Skip Phase 0
-- If there is no technical content or code examples → Skip Phase 0
-- If there are only simple greetings or questions → Skip Phase 0
+**Skip if**:
+- Conversation < 5 messages
+- No technical content
+- Only simple greetings
 
-**Only perform the following if conversation content is sufficient:**
-
-1. **Conversation history analysis and automatic generation**
-   - Identify and extract main topics/keywords/code examples
-   - Suggest 2-3 skill names (kebab-case, Gerund form)
-   - Automatically generate skill description, usage scenarios, core concepts
-   - Collect best practices and pitfalls
-
-2. **Analysis result summary**
+**Execute if sufficient conversation**:
+1. Extract main topics, keywords, code examples, patterns
+2. Generate 2-3 skill name suggestions (kebab-case, gerund form)
+3. Auto-generate description, scenarios, concepts, best practices, pitfalls
+4. Present analysis results:
    ```
    📊 Conversation analysis complete!
-
-   🔍 Discovered content:
-   - Main topics: {identified_topics}
-   - Code examples: {discovered_example_count} items
-   - Discussed patterns: {pattern_list}
-   - Core concepts: {concept_count} items
-
-   💡 Now generating skill based on recommendations.
+   🔍 Discovered: topics, examples, patterns, concepts
+   💡 Proceeding with recommendations
    ```
 
-**Guidance when conversation content is insufficient**:
-   ```
-   📊 Conversation content analysis result
+**If insufficient**:
+```
+ℹ️ Insufficient conversation content
+💡 Proceeding in manual input mode
+```
 
-   ℹ️ Current session conversation content is insufficient for automatic recommendations.
+**Result**: Set mode to "recommendation" or "manual" for Phase 1-2.
 
-   💡 Proceeding in manual input mode.
-      - Please manually enter all information
-      - Or have a conversation about the skill topic first and try again
-   ```
+📖 **See**: `phase-details.md` → Phase 0 for complete conversation analysis procedures.
 
-### Phase 1: Skill Type Selection + Basic Information Collection
+### Phase 1: Type & Basic Information
 
-**Step 1: Skill type selection**
+**Collect 5 pieces of information via AskUserQuestion**:
 
-**Purpose**: Provide optimized templates and guides suited to skill characteristics
+1. **Skill Type** (use AskUserQuestion):
+   - Quick Workflow (200-400 words): Simple tools
+   - Comprehensive Guide (600-1,500 words): Standard workflows [Default]
+   - Technical Reference (1,500-5,000+ words): Complex toolkits
+   - Philosophy-Driven (1,000-3,000 words): Conceptual frameworks
 
-**4 Skill Types**:
+2. **Skill Name**:
+   - Format: kebab-case, ≤64 chars
+   - Style: Gerund form (processing-pdfs, managing-containers)
+   - Validate: `^[a-z0-9]+(-[a-z0-9]+)*$`
 
-1. **Quick Workflow** (200-400 words) - Single-purpose sequential process
-   - Suitable for: Simple tools, quick automation
+3. **File Location** (use AskUserQuestion):
+   - **Project** (.claude/skills/) [Recommended, Default]
+   - **Global** (~/.claude/skills/)
+   - **Current Directory** (./{skill-name}/)
 
-2. **Comprehensive Guide** (600-1,500 words) - Multi-functional + examples
-   - Suitable for: Standard development workflows
+   Store path: `.claude/skills` or `~/.claude/skills` or `.`
 
-3. **Technical Reference** (1,500-5,000+ words) - In-depth API documentation
-   - Suitable for: Complex toolkits, libraries
+4. **Description**:
+   - Format: Third person, ≤1024 chars
+   - Include: Specific trigger phrases ("create X", "build Y")
+   - Example: "This skill should be used when the user asks to \"create hook\", \"add PreToolUse hook\"..."
 
-4. **Philosophy-Driven** (1,000-3,000 words) - Conceptual framework + implementation
-   - Suitable for: Creative processes, judgment-based tasks
+5. **Usage Scenarios**:
+   - Format: Multi-line list
+   - Examples: "When designing new API", "During code review"
 
-**Execution**: Provide type selection via AskUserQuestion (default: Comprehensive Guide)
+**Question Mode**:
+- **Recommendation mode**: Present extracted content → Modify/Use/Custom
+- **Manual mode**: Guidance → Example → Request input
 
-**Steps 2-5: Basic information collection**
+📖 **See**:
+- `phase-details.md` → Phase 1 for detailed question flows
+- `skill-types.md` for complete type descriptions
 
-**Question pattern** (common):
-- **Recommendation mode** (Phase 0 completed): Present extracted content → choose "Use as-is/Modify/Add"
-- **Manual input mode** (Phase 0 skipped): Format guidance → Provide example → Request input
+### Phase 2: Content Collection
 
-**Information collected**:
+**Collect 6 pieces of content information**:
 
-2. **Skill name**: kebab-case, within 64 characters, Gerund form recommended (e.g., processing-pdfs)
-   - Recommendation mode: Present 2-3 names + direct input option
-   - Validation: Re-ask on format errors
+6. **Core Concepts**:
+   - Format: Free-form text, multiple paragraphs
+   - Include: Main concepts, principles, theories
+   - Recommendation: Present auto-organized content
 
-3. **File location**: Select where to create the skill
-   ```
-   Question: "Where would you like to create this skill?"
+7. **Patterns/Examples** (optional):
+   - Ask: Include examples? Yes/No
+   - If yes, quality level:
+     - Basic: Syntax only
+     - Standard: Working code (recommended)
+     - Production: Error handling + edge cases
+   - Format: Pattern name + language + code block
 
-   Options:
-     1. **Project** (.claude/skills/) - Recommended
-        - Available only in current project
-        - Project-specific skill
-        - Default choice
-
-     2. **Global** (~/.claude/skills/)
-        - Available in all projects
-        - Reusable across projects
-        - Good for general-purpose skills
-
-     3. **Current Directory** (./{skill-name}/)
-        - Created in current working directory
-        - Useful for plugin development or distribution
-
-   Default: Project (.claude/skills/)
-
-   💡 Location Guide:
-     - Most skills should be project-specific (Option 1)
-     - Create global skills only if they're truly reusable
-     - Use current directory for plugin development
-   ```
-
-   **Store the selected location path**:
-   - Option 1 → `{location_path} = ".claude/skills"`
-   - Option 2 → `{location_path} = "~/.claude/skills"`
-   - Option 3 → `{location_path} = "."`
-
-4. **Skill description**: Within 1024 characters, 1-2 sentences, 3rd person, specify "what+when"
-   - Recommendation mode: Present auto-generated description + modification option
-   - Validation: Required field
-
-5. **Usage scenarios**: Multi-line list format
-   - Recommendation mode: Present extracted scenarios + add/modify options
-   - Examples: "When designing a new API", "During code review", etc.
-
-### Phase 2: Content Writing
-
-**Question pattern**: Same as Phase 1 (recommendation mode/manual input mode)
-
-⚠️ **Writing precautions**: Refer to Phase 4 quality validation criteria
-
-**Information collected**:
-
-7. **Core concepts**: Free-form text, multiple paragraphs allowed
-   - Include main concepts, principles, theories, etc.
-   - Recommendation mode: Present auto-organized content + edit option
-
-8. **Patterns/Examples** (optional):
-   - Code blocks: Pattern name + language + code
-   - Recommendation mode: Present discovered examples + select/add/exclude options
-   - Manual input mode: Choose whether to include → Enter examples
-   - **Example quality level selection**:
-     - Basic: Syntax demonstration only (minimal)
-     - Standard: Working code with actual values (recommended)
-     - Production: Error handling + edge cases (advanced)
-
-9. **Best practices**: List format
+8. **Best Practices**:
+   - Format: List
    - Examples: "Use clear naming", "Consistent error handling"
-   - Recommendation mode: Present collected practices + add option
+   - Recommendation: Present collected practices
 
-10. **Pitfalls**: List format
+9. **Common Pitfalls**:
+   - Format: List
    - Examples: "Avoid over-abstraction", "Consider performance"
-   - Recommendation mode: Present identified pitfalls + add option
+   - Recommendation: Present identified pitfalls
 
-11. **Formatting style** (optional):
-    - **Emoji markers**: For section separation (🚀, 📋, ⚠️, etc.)
-    - **Visual markers**: Best practice indicators (✅/❌)
-    - **Table usage**: For quick reference
-    - Default: Minimal use (only when necessary)
+10. **Formatting Style** (optional):
+    - Minimal (default): Clean, simple
+    - Enhanced: Emoji markers (🚀, 📋, ⚠️), Visual indicators (✅/❌)
+    - Default: Minimal
 
-12. **Allowed tools** (optional): Restrict which tools Claude can use when this skill is active
-    - **Purpose**: Control tool access for focused, predictable behavior
+11. **Allowed Tools** (optional):
     - **Default**: No restriction (all tools available)
-    - **When to restrict**: Skills requiring specific tool workflows, preventing unwanted side effects
-    - **Common tool list**: Read, Write, Edit, Grep, Glob, Bash, WebSearch, WebFetch, Task, SlashCommand
-    - **Manual input mode**:
-      - Ask: "Do you want to restrict tool access for this skill?"
-      - If Yes → Multi-select tools to allow
-      - If No → Skip (no restriction)
-    - **Recommendation mode**:
-      - Analyze conversation for tool usage patterns
-      - Suggest tools if clear pattern detected
-      - Otherwise offer "No restriction" as default
+    - **Restrict when**: Specific workflows needed, prevent side effects
+    - **Tools**: Read, Write, Edit, Grep, Glob, Bash, WebSearch, WebFetch, Task, SlashCommand
+    - **Recommendation mode**: Analyze tool usage → Suggest restriction
+    - **Manual mode**: Ask if restriction needed → Multi-select tools
+
+📖 **See**: `phase-details.md` → Phase 2 for detailed content collection procedures
 
 ### Phase 3: File Generation
 
-Based on collected information, generate the following file structure at the selected location (`{location_path}`):
+**Automated file creation based on collected information.**
 
-**Progressive Disclosure criteria** (based on word count):
+**Process**:
+1. Calculate total word count
+2. Determine Progressive Disclosure level (1-4)
+3. Create directory structure with `mkdir -p`
+4. Apply type-specific template
+5. Generate files with Write tool
 
-**Level 1** (< 400 words):
-```bash
-mkdir -p {location_path}/{skill-name}
-Write {location_path}/{skill-name}/SKILL.md
-```
-```
-{location_path}/{skill-name}/
-└── SKILL.md          # All content included
-```
+| Level | Word Count | Files | Structure |
+|-------|------------|-------|-----------|
+| 1 | < 400 | SKILL.md only | All content in one file |
+| 2 | 400-1,500 | + examples/ | Separate example files |
+| 3 | 1,500-3,500 | + REFERENCE.md | Detailed API docs separated |
+| 4 | > 3,500 | + EXAMPLES.md + FORMS.md | Full documentation suite |
 
-**Level 2** (400-1,500 words):
-```bash
-mkdir -p {location_path}/{skill-name}/examples
-Write {location_path}/{skill-name}/SKILL.md
-```
-```
-{location_path}/{skill-name}/
-├── SKILL.md          # Overview + core guide
-└── examples/         # Detailed examples directory
-```
-
-**Level 3** (1,500-3,500 words):
-```bash
-mkdir -p {location_path}/{skill-name}/examples
-Write {location_path}/{skill-name}/SKILL.md
-Write {location_path}/{skill-name}/REFERENCE.md
-```
-```
-{location_path}/{skill-name}/
-├── SKILL.md          # Overview + When to Use + simple examples
-├── REFERENCE.md      # Detailed API documentation
-└── examples/         # Examples and templates
-```
-
-**Level 4** (> 3,500 words):
-```bash
-mkdir -p {location_path}/{skill-name}
-Write {location_path}/{skill-name}/SKILL.md
-Write {location_path}/{skill-name}/EXAMPLES.md
-Write {location_path}/{skill-name}/REFERENCE.md
-Write {location_path}/{skill-name}/FORMS.md
-```
-```
-{location_path}/{skill-name}/
-├── SKILL.md          # Overview (with reference links)
-├── EXAMPLES.md       # Detailed examples
-├── REFERENCE.md      # API/technical documentation
-└── FORMS.md          # Templates/checklists
-```
-
-**Location-specific paths**:
-- Project: `.claude/skills/{skill-name}/`
-- Global: `~/.claude/skills/{skill-name}/`
-- Current Directory: `./{skill-name}/`
-
-**Common section components**:
-
-**Frontmatter** (required):
+**Frontmatter** (all skills):
 ```yaml
 ---
-name: {skill-name}                  # Required: kebab-case, max 64 characters
-description: "{skill-description}"  # Required: max 1024 characters, "what+when"
-allowed-tools: {tools-list}         # Optional: comma-separated tool names
+name: {skill-name}
+description: "{skill-description}"
+allowed-tools: {tools-list}  # Only if restricted
 ---
 ```
-
-**Note**:
-- `description` must be wrapped in quotes to ensure YAML parsing
-- `allowed-tools` only included if user chose to restrict tools (Question 12)
-- Example: `allowed-tools: Read, Grep, Glob, Bash`
 
 **Required body sections**:
-- `# {Skill Title}` (H1, only one)
-- `## When to Use This Skill` - Usage scenarios, triggers
-- `## Core Concepts` - Core concepts, principles
+- `# {Skill Title}` (H1)
+- `## When to Use This Skill`
+- `## Core Concepts`
 
-**Recommended body sections** (choose based on skill type):
-- `## Quick Start` / `## Overview` / `## Philosophy` - Starting point (choose by type)
-- `## Patterns` / `## Examples` - Patterns and examples
-- `## Best Practices` - Best practices
-- `## Common Pitfalls` - Pitfalls, anti-patterns
-- `## Additional Resources` - Additional resources, reference links
+**Recommended sections** (type-specific):
+- Quick Start / Overview / Philosophy (entry point)
+- Patterns / Examples
+- Best Practices
+- Common Pitfalls
+- Additional Resources (with references for Level 3+)
 
-**Type-specific template structures**:
+📖 **See**:
+- `progressive-disclosure.md` for complete level specifications
+- `templates.md` for all type-specific templates
 
-**1. Quick Workflow type** (200-400 words):
+### Phase 4: Validation & Completion
+
+**Validation** (against `@shared/skill/validation-criteria.md`):
+
+1. **Structure**: File existence, Progressive Disclosure level
+2. **Frontmatter**: name, description format, allowed-tools
+3. **Required sections**: When to Use, Core Concepts
+4. **Content quality**: Code blocks, hierarchy, links
+
+**Validation Report**:
 ```markdown
----
-name: quick-tool-name
-description: "Brief description of what and when"
----
-
-# Quick Tool Name
-
-## Quick Start
-[3-5 immediately usable steps]
-
-## When to Use This Skill
-- Trigger 1
-- Trigger 2
-
-## Detailed Workflow
-[Step-by-step detailed guide]
-
-## Common Pitfalls
-- List of pitfalls
-```
-
-**2. Comprehensive Guide type** (600-1,500 words):
-```markdown
----
-name: comprehensive-skill-name
-description: "Detailed description of purpose and context"
----
-
-# Comprehensive Skill Name
-
-## Overview
-[1-2 paragraph introduction]
-
-## When to Use This Skill
-- Use case 1
-- Use case 2
-- Use case 3
-
-## Core Concepts
-[Core concept explanation]
-
-## How to Use
-[Step-by-step workflow or patterns]
-
-## Patterns / Examples
-[Code examples]
-
-## Best Practices
-- Best practice 1
-- Best practice 2
-
-## Common Pitfalls
-- Pitfalls
-
-## Additional Resources
-- Related resource links
-```
-
-**3. Technical Reference type** (1,500-5,000+ words):
-```markdown
----
-name: technical-toolkit-name
-description: "Comprehensive toolkit for specific technical domain"
----
-
-# Technical Toolkit Name
-
-## Overview
-[Tech stack and purpose]
-
-## When to Use This Skill
-- Complex scenario 1
-- Complex scenario 2
-
-## Quick Reference
-| Task | Tool/Method | Example |
-|------|------------|---------|
-| ... | ... | ... |
-
-## Core Concepts
-[Theoretical background]
-
-## Detailed API Reference
-[Detailed API documentation]
-
-## Examples
-### Example 1: [Use Case]
-[Complete code example]
-
-### Example 2: [Use Case]
-[Complete code example]
-
-## Best Practices
-- Practice 1
-- Practice 2
-
-## Additional Resources
-- [@{skill-name}/REFERENCE.md](./REFERENCE.md)
-- [@{skill-name}/EXAMPLES.md](./EXAMPLES.md)
-```
-
-**4. Philosophy-Driven type** (1,000-3,000 words):
-```markdown
----
-name: creative-approach-name
-description: "Conceptual framework for creative/judgment tasks"
----
-
-# Creative Approach Name
-
-## Philosophy / Approach
-[Conceptual framework, mindset]
-
-## When to Use This Skill
-- Creative scenario 1
-- Judgment-based scenario 2
-
-## Core Concepts
-[Core principles and theories]
-
-## Implementation Workflow
-1. [Concept application step]
-2. [Execution step]
-3. [Validation step]
-
-## Patterns / Examples
-[Concept demonstration examples]
-
-## Best Practices
-- Creative approach guide
-
-## Common Pitfalls
-- Traps to avoid
-
-## Additional Resources
-- Related philosophy/theory links
-```
-
-**Note**:
-- Level 3-4 skills include reference links in the Additional Resources section of the above templates
-- When generating Progressive Disclosure files, utilize `examples/`, `REFERENCE.md`, `EXAMPLES.md`, `FORMS.md`
-
-### Phase 4: Validation and Completion
-
-**Validation execution**:
-
-Follow the validation procedures in @shared/skill/validation-criteria.md.
-
-**1. Perform basic validation**:
-   - Structure validation (file existence, Progressive Disclosure appropriateness)
-   - Frontmatter validation (name, description format)
-   - Required section validation (When to Use, Core Concepts, Best Practices)
-   - Content quality validation (code blocks, section hierarchy, links)
-
-**2. Generate simple summary report**:
-
-```markdown
-📊 Generation complete - Simple validation result
+📊 Generation complete - Validation result
 
 ## Basic quality check
-✅ File structure: Appropriate
-✅ Frontmatter: Correct format
-✅ Required sections: All included
-⚠️ Improvable items: {If any, briefly list 1-2}
+✅ File structure: {status}
+✅ Frontmatter: {status}
+✅ Required sections: {status}
+⚠️ Improvable items: {if_any}
 
-💡 For more detailed evaluation, use the `/evaluate-skill` command.
+💡 For detailed evaluation: /evaluate-skill
 ```
 
-**User guidance**:
+**User Guidance**:
+```
+✅ Skill created!
 
-   ```
-   ✅ Skill created!
+📂 {location_path}/{skill-name}/SKILL.md
+🎯 {scope_description}
 
-   📂 {location_path}/{skill-name}/SKILL.md
-   🎯 {scope_description}
+Usage: @{skill-name}/SKILL.md
+Evaluate: /evaluate-skill
+```
 
-   Usage: @{skill-name}/SKILL.md
-   Evaluate: /evaluate-skill
-   ```
-
-   **Location Details**:
-   - **Project** (.claude/skills/): Available in this project only
-   - **Global** (~/.claude/skills/): Available in all projects
-   - **Current** (./{skill-name}/): Move to .claude/skills/ or ~/.claude/skills/ to use
+**Scope**:
+- Project: Available in this project only
+- Global: Available in all projects
+- Current: Move to .claude/skills/ or ~/.claude/skills/ to activate
 
 ## Error Handling
 
-### Generation mode errors
-- **Invalid skill name**: Request re-entry in kebab-case format
-- **Skill already exists**: Provide options to use different name / overwrite / cancel
-- **Missing required information**: Request re-entry of missing fields
-
-## Precautions
-
-1. **Progress tracking**:
-   - At the start of each Phase, guide progress in the format "✅ Phase X complete → 🔄 Starting Phase Y: [Phase description]"
-   - Clearly indicate current position in overall process: "📊 Progress: X/4 Phases complete"
-
-2. **Prioritize conversation analysis** (when executing Phase 0):
-   - Always analyze current session conversation content to generate recommendations before asking questions
-   - If analysis results are missing or insufficient, inform user and switch to manual input mode
-
-3. **Question approach by mode**:
-   - **Recommendation mode**: Present extracted content as options and include "Manual input" option
-   - **Manual input mode**: Request direct user input with examples
-
-4. **Use AskUserQuestion**: All information collection proceeds step-by-step through the AskUserQuestion tool
-
-5. **Use Write tool**: Use Write tool when creating SKILL.md file
-
-6. **Use Bash tool**: Use `mkdir -p` command when creating directories
-
-7. **Validation required**: Always validate content after file creation
-
-8. **Friendly feedback**: Guide user on progress at each step
-
-9. **Share analysis results**: When Phase 0 completes, summarize and present discovered content to user
+**Common Errors**:
+- **Invalid skill name**: Re-ask with kebab-case format guidance
+- **Skill exists**: Offer rename / overwrite / cancel
+- **Missing required info**: Re-ask for missing fields
 
 ---
 
-**Now starting skill creation. First, we'll analyze the current session's conversation, generate recommendations, then complete the skill through dialogue with the user.**
+## Implementation Notes
+
+**Critical Requirements**:
+1. **Progress tracking**: Show phase transitions and overall progress
+2. **Conversation analysis priority**: Phase 0 before Phase 1 when possible
+3. **Question modes**: Recommendation (with extracted content) vs Manual (with examples)
+4. **Tool usage**:
+   - **AskUserQuestion**: All information collection
+   - **Write**: All file creation
+   - **Bash**: Directory creation (`mkdir -p`)
+5. **Validation**: Always validate after generation
+6. **User feedback**: Clear progress at each step
+
+**Phase 0 Behavior**:
+- Always attempt conversation analysis first
+- Present discovered content to user
+- Fall back to manual mode gracefully if insufficient
+
+---
+
+## Additional Resources
+
+**Detailed Documentation**:
+- **[@creator-suite/references/create-skill/phase-details.md](../references/create-skill/phase-details.md)** - Complete phase-by-phase procedures
+- **[@creator-suite/references/create-skill/skill-types.md](../references/create-skill/skill-types.md)** - Detailed type descriptions and selection guide
+- **[@creator-suite/references/create-skill/templates.md](../references/create-skill/templates.md)** - All template structures and examples
+- **[@creator-suite/references/create-skill/progressive-disclosure.md](../references/create-skill/progressive-disclosure.md)** - Complete Progressive Disclosure specifications
+
+**Validation**:
+- **[@shared/skill/validation-criteria.md](../shared/skill/validation-criteria.md)** - Quality standards and validation procedures
+
+---
+
+**Ready to create skill. Starting with conversation analysis, then proceeding through guided phases.**
