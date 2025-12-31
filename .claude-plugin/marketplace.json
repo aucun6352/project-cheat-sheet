@@ -36,6 +36,20 @@
       }
     },
     {
+      "name": "commit",
+      "source": "./plugins/commit",
+      "description": "This command helps you create well-formatted commits with conventional commit messages and emoji.",
+      "version": "0.1.0",
+      "homepage": "https://github.com/evmts/tevm-monorepo/blob/main/.claude/commands/commit.md"
+    },
+    {
+      "name": "server-sequential-thinking",
+      "source": "./plugins/server-sequential-thinking",
+      "description": "An MCP server implementation that provides a tool for dynamic and reflective problem-solving through a structured thinking process.",
+      "version": "0.1.0",
+      "homepage": "https://github.com/modelcontextprotocol"
+    },
+    {
       "name": "CCNotify",
       "author": {
         "name": "Enterprise Team",
