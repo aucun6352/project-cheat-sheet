@@ -39,7 +39,7 @@
       "name": "commit",
       "source": "./plugins/commit",
       "description": "This command helps you create well-formatted commits with conventional commit messages and emoji.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "homepage": "https://github.com/evmts/tevm-monorepo/blob/main/.claude/commands/commit.md"
     },
     {
